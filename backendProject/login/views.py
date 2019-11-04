@@ -189,13 +189,6 @@ class Menu(viewsets.ModelViewSet):
             )
             return obj
 
-def calculaEdad(request, agno):
-    eA=18
-    periodo=agno-2019
-    eF=eA + periodo
-    documento="<html><body><h2>En el año %s tendrás %s años"%(agno,eF)
-    return HttpResponse(documento)
-
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
