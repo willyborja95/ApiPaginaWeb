@@ -30,4 +30,5 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('api-token-auth/', obtain_jwt_token),
     path('refresh-token/', refresh_jwt_token),
+    path('isic/<int:agno>',views.calculaEdad),
     ]

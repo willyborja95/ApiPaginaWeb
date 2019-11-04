@@ -9,6 +9,7 @@ from .models import *
 from django.contrib.auth.models import User as Users
 from .serializers import *
 from .filters import *
+from django.http import HttpResponse
 import mimetypes
 from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
@@ -57,7 +58,7 @@ class Persons(viewsets.ModelViewSet):
 class Persons_departaments(viewsets.ModelViewSet):
     queryset           = Persons_departaments.objects.all()
     serializer_class   = Persons_depaSerializer
-    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','first_last_name','universitycareer')
+    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','universitycareer')
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -187,6 +188,13 @@ class Menu(viewsets.ModelViewSet):
                 pk = self.kwargs['pk'],
             )
             return obj
+
+def calculaEdad(request, agno):
+    eA=18
+    periodo=agno-2019
+    eF=eA + periodo
+    documento="<html><body><h2>En el año %s tendrás %s años"%(agno,eF)
+    return HttpResponse(documento)
 
 @csrf_exempt
 @api_view(["POST"])
