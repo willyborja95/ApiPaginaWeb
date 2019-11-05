@@ -143,8 +143,8 @@ class Pre_requirements (models.Model):
     Modelo de Requirement
 
     Atributos:
-    subejct_matter INT
-    requirement INT
+        subejct_matter INT
+        requirement INT
     """
     pre_requirements_id = models.AutoField(primary_key=True)
     subject_matter_id_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_id_id')
@@ -211,10 +211,10 @@ class Menu (models.Model):
     Modelo de Menu
 
     Atributos:
-    menu_id
-    name VARCHAR(45)
-    order INT
-    item_category_item_category_id INT
+        menu_id
+        name VARCHAR(45)
+        order INT
+        item_category_item_category_id INT
     """
     menu_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
