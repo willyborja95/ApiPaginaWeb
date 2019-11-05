@@ -14,6 +14,84 @@ import mimetypes
 from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
 
+@permission_classes((AllowAny,))
+class ItemCategoryRolList (generics.ListAPIView):
+    try:
+        categoryRol = models.Category.objects.get(nameCategory="rol usuario")
+        queryset = models.ItemCategory.objects.filter(category=categoryRol)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTitulacionList (generics.ListAPIView):
+    try:
+        categoryTitulacion = models.Category.objects.get(nameCategory="titulacion")
+        queryset = models.ItemCategory.objects.filter(category=categoryTitulacion)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryAcademicPeriodList (generics.ListAPIView):
+    try:
+        categoryAcademicPeriod = models.Category.objects.get(nameCategory="periodo academico")
+        queryset = models.ItemCategory.objects.filter(category=categoryAcademicPeriod)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTypeContentList (generics.ListAPIView):
+    try:
+        categoryTypeContent = models.Category.objects.get(nameCategory="tipo contenido")
+        queryset = models.ItemCategory.objects.filter(category=categoryTypeContent)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTypeEventList (generics.ListAPIView):
+    try:
+        categoryTypeEvent = models.Category.objects.get(nameCategory="tipo evento")
+        queryset = models.ItemCategory.objects.filter(category=categoryTypeEvent)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+'''
+@api_view(['GET', 'PUT', 'DELETE'])
+def titulacion(request, nameCategory):
+
+    if request.method == 'GET':
+        queryset = Category.objects.filter(nameCategory="titulacion")
+        serializer = serializers.CategorySerializer(queryset.get())
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        queryset = Category.objects.filter(nameCategory="titulacion")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            category = serializer.update()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queryset = Category.objects.filter(nameCategory="titulacion")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            result = queryset.delete()
+            return Response(result, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
+
 class Category(viewsets.ModelViewSet):
     queryset           = Category.objects.all()
     serializer_class   = CategorySerializer
@@ -188,13 +266,6 @@ class Menu(viewsets.ModelViewSet):
                 pk = self.kwargs['pk'],
             )
             return obj
-
-def calculaEdad(request, agno):
-    eA=18
-    periodo=agno-2019
-    eF=eA + periodo
-    documento="<html><body><h2>En el año %s tendrás %s años"%(agno,eF)
-    return HttpResponse(documento)
 
 @csrf_exempt
 @api_view(["POST"])
