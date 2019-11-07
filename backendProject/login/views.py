@@ -14,67 +14,16 @@ import mimetypes
 from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
 
-@permission_classes((AllowAny,))
-class ItemCategoryRolList (generics.ListAPIView):
-    try:
-        categoryRol = models.Category.objects.get(nameCategory="rol usuario")
-        queryset = models.ItemCategory.objects.filter(category=categoryRol)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
-
-@permission_classes((AllowAny,))
-class ItemCategoryTitulacionList (generics.ListAPIView):
-    try:
-        categoryTitulacion = models.Category.objects.get(nameCategory="titulacion")
-        queryset = models.ItemCategory.objects.filter(category=categoryTitulacion)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
-
-@permission_classes((AllowAny,))
-class ItemCategoryAcademicPeriodList (generics.ListAPIView):
-    try:
-        categoryAcademicPeriod = models.Category.objects.get(nameCategory="periodo academico")
-        queryset = models.ItemCategory.objects.filter(category=categoryAcademicPeriod)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
-
-@permission_classes((AllowAny,))
-class ItemCategoryTypeContentList (generics.ListAPIView):
-    try:
-        categoryTypeContent = models.Category.objects.get(nameCategory="tipo contenido")
-        queryset = models.ItemCategory.objects.filter(category=categoryTypeContent)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
-
-@permission_classes((AllowAny,))
-class ItemCategoryTypeEventList (generics.ListAPIView):
-    try:
-        categoryTypeEvent = models.Category.objects.get(nameCategory="tipo evento")
-        queryset = models.ItemCategory.objects.filter(category=categoryTypeEvent)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
-
-'''
 @api_view(['GET', 'PUT', 'DELETE'])
-def titulacion(request, nameCategory):
+def about(request, nameCategory):
 
     if request.method == 'GET':
-        queryset = Category.objects.filter(nameCategory="titulacion")
+        queryset = Category.objects.filter(nameCategory="quienes somos")
         serializer = serializers.CategorySerializer(queryset.get())
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'PUT':
-        queryset = Category.objects.filter(nameCategory="titulacion")
+        queryset = Category.objects.filter(nameCategory="quienes somos")
         serializer = serializers.CategorySerializer(queryset.get())
         if serializer.is_valid():
             category = serializer.update()
@@ -83,7 +32,7 @@ def titulacion(request, nameCategory):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'DELETE':
-        queryset = Category.objects.filter(nameCategory="titulacion")
+        queryset = Category.objects.filter(nameCategory="quienes somos")
         serializer = serializers.CategorySerializer(queryset.get())
         if serializer.is_valid():
             result = queryset.delete()
@@ -91,7 +40,58 @@ def titulacion(request, nameCategory):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 '''
+@api_view(['GET', 'PUT', 'DELETE'])
+def authorities(request, nameCategory):
 
+    if request.method == 'GET':
+        queryset = Category.objects.filter(nameCategory="quienes somos")
+        serializer = serializers.CategorySerializer(queryset.get())
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        queryset = Category.objects.filter(nameCategory="quienes somos")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            category = serializer.update()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queryset = Category.objects.filter(nameCategory="quienes somos")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            result = queryset.delete()
+            return Response(result, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def sections(request, nameCategory):
+
+    if request.method == 'GET':
+        queryset = Category.objects.filter(nameCategory="quienes somos")
+        serializer = serializers.CategorySerializer(queryset.get())
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        queryset = Category.objects.filter(nameCategory="quienes somos")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            category = serializer.update()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queryset = Category.objects.filter(nameCategory="quienes somos")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            result = queryset.delete()
+            return Response(result, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
 class Category(viewsets.ModelViewSet):
     queryset           = Category.objects.all()
     serializer_class   = CategorySerializer
