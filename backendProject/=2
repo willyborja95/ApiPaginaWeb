@@ -1,0 +1,6 @@
+Collecting django-filter
+  Downloading https://files.pythonhosted.org/packages/0a/c9/acc63b687002afae8b5137afd6230d88c99411aa2daedf07fed3f0913516/django_filter-2.2.0-py3-none-any.whl (69kB)
+Requirement already satisfied: Django>=1.11 in /home/ubuntu/entornoPagina/lib/python3.6/site-packages (from django-filter) (2.1.7)
+Requirement already satisfied: pytz in /home/ubuntu/entornoPagina/lib/python3.6/site-packages (from Django>=1.11->django-filter) (2018.9)
+Installing collected packages: django-filter
+Successfully installed django-filter-2.2.0
