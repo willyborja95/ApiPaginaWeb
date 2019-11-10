@@ -9,9 +9,88 @@ from .models import *
 from django.contrib.auth.models import User as Users
 from .serializers import *
 from .filters import *
+from django.http import HttpResponse
 import mimetypes
 from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
+
+@permission_classes((AllowAny,))
+class ItemCategoryRolList (generics.ListAPIView):
+    try:
+        categoryRol = models.Category.objects.get(nameCategory="rol usuario")
+        queryset = models.ItemCategory.objects.filter(category=categoryRol)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTitulacionList (generics.ListAPIView):
+    try:
+        categoryTitulacion = models.Category.objects.get(nameCategory="titulacion")
+        queryset = models.ItemCategory.objects.filter(category=categoryTitulacion)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryAcademicPeriodList (generics.ListAPIView):
+    try:
+        categoryAcademicPeriod = models.Category.objects.get(nameCategory="periodo academico")
+        queryset = models.ItemCategory.objects.filter(category=categoryAcademicPeriod)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTypeContentList (generics.ListAPIView):
+    try:
+        categoryTypeContent = models.Category.objects.get(nameCategory="tipo contenido")
+        queryset = models.ItemCategory.objects.filter(category=categoryTypeContent)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTypeEventList (generics.ListAPIView):
+    try:
+        categoryTypeEvent = models.Category.objects.get(nameCategory="tipo evento")
+        queryset = models.ItemCategory.objects.filter(category=categoryTypeEvent)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+'''
+@api_view(['GET', 'PUT', 'DELETE'])
+def titulacion(request, nameCategory):
+
+    if request.method == 'GET':
+        queryset = Category.objects.filter(nameCategory="titulacion")
+        serializer = serializers.CategorySerializer(queryset.get())
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        queryset = Category.objects.filter(nameCategory="titulacion")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            category = serializer.update()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queryset = Category.objects.filter(nameCategory="titulacion")
+        serializer = serializers.CategorySerializer(queryset.get())
+        if serializer.is_valid():
+            result = queryset.delete()
+            return Response(result, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
 
 class Category(viewsets.ModelViewSet):
     queryset           = Category.objects.all()
@@ -57,7 +136,7 @@ class Persons(viewsets.ModelViewSet):
 class Persons_departaments(viewsets.ModelViewSet):
     queryset           = Persons_departaments.objects.all()
     serializer_class   = Persons_depaSerializer
-    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','first_last_name','universitycareer')
+    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','universitycareer')
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
