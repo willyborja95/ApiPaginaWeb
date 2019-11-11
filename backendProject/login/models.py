@@ -151,7 +151,7 @@ class Pre_requirements (models.Model):
     subject_matter_requeriment_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment_id')
 
 
-class Info_site (models.Model):
+class Info_site(models.Model):
     """
     Modelo de Info_site
 
@@ -163,6 +163,17 @@ class Info_site (models.Model):
     type_info =models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='type_info')
     info_site_universitycareer = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='info_site_universitycareer')
 
+# * NUevo modelo
+class Site(models.Model):
+    """
+    Modelo para Site
+
+    Atributos:
+        site_id INT
+        title VARCHAR(45)
+        icon VARCHAR(45)
+        favicon VARCHAR(45)
+    """
 
 class Content (models.Model):
     """
@@ -286,3 +297,80 @@ class Users(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+# *
+# * Nuevos modelos
+# *
+class Group_contact(models.Model): 
+    """
+    Modelo para Group contact
+
+    Atributos:
+        contact_type = INT
+        group INT
+        contact VARCHAR(45)
+    """
+
+    # * Atributos propios
+    # * Atributos relacionales
+    pass
+
+
+class Group(models.Model):
+    """
+    Modelo para Group
+
+    Atributos:
+        id INT
+        name VARCHAR(45)
+        universitycareer INT
+    """
+    
+    pass
+
+
+
+"""
+Podemos usar el que da por defecto django
+Modelo para Group_event que será una tabala de muchos a muchos entre Group y Event
+
+Atributos:
+    event INT
+    group INT
+
+"""
+
+
+class Event(models.Model):
+    """
+    Modelo para event
+    
+    Atributos: 
+        content_info_id INT
+        date DATE
+        place VARCHAR(45)
+        link_form VARCHAR(45)
+        url_info VARCHAR(45)
+        content_content_id INT
+    """
+    pass
+
+
+class Content(models.Model):
+    """
+    Modelo para Content
+
+    Atributos:
+        content_id INT
+        title VARCHAR(45)
+        description VARCHAR(45)
+        content_type INT
+        create_time TIMESTAMP
+        update_time TIMESTAMP
+        academic_period INT
+        universitycareer INT
+    """
+    pass
+
+
+
