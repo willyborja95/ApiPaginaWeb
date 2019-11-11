@@ -1,9 +1,0 @@
-Collecting django-filter
-  Downloading https://files.pythonhosted.org/packages/0a/c9/acc63b687002afae8b5137afd6230d88c99411aa2daedf07fed3f0913516/django_filter-2.2.0-py3-none-any.whl (69kB)
-Collecting Django>=1.11 (from django-filter)
-  Downloading https://files.pythonhosted.org/packages/b2/79/df0ffea7bf1e02c073c2633702c90f4384645c40a1dd09a308e02ef0c817/Django-2.2.6-py3-none-any.whl (7.5MB)
-Requirement already satisfied: pytz in /usr/lib/python3/dist-packages (from Django>=1.11->django-filter)
-Collecting sqlparse (from Django>=1.11->django-filter)
-  Downloading https://files.pythonhosted.org/packages/ef/53/900f7d2a54557c6a37886585a91336520e5539e3ae2423ff1102daf4f3a7/sqlparse-0.3.0-py2.py3-none-any.whl
-Installing collected packages: sqlparse, Django, django-filter
-Successfully installed Django-2.2.6 django-filter-2.2.0 sqlparse-0.3.0
