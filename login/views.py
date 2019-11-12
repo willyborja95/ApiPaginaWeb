@@ -15,12 +15,12 @@ from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
 from django.views.generic.list import ListView
 
-
+#Vistas de servicios
 class titulacionAPIView(ListView):
     def get(self, request, idCat):
-        categoryTitulacion = Category.objects.all()
-        #queryset = ItemCategory.objects.filter(category=categoryTitulacion)
-        serializer = serializers.CategorySerializer.objects.all()
+        tit = models.Category.objects.get(idCategory=idCat)
+        QuerySet = models.ItemCategory.objects.filter(category=tit)
+        serializer = serializers.ItemCategorySerializer.objects.all()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class sectionAPIView(ListView):
@@ -36,16 +36,18 @@ class sectionAPIView(ListView):
 class aboutAPIView(ListView):
     def get(self, request, idAbout):
         quienesSomos = ItemCategory.objects.get(idItemCategory=idAbout)
-        quienesSomos = Info_site.objects.filter(type_info=quienesSomosObj)
-        location_serializer = ItemCategorySerializer(quienesSomos, many=True)
+        quienesSomosF = Info_site.objects.filter(type_info=quienesSomosObj)
+        location_serializer = ItemCategorySerializer(quienesSomosF, many=True)
 
         return Response({
             'about': location_serializer.data
         })
 
+# Vistas de modelos
 class Category(viewsets.ModelViewSet):
     queryset           = Category.objects.all()
     serializer_class   = CategorySerializer
+
     filter_fields      = ('idCategory','nameCategory','active')
     filter_class       = CategoryFilter
     filterset_fields   = ('nameCategory')
@@ -61,9 +63,11 @@ class Category(viewsets.ModelViewSet):
 class ItemCategory(viewsets.ModelViewSet):
     queryset           = ItemCategory.objects.all()
     serializer_class   = ItemCategorySerializer
+
     filter_fields      = ('idItemCategory','nameItemCategory','active','category')
     filter_class       = ItemCategoryFilter
-    filterset_fields   = ('nameItemCategory','category')    
+    filterset_fields   = ('nameItemCategory','category')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -75,7 +79,9 @@ class ItemCategory(viewsets.ModelViewSet):
 class Persons(viewsets.ModelViewSet):
     queryset           = Persons.objects.all()
     serializer_class   = PersonsSerializer
+
     filter_fields      = ('person_id','first_name','second_name','first_last_name','second_last_name')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -87,7 +93,9 @@ class Persons(viewsets.ModelViewSet):
 class Persons_departaments(viewsets.ModelViewSet):
     queryset           = Persons_departaments.objects.all()
     serializer_class   = Persons_depaSerializer
+
     filter_fields      = ('persons_departaments_id','persons_id','item_category_id','universitycareer')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -99,7 +107,9 @@ class Persons_departaments(viewsets.ModelViewSet):
 class Persons_role(viewsets.ModelViewSet):
     queryset           = Persons_role.objects.all()
     serializer_class   = Persons_roleSerializer
+
     filter_fields      = ('persons_role_id','item_category_id','persons_id')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -111,7 +121,9 @@ class Persons_role(viewsets.ModelViewSet):
 class Persons_media(viewsets.ModelViewSet):
     queryset           = Persons_media.objects.all()
     serializer_class   = Persons_mediaSerializer
+
     filter_fields      = ('persons_media_id','path','item_category_id','persons_id')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -123,7 +135,9 @@ class Persons_media(viewsets.ModelViewSet):
 class Persons_Contacts(viewsets.ModelViewSet):
     queryset           = Persons_Contacts.objects.all()
     serializer_class   = Persons_ContactSerializer
+
     filter_fields      = ('contact_info_id','contact','item_category_id','persons_id')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -135,7 +149,9 @@ class Persons_Contacts(viewsets.ModelViewSet):
 class Subject_matter(viewsets.ModelViewSet):
     queryset           = Subject_matter.objects.all()
     serializer_class   = Subject_matter_Serializer
+
     filter_fields      = ('subject_matter_id','name_subject_matter','universitycareer')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -147,7 +163,9 @@ class Subject_matter(viewsets.ModelViewSet):
 class Pre_requirements(viewsets.ModelViewSet):
     queryset           = Pre_requirements.objects.all()
     serializer_class   = Pre_requirements_Serializer
+
     filter_fields      = ('pre_requirements_id','subject_matter_id_id','subject_matter_requeriment_id')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -159,7 +177,9 @@ class Pre_requirements(viewsets.ModelViewSet):
 class Info_site(viewsets.ModelViewSet):
     queryset           = Info_site.objects.all()
     serializer_class   = Info_site_Serializer
+
     filter_fields      = ('info_site_id','description','type_info','info_site_universitycareer')
+
     filter_class       = InfoSiteFilter
     filterset_fields   = ('type_info','info_site_universitycareer')    
     def get_object(self):
@@ -173,7 +193,9 @@ class Info_site(viewsets.ModelViewSet):
 class Content(viewsets.ModelViewSet):
     queryset           = Content.objects.all()
     serializer_class   = Content_Serializer
+
     filter_fields      = ('content_id','title','description','update_time','create_time','type_event','academic_period','content_universitycareer')
+    
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -185,7 +207,9 @@ class Content(viewsets.ModelViewSet):
 class Content_media(viewsets.ModelViewSet):
     queryset           = Content_media.objects.all()
     serializer_class   = Content_media_Serializer
+
     filter_fields      = ('content_media_id','path','item_category_item_category_id','content_content_id')
+    
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -197,7 +221,9 @@ class Content_media(viewsets.ModelViewSet):
 class Content_info(viewsets.ModelViewSet):
     queryset           = Content_info.objects.all()
     serializer_class   = Content_info_Serializer
+
     filter_fields      = ('content_info_id','date','place','link_form','url','content_content_id')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -209,7 +235,9 @@ class Content_info(viewsets.ModelViewSet):
 class Menu(viewsets.ModelViewSet):
     queryset           = Menu.objects.all().order_by('orden')
     serializer_class   = Menu_Serializer
+
     filter_fields      = ('menu_id','name','url','orden','item_category_item_category_id')
+
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
