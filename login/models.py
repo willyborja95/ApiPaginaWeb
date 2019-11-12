@@ -338,18 +338,3 @@ class Event(models.Model):
     """
     pass
 
-
-class Content(models.Model):
-    """
-    Modelo para Content
-    Atributos:
-        content_id INT
-        title VARCHAR(45)
-        description VARCHAR(45)
-        content_type INT
-        create_time TIMESTAMP
-        update_time TIMESTAMP
-        academic_period INT
-        universitycareer INT
-    """
-    pass
