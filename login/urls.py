@@ -23,6 +23,7 @@ router.register('content', views.Content)
 router.register('contentMedia', views.Content_media)
 router.register('contentInfo', views.Content_info)
 router.register('menu', views.Menu)
+#router.register('titulacion',views.ItemCategoryRolList)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -30,5 +31,8 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('api-token-auth/', obtain_jwt_token),
     path('refresh-token/', refresh_jwt_token),
-    #path('<str:nameCategory>',titulacion),
+    path('titulacion/<int:idCat>',views.titulacionAPIView.as_view()),
+    #path('secciones/<int:idSec>',views.sectionAPView),
+    path('quienes_somos/<int:idAbout>',views.aboutAPIView.as_view()),
+    #path('<name:nameCategory', views.about,
     ]

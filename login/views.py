@@ -13,6 +13,35 @@ from django.http import HttpResponse
 import mimetypes
 from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
+from django.views.generic.list import ListView
+
+
+class titulacionAPIView(ListView):
+    def get(self, request, idCat):
+        categoryTitulacion = Category.objects.all()
+        #queryset = ItemCategory.objects.filter(category=categoryTitulacion)
+        serializer = serializers.CategorySerializer.objects.all()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class sectionAPIView(ListView):
+    def get(self, request, idSec):
+        seccion = Category.objects.get(idCategory=idSec)
+        secciones = ItemCategory.objects.filter(category=seccion)
+        location_serializer = ItemCategorySerializer(secciones, many=True)
+
+        return Response({
+            'secciones': location_serializer.data
+        })
+
+class aboutAPIView(ListView):
+    def get(self, request, idAbout):
+        quienesSomos = ItemCategory.objects.get(idItemCategory=idAbout)
+        quienesSomos = Info_site.objects.filter(type_info=quienesSomosObj)
+        location_serializer = ItemCategorySerializer(quienesSomos, many=True)
+
+        return Response({
+            'about': location_serializer.data
+        })
 
 class Category(viewsets.ModelViewSet):
     queryset           = Category.objects.all()
