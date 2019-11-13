@@ -59,16 +59,22 @@ class Person(models.Model):
         return self.first_name +" "+ self.first_last_name
 
 
+class Section(models.Model):
+    section_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    university_career = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
+
+
 class Person_Section(models.Model):
     person_section_id = models.AutoField(primary_key=True) # cambio base de datos
     person_id = models.ForeignKey(Person, on_delete = models.CASCADE)  # cambio base de datos
     section_id = models.ForeignKey(Section, on_delete = models.CASCADE)  # cambio base de datos
 
 
-class Section(models.Model):
-    section_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    university_career = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
+
+class Role(models.Model):
+    role_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)
 
 
 class Person_role(models.Model):
@@ -84,11 +90,6 @@ class Person_role(models.Model):
     university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE) #ev
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
-
-
-class Role(models.Model):
-    role_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45)
 
 
 class Person_Media(models.Model):
@@ -298,18 +299,6 @@ class Users(AbstractBaseUser, PermissionsMixin):
 # *
 # * Nuevos modelos
 # *
-class Group_Contact(models.Model): 
-    """
-    Modelo para Group contact
-    Atributos:
-        contact_type = INT
-        group INT
-        contact VARCHAR(45)
-    """
-    group_contact_id = models.AutoField(primary_key=True)
-    contact_type_id = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-
 
 class Group(models.Model):
     """
@@ -322,6 +311,20 @@ class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
+
+
+class Group_Contact(models.Model): 
+    """
+    Modelo para Group contact
+    Atributos:
+        contact_type = INT
+        group INT
+        contact VARCHAR(45)
+    """
+    group_contact_id = models.AutoField(primary_key=True)
+    contact = models.CharField(max_length=255)
+    contact_type_id = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class Group_Event(models.Model):
