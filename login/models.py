@@ -13,15 +13,15 @@ class Category(models.Model):
         active TINYINT
     """
 
-    idCategory = models.AutoField(primary_key=True)
-    nameCategory = models.CharField(max_length= 255)
+    category_id = models.AutoField(primary_key=True) #
+    name = models.CharField(max_length= 255) 
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.nameCategory
+        return self.name
 
 
-class ItemCategory(models.Model):
+class Item_Category(models.Model):
     """
     Modelo de Item_category
     Atributos:
@@ -30,16 +30,16 @@ class ItemCategory(models.Model):
         active TINYINT
         category_category_id INT
     """
-    idItemCategory = models.AutoField(primary_key=True) 
-    nameItemCategory = models.CharField(max_length= 255)
+    item_category_id = models.AutoField(primary_key=True) 
+    name = models.CharField(max_length= 255)
     active = models.BooleanField(default=True)
-    category = models.ForeignKey(Category, on_delete = models.CASCADE)
+    category_id = models.ForeignKey(Category, on_delete = models.CASCADE) #
     
     def __str__(self):
-        return self.nameItemCategory
+        return self.name
 
 
-class Persons(models.Model):
+class Person(models.Model):
     """
     Modelo de Person
     Atributos:
@@ -59,61 +59,69 @@ class Persons(models.Model):
         return self.first_name +" "+ self.first_last_name
 
 
-class Persons_departaments (models.Model):
-    """
-    ! Este modelo de datos ya no está en el diagrama actual 
-    """
-    persons_departaments_id = models.AutoField(primary_key=True)
-    persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
-    item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE,null=True, related_name="item_category_id")
-    universitycareer = models.ForeignKey(ItemCategory, on_delete = models.CASCADE, null=True,related_name="universitycareer")
+class Person_Section(models.Model):
+    person_section_id = models.AutoField(primary_key=True) # cambio base de datos
+    person_id = models.ForeignKey(Person, on_delete = models.CASCADE)  # cambio base de datos
+    section_id = models.ForeignKey(Section, on_delete = models.CASCADE)  # cambio base de datos
 
 
-class Persons_role (models.Model):
+class Section(models.Model):
+    section_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    university_career = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
+
+
+class Person_role(models.Model):
     """
     Modelo de Person_role
     Atributos:
         person_role_id INT
-        persons_person_id INT
+        Person_person_id INT
         rolerole_id INT
         universitycareer INT
     """
-    persons_role_id = models.AutoField(primary_key=True)
-    item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
-    persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
+    person_role_id = models.AutoField(primary_key=True)
+    university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE) #ev
+    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
-class Persons_media (models.Model):
+class Role(models.Model):
+    role_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)
+
+
+class Person_Media(models.Model):
     """
-    Modelo de Persons_media
+    Modelo de Person_media
     Atributos:
-        persons_media_id INT
+        person_media_id INT
         path VARHCAR(255)
         persons_person_id INT
         item_category_item_category_id INT
     """
-    persons_media_id = models.AutoField(primary_key=True)
+    person_media_id = models.AutoField(primary_key=True)
     path = models.CharField(max_length=255)
-    item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
-    persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
+    item_category_id = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
+    person_id = models.ForeignKey(Person, on_delete = models.CASCADE)
 
 
-class Persons_Contacts (models.Model):
+class Person_Contact(models.Model):
     """
     Modelo de Person_Contact
     Atributos:
-        persons_contact_id INT
+        Person_contact_id INT
         contact_type INT
         person_id INT
         contact VARCHAR(45)
     """
-    contact_info_id = models.AutoField(primary_key=True)
+    person_contact_id = models.AutoField(primary_key=True)
     contact = models.CharField(max_length=255, null=False)
-    item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
-    persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
+    contact_type = models.ForeignKey(Item_Category, on_delete=models.CASCADE) #revisar BD
+    person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
-class Subject_matter (models.Model):
+class Subject_Matter(models.Model):
     """
     Modelo de Subject_matter
     Atributos:
@@ -124,26 +132,26 @@ class Subject_matter (models.Model):
     
     """
     subject_matter_id = models.AutoField(primary_key=True)
-    name_subject_matter = models.CharField(max_length=255)
-    universitycareer = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+    name = models.CharField(max_length=255)
+    semester = models.IntegerField()
+    university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
 
     def __str__(self):
-        return self.name_subject_matter
+        return self.name
 
-
-class Pre_requirements (models.Model):
+class Requirement(models.Model):
     """
     Modelo de Requirement
     Atributos:
         subejct_matter INT
         requirement INT
     """
-    pre_requirements_id = models.AutoField(primary_key=True)
-    subject_matter_id_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_id_id')
+    requirement_id = models.AutoField(primary_key=True)
+    subject_matter_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_id')
     subject_matter_requeriment_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment_id')
 
 
-class Info_site(models.Model):
+class Info_Site(models.Model):
     """
     Modelo de Info_site
     Atributos
@@ -151,8 +159,7 @@ class Info_site(models.Model):
     """
     info_site_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=500, null=False)
-    type_info =models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='type_info')
-    info_site_universitycareer = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='info_site_universitycareer')
+    type_info =models.ForeignKey(Item_Category, on_delete=models.CASCADE)
 
 # * NUevo modelo
 class Site(models.Model):
@@ -164,8 +171,12 @@ class Site(models.Model):
         icon VARCHAR(45)
         favicon VARCHAR(45)
     """
+    site_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    icon = models.CharField(max_length=255)
+    favicon = models.CharField(max_length=255)
 
-class Content (models.Model):
+class Content(models.Model):
     """
     Modelo de Content
     """
@@ -174,38 +185,38 @@ class Content (models.Model):
     description = models.CharField(max_length=500, null=False)
     update_time = models.DateTimeField(default=timezone.now, null=False, blank=False)
     create_time = models.DateTimeField(default=timezone.now, null=False, blank=False)
-    type_event = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='type_event')
-    academic_period = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='academic_period')
-    content_universitycareer = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='content_universitycareer')
+    content_type = models.ForeignKey('Item_Category', on_delete=models.CASCADE, related_name='content_type')
+    academic_period = models.ForeignKey('Item_Category', on_delete=models.CASCADE, related_name='academic_period')
+    university_career = models.ForeignKey('Item_Category', on_delete=models.CASCADE, related_name='university_career')
 
     def __str__(self):
         return self.title
 
 
-class Content_media (models.Model):
+class Content_media(models.Model):
     """
     Modelo de Content_media
     Atributos:
     """
     content_media_id = models.AutoField(primary_key=True)
     path = models.CharField(max_length=500)
-    item_category_item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
-    content_content_id = models.ForeignKey(Content, on_delete = models.CASCADE)
+    item_category_id = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
+    content_id = models.ForeignKey(Content, on_delete = models.CASCADE)
 
 
-class Content_info (models.Model):
+class Event(models.Model):
     """
     ! Este modelo noo se en donde se encuentra pero tiene los mismos atributos que Event
     """
-    content_info_id = models.AutoField(primary_key=True)
+    event_id = models.AutoField(primary_key=True)
     date = models.DateTimeField(default=timezone.now)
     place = models.CharField(max_length=255, null=False)
     link_form = models.CharField(max_length=255, null=False)
-    url = models.CharField(max_length=255, null=False)
-    content_content_id = models.ForeignKey(Content, on_delete = models.CASCADE)
+    url_info = models.CharField(max_length=255, null=False)
+    content_id = models.ForeignKey(Content, on_delete = models.CASCADE)
 
 
-class Menu (models.Model):
+class Menu(models.Model):
     """
     Modelo de Menu
     Atributos:
@@ -216,9 +227,8 @@ class Menu (models.Model):
     """
     menu_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
-    url = models.CharField(max_length=500, null=False)
-    orden = models.IntegerField(null=False)
-    item_category_item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+    order = models.IntegerField(null=False)
+    item_category_id = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
 
 
 class UserManager(BaseUserManager):
@@ -230,7 +240,7 @@ class UserManager(BaseUserManager):
         """
         if not email:
             raise ValueError('The given email must be set')
-        person_id = Persons.objects.get(person_id=person_id)
+        person_id = Person.objects.get(person_id=person_id)
         email = self.normalize_email(email)
         user = self.model(username = username, email = email, person_id = person_id)
         user.set_password(password)
@@ -242,7 +252,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, person_id, username, email, password):
-        person_id = Persons.objects.get(person_id=person_id)
+        person_id = Person.objects.get(person_id=person_id)
         user = self.model(username = username, email = email, person_id = person_id)
         email = self.normalize_email(email)
         user.set_password(password)
@@ -262,7 +272,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     update_time = models.DateTimeField(default=timezone.now)
     create_time = models.DateTimeField(default=timezone.now)
-    person_id = models.OneToOneField(Persons, on_delete = models.CASCADE)
+    person_id = models.OneToOneField(Person, on_delete = models.CASCADE)
 
     objects = UserManager()
 
@@ -288,7 +298,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
 # *
 # * Nuevos modelos
 # *
-class Group_contact(models.Model): 
+class Group_Contact(models.Model): 
     """
     Modelo para Group contact
     Atributos:
@@ -296,10 +306,9 @@ class Group_contact(models.Model):
         group INT
         contact VARCHAR(45)
     """
-
-    # * Atributos propios
-    # * Atributos relacionales
-    pass
+    group_contact_id = models.AutoField(primary_key=True)
+    contact_type_id = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class Group(models.Model):
@@ -310,31 +319,12 @@ class Group(models.Model):
         name VARCHAR(45)
         universitycareer INT
     """
-    
-    pass
+    group_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
 
 
-
-"""
-Podemos usar el que da por defecto django
-Modelo para Group_event que será una tabala de muchos a muchos entre Group y Event
-Atributos:
-    event INT
-    group INT
-"""
-
-
-class Event(models.Model):
-    """
-    Modelo para event
-    
-    Atributos: 
-        content_info_id INT
-        date DATE
-        place VARCHAR(45)
-        link_form VARCHAR(45)
-        url_info VARCHAR(45)
-        content_content_id INT
-    """
-    pass
-
+class Group_Event(models.Model):
+    group_event_id = models.AutoField(primary_key=True)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
