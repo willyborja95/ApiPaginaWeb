@@ -5,9 +5,9 @@ from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
-from .models import *
+from login.models import Category, ItemCategory 
 from django.contrib.auth.models import User as Users
-from .serializers import *
+from login.serializers import CategorySerializer, ItemCategorySerializer
 from .filters import *
 from django.http import HttpResponse
 import mimetypes
@@ -15,14 +15,30 @@ from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
 from django.views.generic.list import ListView
 
-#Vistas de servicios
-class titulacionAPIView(ListView):
-    def get(self, request, idCat):
-        tit = models.Category.objects.get(idCategory=idCat)
-        QuerySet = models.ItemCategory.objects.filter(category=tit)
-        serializer = serializers.ItemCategorySerializer.objects.all()
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
+def vista1(request):
+    cat = ItemCategory.objects.all()
+    print(cat)
+    
+    #print(cat)
+    #diccionario = {'Hola':'mundo'}
+    return HttpResponse("cat")
+
+#Vistas de servicios
+class titulacionView(generics.ListAPIView):
+    serializer_class = ItemCategorySerializer
+    def get_queryset(self):
+        #print (self.kwargs)
+        print (self.kwargs["idCat"])
+        idCat = self.kwargs["idCat"]
+        #cat = Category.objects.all()
+        #print(cat)
+        tit = Category.objects.get(idCategory=idCat)
+        querySet = ItemCategory.objects.filter(category=tit)
+        return querySet
+        #serializer = ItemCategorySerializer
+        #return Response(serializer.data, status=status.HTTP_200_OK)
+'''
 class sectionAPIView(ListView):
     def get(self, request, idSec):
         seccion = Category.objects.get(idCategory=idSec)
@@ -245,6 +261,7 @@ class Menu(viewsets.ModelViewSet):
                 pk = self.kwargs['pk'],
             )
             return obj
+'''
 
 @csrf_exempt
 @api_view(["POST"])
