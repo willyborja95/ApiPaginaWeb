@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
-class Category (models.Model):
+class Category(models.Model):
     """
     Modelo de Category
     Atributos:
@@ -21,7 +21,7 @@ class Category (models.Model):
         return self.nameCategory
 
 
-class ItemCategory (models.Model):
+class ItemCategory(models.Model):
     """
     Modelo de Item_category
     Atributos:
