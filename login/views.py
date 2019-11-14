@@ -47,7 +47,7 @@ class titulacionView(generics.ListAPIView):
         return querySet
         #serializer = ItemCategorySerializer
         #return Response(serializer.data, status=status.HTTP_200_OK)
-'''
+
 class sectionAPIView(ListView):
     def get(self, request, idSec):
         seccion = Category.objects.get(idCategory=idSec)
@@ -68,209 +68,77 @@ class aboutAPIView(ListView):
             'about': location_serializer.data
         })
 
-# Vistas de modelos
-class Category(viewsets.ModelViewSet):
+class CategoryViewset(viewsets.ModelViewSet):
     queryset           = Category.objects.all()
-    serializer_class   = CategorySerializer
+    serializer_class   = serializers.CategorySerializer
 
-    filter_fields      = ('idCategory','nameCategory','active')
-    filter_class       = CategoryFilter
-    filterset_fields   = ('nameCategory')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
+class ItemCategoryViewset(viewsets.ModelViewSet):
 
-class ItemCategory(viewsets.ModelViewSet):
     queryset           = ItemCategory.objects.all()
-    serializer_class   = ItemCategorySerializer
+    serializer_class   = serializers.ItemCategorySerializer
 
-    filter_fields      = ('idItemCategory','nameItemCategory','active','category')
-    filter_class       = ItemCategoryFilter
-    filterset_fields   = ('nameItemCategory','category')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons(viewsets.ModelViewSet):
+class PersonsViewset(viewsets.ModelViewSet):
     queryset           = Persons.objects.all()
-    serializer_class   = PersonsSerializer
+    serializer_class   = serializers.PersonsSerializer
 
-    filter_fields      = ('person_id','first_name','second_name','first_last_name','second_last_name')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_departaments(viewsets.ModelViewSet):
+class Persons_departamentsViewset(viewsets.ModelViewSet):
     queryset           = Persons_departaments.objects.all()
-    serializer_class   = Persons_depaSerializer
+    serializer_class   = serializers.Persons_depaSerializer
 
-    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','universitycareer')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_role(viewsets.ModelViewSet):
+class Persons_roleViewset(viewsets.ModelViewSet):
     queryset           = Persons_role.objects.all()
-    serializer_class   = Persons_roleSerializer
+    serializer_class   = serializers.Persons_roleSerializer
 
-    filter_fields      = ('persons_role_id','item_category_id','persons_id')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_media(viewsets.ModelViewSet):
+class Persons_mediaViewset(viewsets.ModelViewSet):
     queryset           = Persons_media.objects.all()
-    serializer_class   = Persons_mediaSerializer
+    serializer_class   = serializers.Persons_mediaSerializer
 
-    filter_fields      = ('persons_media_id','path','item_category_id','persons_id')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_Contacts(viewsets.ModelViewSet):
+class Persons_ContactsViewset(viewsets.ModelViewSet):
     queryset           = Persons_Contacts.objects.all()
-    serializer_class   = Persons_ContactSerializer
+    serializer_class   = serializers.Persons_ContactSerializer
 
-    filter_fields      = ('contact_info_id','contact','item_category_id','persons_id')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Subject_matter(viewsets.ModelViewSet):
+class Subject_matterViewset(viewsets.ModelViewSet):
     queryset           = Subject_matter.objects.all()
-    serializer_class   = Subject_matter_Serializer
+    serializer_class   = serializers.Subject_matter_Serializer
 
-    filter_fields      = ('subject_matter_id','name_subject_matter','universitycareer')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Pre_requirements(viewsets.ModelViewSet):
+class Pre_requirementsViewset(viewsets.ModelViewSet):
     queryset           = Pre_requirements.objects.all()
-    serializer_class   = Pre_requirements_Serializer
+    serializer_class   = serializers.Pre_requirements_Serializer
 
-    filter_fields      = ('pre_requirements_id','subject_matter_id_id','subject_matter_requeriment_id')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Info_site(viewsets.ModelViewSet):
+class Info_siteViewset(viewsets.ModelViewSet):
     queryset           = Info_site.objects.all()
-    serializer_class   = Info_site_Serializer
+    serializer_class   = serializers.Info_site_Serializer
 
-    filter_fields      = ('info_site_id','description','type_info','info_site_universitycareer')
 
-    filter_class       = InfoSiteFilter
-    filterset_fields   = ('type_info','info_site_universitycareer')    
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Content(viewsets.ModelViewSet):
+class ContentViewset(viewsets.ModelViewSet):
     queryset           = Content.objects.all()
-    serializer_class   = Content_Serializer
+    serializer_class   = serializers.Content_Serializer
 
-    filter_fields      = ('content_id','title','description','update_time','create_time','type_event','academic_period','content_universitycareer')
-    
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
 
-class Content_media(viewsets.ModelViewSet):
+class Content_mediaViewset(viewsets.ModelViewSet):
     queryset           = Content_media.objects.all()
-    serializer_class   = Content_media_Serializer
+    serializer_class   = serializers.Content_media_Serializer
 
-    filter_fields      = ('content_media_id','path','item_category_item_category_id','content_content_id')
-    
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
 
-class Content_info(viewsets.ModelViewSet):
+class Content_infoViewset(viewsets.ModelViewSet):
     queryset           = Content_info.objects.all()
-    serializer_class   = Content_info_Serializer
+    serializer_class   = serializers.Content_info_Serializer
 
-    filter_fields      = ('content_info_id','date','place','link_form','url','content_content_id')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Menu(viewsets.ModelViewSet):
+class MenuViewset(viewsets.ModelViewSet):
     queryset           = Menu.objects.all().order_by('orden')
-    serializer_class   = Menu_Serializer
+    serializer_class   = serializers.Menu_Serializer
 
-    filter_fields      = ('menu_id','name','url','orden','item_category_item_category_id')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-'''
 
 @csrf_exempt
 @api_view(["POST"])
