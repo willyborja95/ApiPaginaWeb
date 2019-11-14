@@ -72,12 +72,22 @@ class titulacionView(generics.ListAPIView):
     """
     serializer_class = Item_Category_Serializer
     def get_queryset(self):
-        idCat = self.kwargs["idCat"]
-        tit = Category.objects.get(category_id=idCat)
+        category = self.kwargs["name"]
+        tit = Category.objects.get(name=category)
         querySet = Item_Category.objects.filter(category_id=tit)
         return querySet
 
 
+class titulacionView(generics.ListAPIView):
+    """
+    Creación de un GET para obtener quienes somos
+    """
+    serializer_class = Item_Category_Serializer
+    def get_queryset(self):
+        category = self.kwargs["name"]
+        tit = Category.objects.get(name=category)
+        querySet = Item_Category.objects.filter(category_id=tit)
+        return querySet
 #vistas de modelos
 
 class Category_Viewset(ModelViewSet):
