@@ -1,19 +1,28 @@
+# Rest_framework
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework import viewsets, generics
+from rest_framework.permissions import IsAuthenticated
+
+
+# Django
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, generics
-from rest_framework.permissions import IsAuthenticated
-from login.models import Category, ItemCategory 
 from django.contrib.auth.models import User as Users
-from login.serializers import CategorySerializer, ItemCategorySerializer
-from .filters import *
-from django.http import HttpResponse
-import mimetypes
-from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
 from django.views.generic.list import ListView
+from django.http import HttpResponse
+
+# Local project
+from login.models import ItemCategory, Category, Content, Content_info, Content_media, Event, Group, Group_contact, Info_site, ItemCategory, Menu, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements
+from login import serializers
+
+
+# Others
+from wsgiref.util import FileWrapper
+import mimetypes
+
 
 
 def vista1(request):
@@ -26,7 +35,7 @@ def vista1(request):
 
 #Vistas de servicios
 class titulacionView(generics.ListAPIView):
-    serializer_class = ItemCategorySerializer
+    serializer_class = serializers.ItemCategorySerializer
     def get_queryset(self):
         #print (self.kwargs)
         print (self.kwargs["idCat"])
