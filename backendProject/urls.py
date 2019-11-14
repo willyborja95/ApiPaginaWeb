@@ -4,11 +4,10 @@ from django.urls import path
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
-   url(r'^admin/', admin.site.urls),
-   url(r'^rest-auth/', include('rest_auth.urls')),
-   url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-   url(r'', include(('login.urls', 'login', ), namespace='login')),
-   url(r'^api-token-auth/', obtain_jwt_token)
+    path('admin/', admin.site.urls),
+    #path('rest-auth/', include('rest_auth.urls')),
+    #path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('', include('login.urls')),
+    #path('api-token-auth/', obtain_jwt_token),
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-   
 ]
