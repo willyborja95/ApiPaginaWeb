@@ -15,7 +15,7 @@ from login import views
 
 urlpatterns = [
     path('', include(router.urls)),
-
+    path('<str:name>',views.titulacionView.as_view()),
     ]
 
     # path('rest-auth/', include('rest_auth.urls')),

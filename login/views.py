@@ -65,50 +65,37 @@ from login.serializers import (Category_Serializer,
 from wsgiref.util import FileWrapper
 import mimetypes
 
-
-
-def vista1(request):
-    cat = Item_Category.objects.all()
-    print(cat)
-    
-    #print(cat)
-    #diccionario = {'Hola':'mundo'}
-    return HttpResponse("cat")
-
 #Vistas de servicios
 class titulacionView(generics.ListAPIView):
+    """
+    Creación de un GET para obtener titulaciones
+    """
     serializer_class = Item_Category_Serializer
     def get_queryset(self):
-        #print (self.kwargs)
-        print (self.kwargs["idCat"])
-        idCat = self.kwargs["idCat"]
-        #cat = Category.objects.all()
-        #print(cat)
-        tit = Category.objects.get(idCategory=idCat)
-        querySet = Item_Category.objects.filter(category=tit)
+        category = self.kwargs["name"]
+        tit = Category.objects.get(name=category)
+        querySet = Item_Category.objects.filter(category_id=tit)
         return querySet
-        #serializer = ItemCategorySerializer
-        #return Response(serializer.data, status=status.HTTP_200_OK)
 
-class sectionAPIView(ListView):
-    def get(self, request, idSec):
-        seccion = Category.objects.get(idCategory=idSec)
-        secciones = Item_Category.objects.filter(category=seccion)
-        location_serializer = Item_Category_Serializer(secciones, many=True)
 
-        return Response({
-            'secciones': location_serializer.data
-        })
+class titulacionView(generics.ListAPIView):
+    """
+    Creación de un GET para obtener quienes somos
+    """
+    serializer_class = Item_Category_Serializer
+    def get_queryset(self):
+        category = self.kwargs["name"]
+        tit = Category.objects.get(name=category)
+        querySet = Item_Category.objects.filter(category_id=tit)
+        return querySet
+#vistas de modelos
 
-class aboutAPIView(ListView):
-    def get(self, request, idAbout):
-        quienesSomos = Item_Category.objects.get(idItemCategory=idAbout)
-        quienesSomosF = Info_site.objects.filter(type_info=quienesSomosObj)
-        location_serializer = Item_Category_Serializer(quienesSomosF, many=True)
-
-        return Response({
-            'about': location_serializer.data
-        })
+class Category_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Category
+    """
+    queryset           = Category.objects.all()
+    serializer_class   = Category_Serializer
 
 
 class Item_Category_Viewset(ModelViewSet):
@@ -117,14 +104,6 @@ class Item_Category_Viewset(ModelViewSet):
     """
     queryset = Item_Category.objects.all()
     serializer_class = Item_Category_Serializer
-
-
-class Category_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Category
-    """
-    queryset           = Category.objects.all()
-    serializer_class   = Category_Serializer
 
 
 class Person_Viewset(ModelViewSet):
@@ -285,24 +264,6 @@ class Content_Viewset(ModelViewSet):
     """
     queryset = Content.objects.all()
     serializer_class = Content_Serializer
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

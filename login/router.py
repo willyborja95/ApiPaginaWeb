@@ -44,5 +44,3 @@ router.register('menu', Menu_Viewset)
 router.register('group', Group_Viewset)
 router.register('group_contact', Group_Contact_Viewset)
 router.register('group_event', Group_Event_Viewset)
-
-#router.register('titulacion',ItemCategoryRolList)
