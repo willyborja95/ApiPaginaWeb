@@ -71,13 +71,12 @@ class Person_Section(models.Model):
     section_id = models.ForeignKey(Section, on_delete = models.CASCADE)  # cambio base de datos
 
 
-
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)
 
 
-class Person_role(models.Model):
+class Person_Role(models.Model):
     """
     Modelo de Person_role
     Atributos:
@@ -148,8 +147,8 @@ class Requirement(models.Model):
         requirement INT
     """
     requirement_id = models.AutoField(primary_key=True)
-    subject_matter_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_id')
-    subject_matter_requeriment_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment_id')
+    subject_matter = models.ForeignKey('Subject_Matter', on_delete=models.CASCADE, related_name='subject_matter')
+    subject_matter_requeriment = models.ForeignKey('Subject_Matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment')
 
 
 class Info_Site(models.Model):
@@ -194,7 +193,7 @@ class Content(models.Model):
         return self.title
 
 
-class Content_media(models.Model):
+class Content_Media(models.Model):
     """
     Modelo de Content_media
     Atributos:
@@ -231,6 +230,38 @@ class Menu(models.Model):
     order = models.IntegerField(null=False)
     item_category_id = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
 
+
+class Group(models.Model):
+    """
+    Modelo para Group
+    Atributos:
+        id INT
+        name VARCHAR(45)
+        universitycareer INT
+    """
+    group_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
+
+
+class Group_Contact(models.Model): 
+    """
+    Modelo para Group contact
+    Atributos:
+        contact_type = INT
+        group INT
+        contact VARCHAR(45)
+    """
+    group_contact_id = models.AutoField(primary_key=True)
+    contact = models.CharField(max_length=255)
+    contact_type_id = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+
+class Group_Event(models.Model):
+    group_event_id = models.AutoField(primary_key=True)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -295,39 +326,3 @@ class Users(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-# *
-# * Nuevos modelos
-# *
-
-class Group(models.Model):
-    """
-    Modelo para Group
-    Atributos:
-        id INT
-        name VARCHAR(45)
-        universitycareer INT
-    """
-    group_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    university_career = models.ForeignKey(Item_Category, on_delete = models.CASCADE)
-
-
-class Group_Contact(models.Model): 
-    """
-    Modelo para Group contact
-    Atributos:
-        contact_type = INT
-        group INT
-        contact VARCHAR(45)
-    """
-    group_contact_id = models.AutoField(primary_key=True)
-    contact = models.CharField(max_length=255)
-    contact_type_id = models.ForeignKey(Item_Category, on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-
-
-class Group_Event(models.Model):
-    group_event_id = models.AutoField(primary_key=True)
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
