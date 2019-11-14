@@ -1,23 +1,74 @@
+# Rest_framework
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
+# Django
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, generics
-from rest_framework.permissions import IsAuthenticated
-from login.models import Category, ItemCategory 
 from django.contrib.auth.models import User as Users
-from login.serializers import CategorySerializer, ItemCategorySerializer
-from .filters import *
-from django.http import HttpResponse
-import mimetypes
-from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
 from django.views.generic.list import ListView
+from django.http import HttpResponse
+
+# Local project
+from login.models import (Users, 
+                          Category, 
+                          Content, 
+                          Content_Media, 
+                          Event, 
+                          Group, 
+                          Group_Contact, 
+                          Group_Event, 
+                          Info_Site, 
+                          Item_Category, 
+                          Menu, 
+                          Person, 
+                          Person_Contact, 
+                          Person_Media, 
+                          Person_Role, 
+                          Person_Section, 
+                          Role, 
+                          Section, 
+                          Site, 
+                          Subject_Matter, 
+                          Requirement)
+
+from login.serializers import (Category_Serializer, 
+                               Content_Media_Serializer, 
+                               Content_Serializer,
+                               Event_Serializer, 
+                               Group_Contact_Serializer, 
+                               Group_Event_Serializer, 
+                               Group_Serializer, 
+                               Info_Site_Serializer, 
+                               Item_Category_Serializer, 
+                               Menu_Serializer, 
+                               Person_Contact_Serializer, 
+                               Person_Media_Serializer, 
+                               Person_Role_Serializer, 
+                               Person_Section_Serializer, 
+                               Person_Serializer, 
+                               RegisterSerializer, 
+                               RegistrationSerializer, 
+                               Requirement_Serializer, 
+                               Role_Serializer, 
+                               Section_Serializer,
+                               Site_Serializer, 
+                               Subject_Matter_Serializer)
+
+
+# Others
+from wsgiref.util import FileWrapper
+import mimetypes
+
 
 
 def vista1(request):
-    cat = ItemCategory.objects.all()
+    cat = Item_Category.objects.all()
     print(cat)
     
     #print(cat)
@@ -26,7 +77,7 @@ def vista1(request):
 
 #Vistas de servicios
 class titulacionView(generics.ListAPIView):
-    serializer_class = ItemCategorySerializer
+    serializer_class = Item_Category_Serializer
     def get_queryset(self):
         #print (self.kwargs)
         print (self.kwargs["idCat"])
@@ -34,16 +85,16 @@ class titulacionView(generics.ListAPIView):
         #cat = Category.objects.all()
         #print(cat)
         tit = Category.objects.get(idCategory=idCat)
-        querySet = ItemCategory.objects.filter(category=tit)
+        querySet = Item_Category.objects.filter(category=tit)
         return querySet
         #serializer = ItemCategorySerializer
         #return Response(serializer.data, status=status.HTTP_200_OK)
-'''
+
 class sectionAPIView(ListView):
     def get(self, request, idSec):
         seccion = Category.objects.get(idCategory=idSec)
-        secciones = ItemCategory.objects.filter(category=seccion)
-        location_serializer = ItemCategorySerializer(secciones, many=True)
+        secciones = Item_Category.objects.filter(category=seccion)
+        location_serializer = Item_Category_Serializer(secciones, many=True)
 
         return Response({
             'secciones': location_serializer.data
@@ -51,217 +102,209 @@ class sectionAPIView(ListView):
 
 class aboutAPIView(ListView):
     def get(self, request, idAbout):
-        quienesSomos = ItemCategory.objects.get(idItemCategory=idAbout)
+        quienesSomos = Item_Category.objects.get(idItemCategory=idAbout)
         quienesSomosF = Info_site.objects.filter(type_info=quienesSomosObj)
-        location_serializer = ItemCategorySerializer(quienesSomosF, many=True)
+        location_serializer = Item_Category_Serializer(quienesSomosF, many=True)
 
         return Response({
             'about': location_serializer.data
         })
 
-# Vistas de modelos
-class Category(viewsets.ModelViewSet):
+
+class Item_Category_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Item_Category
+    """
+    queryset = Item_Category.objects.all()
+    serializer_class = Item_Category_Serializer
+
+
+class Category_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Category
+    """
     queryset           = Category.objects.all()
-    serializer_class   = CategorySerializer
+    serializer_class   = Category_Serializer
 
-    filter_fields      = ('idCategory','nameCategory','active')
-    filter_class       = CategoryFilter
-    filterset_fields   = ('nameCategory')
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
+class Person_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person
+    """
+    queryset = Person.objects.all()
+    serializer_class = Person_Serializer
 
-class ItemCategory(viewsets.ModelViewSet):
-    queryset           = ItemCategory.objects.all()
-    serializer_class   = ItemCategorySerializer
 
-    filter_fields      = ('idItemCategory','nameItemCategory','active','category')
-    filter_class       = ItemCategoryFilter
-    filterset_fields   = ('nameItemCategory','category')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons(viewsets.ModelViewSet):
-    queryset           = Persons.objects.all()
-    serializer_class   = PersonsSerializer
-
-    filter_fields      = ('person_id','first_name','second_name','first_last_name','second_last_name')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_departaments(viewsets.ModelViewSet):
-    queryset           = Persons_departaments.objects.all()
-    serializer_class   = Persons_depaSerializer
-
-    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','universitycareer')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_role(viewsets.ModelViewSet):
-    queryset           = Persons_role.objects.all()
-    serializer_class   = Persons_roleSerializer
-
-    filter_fields      = ('persons_role_id','item_category_id','persons_id')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_media(viewsets.ModelViewSet):
-    queryset           = Persons_media.objects.all()
-    serializer_class   = Persons_mediaSerializer
-
-    filter_fields      = ('persons_media_id','path','item_category_id','persons_id')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Persons_Contacts(viewsets.ModelViewSet):
-    queryset           = Persons_Contacts.objects.all()
-    serializer_class   = Persons_ContactSerializer
-
-    filter_fields      = ('contact_info_id','contact','item_category_id','persons_id')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Subject_matter(viewsets.ModelViewSet):
-    queryset           = Subject_matter.objects.all()
-    serializer_class   = Subject_matter_Serializer
-
-    filter_fields      = ('subject_matter_id','name_subject_matter','universitycareer')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Pre_requirements(viewsets.ModelViewSet):
-    queryset           = Pre_requirements.objects.all()
-    serializer_class   = Pre_requirements_Serializer
-
-    filter_fields      = ('pre_requirements_id','subject_matter_id_id','subject_matter_requeriment_id')
-
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Info_site(viewsets.ModelViewSet):
-    queryset           = Info_site.objects.all()
-    serializer_class   = Info_site_Serializer
-
-    filter_fields      = ('info_site_id','description','type_info','info_site_universitycareer')
-
-    filter_class       = InfoSiteFilter
-    filterset_fields   = ('type_info','info_site_universitycareer')    
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Content(viewsets.ModelViewSet):
-    queryset           = Content.objects.all()
-    serializer_class   = Content_Serializer
-
-    filter_fields      = ('content_id','title','description','update_time','create_time','type_event','academic_period','content_universitycareer')
+class Section_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Section
+    """
+    queryset = Section.objects.all()
+    serializer_class = Section_Serializer
     
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-
-class Content_media(viewsets.ModelViewSet):
-    queryset           = Content_media.objects.all()
-    serializer_class   = Content_media_Serializer
-
-    filter_fields      = ('content_media_id','path','item_category_item_category_id','content_content_id')
     
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
+class Person_Section_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Section
+    """
+    queryset = Person_Section.objects.all()
+    serializer_class = Person_Section_Serializer
 
-class Content_info(viewsets.ModelViewSet):
-    queryset           = Content_info.objects.all()
-    serializer_class   = Content_info_Serializer
 
-    filter_fields      = ('content_info_id','date','place','link_form','url','content_content_id')
+class Role_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Role
+    """
+    queryset = Role.objects.all()
+    serializer_class = Role_Serializer
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
 
-class Menu(viewsets.ModelViewSet):
-    queryset           = Menu.objects.all().order_by('orden')
-    serializer_class   = Menu_Serializer
+class Subject_Matter_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo de Subject_Matter
+    """
+    queryset = Subject_Matter.objects.all()
+    serializer_class = Subject_Matter_Serializer
+    
 
-    filter_fields      = ('menu_id','name','url','orden','item_category_item_category_id')
+class Person_Role_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Role
+    """
+    queryset = Person_Role.objects.all()
+    serializer_class = Person_Role_Serializer
 
-    def get_object(self):
-            queryset = self.get_queryset()
-            obj      = get_object_or_404(
-                queryset,
-                pk = self.kwargs['pk'],
-            )
-            return obj
-'''
+
+class Person_Media_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Media
+    """
+    queryset = Person_Media.objects.all()
+    serializer_class = Person_Media_Serializer
+    
+    
+class Person_Contact_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Contact
+    """
+    queryset = Person_Contact.objects.all()
+    serializer_class = Person_Contact_Serializer
+
+
+class Person_Contact_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Contact
+    """
+    queryset = Person_Contact.objects.all()
+    serializer_class = Person_Contact_Serializer
+
+
+class Requirement_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Requirement
+    """
+    queryset = Requirement.objects.all()
+    serializer_class = Requirement_Serializer
+    
+
+class Info_Site_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Info_Site
+    """
+    queryset = Info_Site.objects.all()
+    serializer_class = Info_Site_Serializer
+    
+    
+class Site_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Site
+    """
+    queryset = Site.objects.all()
+    serializer_class = Site_Serializer
+    
+
+class Site_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Site
+    """
+    queryset = Site.objects.all()
+    serializer_class = Site_Serializer
+
+
+class Content_Media_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Content_Media
+    """
+    queryset = Content_Media.objects.all()
+    serializer_class = Content_Media_Serializer
+     
+     
+class Event_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Event
+    """
+    queryset = Event.objects.all()
+    serializer_class = Event_Serializer
+    
+    
+class Menu_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Menu
+    """
+    queryset = Menu.objects.all()
+    serializer_class = Menu_Serializer
+    
+    
+class Group_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group
+    """
+    queryset = Group.objects.all()
+    serializer_class = Group_Serializer
+    
+    
+class Group_Contact_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Contact
+    """
+    queryset = Group_Contact.objects.all()
+    serializer_class = Group_Contact_Serializer
+    
+    
+class Group_Event_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+    queryset = Group_Event.objects.all()
+    serializer_class = Group_Event_Serializer
+    
+
+class Content_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+    queryset = Content.objects.all()
+    serializer_class = Content_Serializer
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @csrf_exempt
 @api_view(["POST"])

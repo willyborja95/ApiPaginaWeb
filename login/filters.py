@@ -8,7 +8,7 @@ class CategoryFilter(filters.FilterSet):
 
 class ItemCategoryFilter(filters.FilterSet):
     class Meta:
-        model = ItemCategory
+        model = Item_Category
         fields = ['nameItemCategory','category']
 
 class InfoSiteFilter(filters.FilterSet):
