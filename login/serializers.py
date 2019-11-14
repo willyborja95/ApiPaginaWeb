@@ -74,10 +74,10 @@ class Item_Category_Serializer(serializers.ModelSerializer):
     Serializador del modelo Item_Category
     """
 
-    #category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    #category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
 
     class Meta:
-        model = Category
+        model = Item_Category
         fields = "__all__"
 
 

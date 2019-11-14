@@ -67,6 +67,9 @@ import mimetypes
 
 #Vistas de servicios
 class titulacionView(generics.ListAPIView):
+    """
+    Creación de un GET para obtener titulaciones
+    """
     serializer_class = Item_Category_Serializer
     def get_queryset(self):
         #print (self.kwargs)
@@ -75,39 +78,13 @@ class titulacionView(generics.ListAPIView):
         #cat = Category.objects.all()
         #print(cat)
         tit = Category.objects.get(category_id=idCat)
-        querySet = Item_Category.objects.filter(category=tit)
+        querySet = Item_Category.objects.filter(category_id=tit)
         return querySet
         #serializer = ItemCategorySerializer
         #return Response(serializer.data, status=status.HTTP_200_OK)
 
-class sectionAPIView(ListView):
-    def get(self, request, idSec):
-        seccion = Category.objects.get(idCategory=idSec)
-        secciones = Item_Category.objects.filter(category=seccion)
-        location_serializer = Item_Category_Serializer(secciones, many=True)
-
-        return Response({
-            'secciones': location_serializer.data
-        })
-
-class aboutAPIView(ListView):
-    def get(self, request, idAbout):
-        quienesSomos = Item_Category.objects.get(idItemCategory=idAbout)
-        quienesSomosF = Info_site.objects.filter(type_info=quienesSomosObj)
-        location_serializer = Item_Category_Serializer(quienesSomosF, many=True)
-
-        return Response({
-            'about': location_serializer.data
-        })
 
 #vistas de modelos
-class Item_Category_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Item_Category
-    """
-    queryset = Item_Category.objects.all()
-    serializer_class = Item_Category_Serializer
-
 
 class Category_Viewset(ModelViewSet):
     """
@@ -115,6 +92,14 @@ class Category_Viewset(ModelViewSet):
     """
     queryset           = Category.objects.all()
     serializer_class   = Category_Serializer
+
+
+class Item_Category_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Item_Category
+    """
+    queryset = Item_Category.objects.all()
+    serializer_class = Item_Category_Serializer
 
 
 class Person_Viewset(ModelViewSet):
