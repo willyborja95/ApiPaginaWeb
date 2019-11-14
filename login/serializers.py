@@ -73,9 +73,6 @@ class Item_Category_Serializer(serializers.ModelSerializer):
     """
     Serializador del modelo Item_Category
     """
-
-    #category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
-
     class Meta:
         model = Item_Category
         fields = "__all__"

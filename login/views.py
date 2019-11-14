@@ -72,16 +72,10 @@ class titulacionView(generics.ListAPIView):
     """
     serializer_class = Item_Category_Serializer
     def get_queryset(self):
-        #print (self.kwargs)
-        #print (self.kwargs["idCat"])
         idCat = self.kwargs["idCat"]
-        #cat = Category.objects.all()
-        #print(cat)
         tit = Category.objects.get(category_id=idCat)
         querySet = Item_Category.objects.filter(category_id=tit)
         return querySet
-        #serializer = ItemCategorySerializer
-        #return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 #vistas de modelos
