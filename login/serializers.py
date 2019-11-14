@@ -88,16 +88,7 @@ class Person_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = "__all__"
-
-
-class Person_Serializer(serializers.ModelSerializer):
-    """
-    Serializador del modelo Person
-    """
-    class Meta:
-        model = Person
-        fields = "__all__"
-
+        
 
 class Person_Section_Serializer(serializers.ModelSerializer):
     """
