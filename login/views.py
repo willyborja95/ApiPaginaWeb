@@ -65,26 +65,16 @@ from login.serializers import (Category_Serializer,
 from wsgiref.util import FileWrapper
 import mimetypes
 
-
-
-def vista1(request):
-    cat = Item_Category.objects.all()
-    print(cat)
-    
-    #print(cat)
-    #diccionario = {'Hola':'mundo'}
-    return HttpResponse("cat")
-
 #Vistas de servicios
 class titulacionView(generics.ListAPIView):
     serializer_class = Item_Category_Serializer
     def get_queryset(self):
         #print (self.kwargs)
-        print (self.kwargs["idCat"])
+        #print (self.kwargs["idCat"])
         idCat = self.kwargs["idCat"]
         #cat = Category.objects.all()
         #print(cat)
-        tit = Category.objects.get(idCategory=idCat)
+        tit = Category.objects.get(category_id=idCat)
         querySet = Item_Category.objects.filter(category=tit)
         return querySet
         #serializer = ItemCategorySerializer
@@ -110,7 +100,7 @@ class aboutAPIView(ListView):
             'about': location_serializer.data
         })
 
-
+#vistas de modelos
 class Item_Category_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Item_Category

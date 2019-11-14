@@ -15,6 +15,7 @@ from login import views
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('titulacion/<int:idCat>',views.titulacionView.as_view()),
 
     ]
 

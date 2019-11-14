@@ -62,7 +62,7 @@ class RegistrationSerializer (RegisterSerializer):
 
 class Category_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Category
     """
     class Meta:
         model = Category
@@ -88,7 +88,7 @@ class Person_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = "__all__"
-        
+
 
 class Person_Section_Serializer(serializers.ModelSerializer):
     """
@@ -242,6 +242,4 @@ class Group_Event_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Group_Event
         fields = "__all__"
-
-
-
+        
