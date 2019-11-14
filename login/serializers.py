@@ -60,15 +60,6 @@ class RegistrationSerializer (RegisterSerializer):
         return user
 
 
-class Item_Category_Serializer(serializers.ModelSerializer):
-    """
-    Serializador del modelo Item_Cateogry
-    """
-    class Meta:
-        model = Category
-        fields = "__all__"
-
-
 class Category_Serializer(serializers.ModelSerializer):
     """
     Serializador del modelo Item_Cateogry
@@ -78,9 +69,21 @@ class Category_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class Item_Category_Serializer(serializers.ModelSerializer):
+    """
+    Serializador del modelo Item_Category
+    """
+
+    #category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+
+    class Meta:
+        model = Category
+        fields = "__all__"
+
+
 class Person_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Person
     """
     class Meta:
         model = Person
@@ -89,7 +92,7 @@ class Person_Serializer(serializers.ModelSerializer):
 
 class Person_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Person
     """
     class Meta:
         model = Person
@@ -98,7 +101,7 @@ class Person_Serializer(serializers.ModelSerializer):
 
 class Person_Section_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Person_Section
     """
     class Meta:
         model = Person_Section
@@ -107,7 +110,7 @@ class Person_Section_Serializer(serializers.ModelSerializer):
 
 class Role_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Role
     """
     class Meta:
         model = Role
@@ -116,7 +119,7 @@ class Role_Serializer(serializers.ModelSerializer):
 
 class Person_Role_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Person_Role
     """
     class Meta:
         model = Person_Role
@@ -125,7 +128,7 @@ class Person_Role_Serializer(serializers.ModelSerializer):
 
 class Person_Media_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Person_Media
     """
     class Meta:
         model = Person_Media
@@ -134,7 +137,7 @@ class Person_Media_Serializer(serializers.ModelSerializer):
 
 class Person_Contact_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Person_Contact
     """
     class Meta:
         model = Person_Contact
@@ -143,7 +146,7 @@ class Person_Contact_Serializer(serializers.ModelSerializer):
 
 class Subject_Matter_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Subject_Matter
     """
     class Meta:
         model = Subject_Matter
@@ -152,7 +155,7 @@ class Subject_Matter_Serializer(serializers.ModelSerializer):
 
 class Section_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Section
     """
     class Meta:
         model = Section
@@ -161,7 +164,7 @@ class Section_Serializer(serializers.ModelSerializer):
 
 class Requirement_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Requirement
     """
     class Meta:
         model = Requirement
@@ -170,7 +173,7 @@ class Requirement_Serializer(serializers.ModelSerializer):
 
 class Info_Site_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Info_Site
     """
     class Meta:
         model = Info_Site
@@ -179,7 +182,7 @@ class Info_Site_Serializer(serializers.ModelSerializer):
 
 class Site_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Site
     """
     class Meta:
         model = Site
@@ -188,7 +191,7 @@ class Site_Serializer(serializers.ModelSerializer):
 
 class Content_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Content
     """
     class Meta:
         model = Content
@@ -198,7 +201,7 @@ class Content_Serializer(serializers.ModelSerializer):
 
 class Content_Media_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Content_Media
     """
     class Meta:
         model = Content_Media
@@ -207,7 +210,7 @@ class Content_Media_Serializer(serializers.ModelSerializer):
 
 class Event_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Event
     """
     class Meta:
         model = Event
@@ -216,7 +219,7 @@ class Event_Serializer(serializers.ModelSerializer):
 
 class Menu_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Cateogry
+    Serializador del modelo Menu
     """
     class Meta:
         model = Menu

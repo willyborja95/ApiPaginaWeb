@@ -285,24 +285,6 @@ class Content_Viewset(ModelViewSet):
     """
     queryset = Content.objects.all()
     serializer_class = Content_Serializer
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
