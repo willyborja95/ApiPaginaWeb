@@ -151,31 +151,6 @@ class Requirement(models.Model):
     subject_matter_requeriment = models.ForeignKey('Subject_Matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment')
 
 
-class Info_Site(models.Model):
-    """
-    Modelo de Info_site
-    Atributos
-    
-    """
-    info_site_id = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=500, null=False)
-    type_info =models.ForeignKey(Item_Category, on_delete=models.CASCADE)
-
-# * NUevo modelo
-class Site(models.Model):
-    """
-    Modelo para Site
-    Atributos:
-        site_id INT
-        title VARCHAR(45)
-        icon VARCHAR(45)
-        favicon VARCHAR(45)
-    """
-    site_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    icon = models.CharField(max_length=255)
-    favicon = models.CharField(max_length=255)
-
 class Content(models.Model):
     """
     Modelo de Content
