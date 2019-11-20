@@ -1,3 +1,5 @@
+
+# Django
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
@@ -159,11 +161,14 @@ class Person_Role(models.Model):
     person_role_id = models.AutoField(primary_key=True)
 
     # * Atributos relacionales
-    university_career_id = models.ForeignKey(Item_Category,
+    university_career_id = models.ForeignKey(to=Item_Category,
+                                             db_column='university_career_id',
                                              on_delete = models.CASCADE)
-    role_id = models.ForeignKey(Role,
+    role_id = models.ForeignKey(to=Role,
+                                db_column='role_id',
                                 on_delete=models.CASCADE)
     person_id = models.ForeignKey(Person,
+                                  db_column='person_id',
                                 on_delete=models.CASCADE)
 
 
@@ -184,9 +189,11 @@ class Person_Media(models.Model):
     path = models.CharField(max_length=255)
 
     # * Atributos relacionales
-    item_category_id = models.ForeignKey(Item_Category,
+    item_category_id = models.ForeignKey(to=Item_Category,
+                                         db_column='item_category_id',
                                          on_delete=models.CASCADE)
-    person_id = models.ForeignKey(Person,
+    person_id = models.ForeignKey(to=Person,
+                                  db_column='person_id',
                                   on_delete=models.CASCADE)
 
 
@@ -208,9 +215,11 @@ class Person_Contact(models.Model):
                                null=False)
 
     # * Atributos relacionales
-    contact_type_id = models.ForeignKey(Item_Category,
+    contact_type_id = models.ForeignKey(to=Item_Category,
+                                        db_column='contact_type_id',
                                         on_delete=models.CASCADE) #revisar BD
-    person_id = models.ForeignKey(Person,
+    person_id = models.ForeignKey(to=Person,
+                                  db_column='person_id',
                                   on_delete=models.CASCADE)
 
 
@@ -232,7 +241,8 @@ class Subject_Matter(models.Model):
     semester = models.IntegerField()
 
     # * Atributos relacionales
-    university_career_id = models.ForeignKey(Item_Category,
+    university_career_id = models.ForeignKey(to=Item_Category,
+                                             db_column='university_career_id',
                                              on_delete=models.CASCADE)
 
     def __str__(self):
@@ -251,12 +261,14 @@ class Requirement(models.Model):
     requirement_id = models.AutoField(primary_key=True)
 
     # * Atributos relacionales
-    subject_matter_id = models.ForeignKey('Subject_Matter',
+    subject_matter_id = models.ForeignKey(to='Subject_Matter',
+                                          db_column='subject_matter_id',
                                           on_delete=models.CASCADE,
-                                          related_name='subject_matter')
+                                          related_name='subject_matter_id')
     subject_matter_requeriment_id = models.ForeignKey('Subject_Matter',
+                                                      db_column='subject_matter_requirement_id',
                                                       on_delete=models.CASCADE,
-                                                      related_name='subject_matter_requeriment')
+                                                      related_name='subject_matter_requeriment_id')
 
 
 class Content(models.Model):
@@ -289,15 +301,18 @@ class Content(models.Model):
                                        blank=False)
 
     # * Atributos relacionales
-    content_type_id = models.ForeignKey('Item_Category',
+    content_type_id = models.ForeignKey(to='Item_Category',
+                                        db_column='contact_type_id',
                                         on_delete=models.CASCADE,
-                                        related_name='content_type')
-    academic_period_id = models.ForeignKey('Item_Category',
+                                        related_name='content_type_id')
+    academic_period_id = models.ForeignKey(to='Item_Category',
+                                           db_column='academic_period_id',
                                            on_delete=models.CASCADE,
-                                           related_name='academic_period')
-    university_career_id = models.ForeignKey('Item_Category',
+                                           related_name='academic_period_id')
+    university_career_id = models.ForeignKey(to='Item_Category',
+                                             db_column='university_career_id',
                                              on_delete=models.CASCADE,
-                                             related_name='university_career')
+                                             related_name='university_career_id')
 
     def __str__(self):
         return self.title
