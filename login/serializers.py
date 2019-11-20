@@ -7,7 +7,6 @@ from login.models import (Users,
                           Group, 
                           Group_Contact, 
                           Group_Event, 
-                          Info_Site, 
                           Item_Category, 
                           Menu, 
                           Person, 
@@ -17,7 +16,6 @@ from login.models import (Users,
                           Person_Section, 
                           Role, 
                           Section, 
-                          Site, 
                           Subject_Matter, 
                           Requirement)
 from django.contrib.auth.models import User
@@ -156,24 +154,6 @@ class Requirement_Serializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Requirement
-        fields = "__all__"
-
-
-class Info_Site_Serializer(serializers.ModelSerializer):
-    """
-    Serializador del modelo Info_Site
-    """
-    class Meta:
-        model = Info_Site
-        fields = "__all__"
-
-
-class Site_Serializer(serializers.ModelSerializer):
-    """
-    Serializador del modelo Site
-    """
-    class Meta:
-        model = Site
         fields = "__all__"
 
 
