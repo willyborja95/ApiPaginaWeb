@@ -268,64 +268,10 @@ def usuario(request):
 
 
 
-# * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)
-@api_view(["GET","PUT"])
-def crud_item_university_career(request, category, item_category):
+# * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
+@api_view(["GET","PUT", "DELETE"])
+def get_put_delete_category_item_category(equest, category, item_category):
     if category == 'university_career':
-
-        if request.method == 'GET':
-            queryset = Item_Category.objects.get(name=item_category)
-            serializer = Item_Category_Serializer(queryset)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-   
-        
-        if request.method == 'PUT':
-            queryset = Item_Category.objects.get(name=item_category)
-            serializer = Item_University_Career_Serializer(data=request.data)
-            if serializer.is_valid():
-                item_category_instance = serializer.update(instance=queryset, validate_data=serializer.data)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-
-        
-
-@api_view(["GET","POST","DELETE"])
-def post_item_univerisity_career(request, category):
-    if category == 'university_career':
-
-        if request.method == 'GET':
-            category_id = Category.objects.get(name='university_career').category_id
-            queryset = Item_Category.objects.filter(category_id=category_id)
-            serializer = Item_University_Career_Serializer(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-        if request.method == 'POST':
-            serializer = Item_University_Career_Serializer(data=request.data)
-            if serializer.is_valid():
-                item_category_instance = serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        if request.method == 'DELETE':
-            queryset = Item_Category.objects.get(name=request.data.get('name'))
-            serializer = Item_Category_Serializer(queryset)
-            queryset.delete()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-                       
-
-
-# * Servicio de contactType (CRUD) en general (Category - ItemCategory)
-"""
-
-Url: http://contact_type/item_category
-"""
-@api_view(["GET","PUT"])                                     ####CRUD  POST GET PUT DELETE
-def get_put_contact_type_item_category(request, category, item_category):
-    if category == 'contact_type':
 
         if request.method == 'GET':
             queryset = Item_Category.objects.get(name=item_category)
@@ -341,32 +287,32 @@ def get_put_contact_type_item_category(request, category, item_category):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-
-        
-
-@api_view(["GET","POST","DELETE"])
-def post_item_univerisity_career(request, category):
-    if category == 'contact_type':
-
-        if request.method == 'GET':
-            category_id = Category.objects.get(name='contact_type').category_id
-            queryset = Item_Category.objects.filter(category_id=category_id)
-            serializer = Item_Category_Serializer(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-        if request.method == 'POST':
-            serializer = Item_University_Career_Serializer(data=request.data)
-            if serializer.is_valid():
-                item_category_instance = serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         if request.method == 'DELETE':
-            queryset = Item_Category.objects.get(name=request.data.get('name'))
-            serializer = Item_Category_Serializer(queryset)
-            queryset.delete()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-                       
+            queryset = Item
+
+
+@api_view(["GET","POST","DELETE"])
+def post_get_put_delete_category(request, category):
+
+    if request.method == 'GET':
+        category_id = Category.objects.get(name=category).category_id
+        queryset = Item_Category.objects.filter(category_id=category_id)
+        serializer = Item_Category_Serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    if request.method == 'POST':
+        serializer = Item_University_Career_Serializer(data=request.data)
+        if serializer.is_valid():
+            item_category_instance = serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queryset = Item_Category.objects.get(name=request.data.get('name'))
+        serializer = Item_Category_Serializer(queryset)
+        queryset.delete()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            
