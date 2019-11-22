@@ -1,5 +1,5 @@
 from django.contrib import admin
-from login.models import (Users, 
+from login.models import (User, 
                           Category, 
                           Content, 
                           Content_Media, 
@@ -20,7 +20,7 @@ from login.models import (Users,
                           Requirement)
 
 
-admin.site.register(Users)
+admin.site.register(User)
 admin.site.register(Category)
 admin.site.register(Content)
 admin.site.register(Content_Media)

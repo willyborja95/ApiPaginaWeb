@@ -15,7 +15,7 @@ from django.views.generic.list import ListView
 from django.http import HttpResponse
 
 # Local project
-from login.models import (Users, 
+from login.models import (User, 
                           Category, 
                           Content, 
                           Content_Media, 

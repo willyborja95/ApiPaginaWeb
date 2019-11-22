@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from login.models import (Users, 
+from login.models import (User, 
                           Category, 
                           Content, 
                           Content_Media, 

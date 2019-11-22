@@ -264,11 +264,11 @@ class Requirement(models.Model):
     subject_matter_id = models.ForeignKey(to='Subject_Matter',
                                           db_column='subject_matter_id',
                                           on_delete=models.CASCADE,
-                                          related_name='subject_matter_id')
-    subject_matter_requeriment_id = models.ForeignKey('Subject_Matter',
+                                          related_name='subject_matter_id_related_name')
+    subject_matter_requeriment_id = models.ForeignKey(to='Subject_Matter',
                                                       db_column='subject_matter_requirement_id',
                                                       on_delete=models.CASCADE,
-                                                      related_name='subject_matter_requeriment_id')
+                                                      related_name='subject_matter_requeriment_id_related_name')
 
 
 class Content(models.Model):
@@ -304,15 +304,15 @@ class Content(models.Model):
     content_type_id = models.ForeignKey(to='Item_Category',
                                         db_column='contact_type_id',
                                         on_delete=models.CASCADE,
-                                        related_name='content_type_id')
+                                        related_name='content_type_id_related_name')
     academic_period_id = models.ForeignKey(to='Item_Category',
                                            db_column='academic_period_id',
                                            on_delete=models.CASCADE,
-                                           related_name='academic_period_id')
+                                           related_name='academic_period_id_related_name')
     university_career_id = models.ForeignKey(to='Item_Category',
                                              db_column='university_career_id',
                                              on_delete=models.CASCADE,
-                                             related_name='university_career_id')
+                                             related_name='university_career_id_related_name')
 
     def __str__(self):
         return self.title
@@ -335,9 +335,11 @@ class Content_Media(models.Model):
     path = models.CharField(max_length=500)
 
     # * Atributos relacionales
-    item_category_id = models.ForeignKey(Item_Category,
+    item_category_id = models.ForeignKey(to=Item_Category,
+                                         db_column='item_category_id',
                                          on_delete=models.CASCADE)
-    content_id = models.ForeignKey(Content,
+    content_id = models.ForeignKey(to=Content,
+                                   db_column='content_id',
                                    on_delete=models.CASCADE)
 
 
@@ -363,7 +365,8 @@ class Event(models.Model):
     url_info = models.CharField(max_length=255, null=False)
 
     # * Atributos relacionales
-    content_id = models.ForeignKey(Content,
+    content_id = models.ForeignKey(to=Content,
+                                   db_column='content_id',
                                    on_delete=models.CASCADE)
 
 
@@ -387,7 +390,8 @@ class Menu(models.Model):
     order = models.IntegerField()
 
     # * Atributos relacionales
-    item_category_id = models.ForeignKey(Item_Category,
+    item_category_id = models.ForeignKey(to=Item_Category,
+                                         db_column='item_category_id',
                                          on_delete=models.CASCADE)
 
 
@@ -408,7 +412,8 @@ class Group(models.Model):
                             unique=True)
 
     # * Atributos relacionales
-    university_career_id = models.ForeignKey(Item_Category,
+    university_career_id = models.ForeignKey(to=Item_Category,
+                                             db_column='university_career_id',
                                              on_delete=models.CASCADE)
 
 
@@ -429,9 +434,11 @@ class Group_Contact(models.Model):
     contact = models.CharField(max_length=255)
 
     # * Atributos relacionales
-    contact_type_id = models.ForeignKey(Item_Category,
+    contact_type_id = models.ForeignKey(to=Item_Category,
+                                        db_column='contact_type_id',
                                         on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group,
+    group_id = models.ForeignKey(to=Group,
+                                 db_column='group_id',
                                  on_delete=models.CASCADE)
 
 
@@ -448,9 +455,11 @@ class Group_Event(models.Model):
     group_event_id = models.AutoField(primary_key=True)
 
     # * Atributos relacionales
-    event_id = models.ForeignKey(Event,
+    event_id = models.ForeignKey(to=Event,
+                                 db_column='event_id',
                                  on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group,
+    group_id = models.ForeignKey(to=Group,
+                                 db_column='group_id',
                                  on_delete=models.CASCADE)
 
 class UserManager(BaseUserManager):
@@ -485,7 +494,7 @@ class UserManager(BaseUserManager):
         return self.get(username=username)
 
 
-class Users(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=15, unique=True, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
     is_admin = models.BooleanField(default=True)
@@ -494,7 +503,9 @@ class Users(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     update_time = models.DateTimeField(default=timezone.now)
     create_time = models.DateTimeField(default=timezone.now)
-    person_id = models.OneToOneField(Person, on_delete = models.CASCADE)
+    person_id = models.OneToOneField(to=Person,
+                                     db_column='person_id',
+                                     on_delete=models.CASCADE)
 
     objects = UserManager()
 
