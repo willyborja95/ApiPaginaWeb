@@ -10,8 +10,6 @@ from login.views import (Category_Viewset,
                          Person_Contact_Viewset,
                          Subject_Matter_Viewset,
                          Requirement_Viewset,
-                         Info_Site_Viewset,
-                         Site_Viewset,
                          Content_Viewset,
                          Content_Media_Viewset,
                          Event_Viewset,
@@ -35,8 +33,6 @@ router.register('person_media', Person_Media_Viewset)
 router.register('person_contact', Person_Contact_Viewset)
 router.register('subject_matter', Subject_Matter_Viewset)
 router.register('requirement', Requirement_Viewset)
-router.register('info_site', Info_Site_Viewset)
-router.register('site', Site_Viewset)
 router.register('content', Content_Viewset)
 router.register('content_media', Content_Media_Viewset)
 router.register('event', Event_Viewset)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from login.models import (Users, 
+from login.models import (User, 
                           Category, 
                           Content, 
                           Content_Media, 
@@ -7,7 +7,6 @@ from login.models import (Users,
                           Group, 
                           Group_Contact, 
                           Group_Event, 
-                          Info_Site, 
                           Item_Category, 
                           Menu, 
                           Person, 
@@ -17,7 +16,6 @@ from login.models import (Users,
                           Person_Section, 
                           Role, 
                           Section, 
-                          Site, 
                           Subject_Matter, 
                           Requirement)
 from django.contrib.auth.models import User
@@ -159,24 +157,6 @@ class Requirement_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class Info_Site_Serializer(serializers.ModelSerializer):
-    """
-    Serializador del modelo Info_Site
-    """
-    class Meta:
-        model = Info_Site
-        fields = "__all__"
-
-
-class Site_Serializer(serializers.ModelSerializer):
-    """
-    Serializador del modelo Site
-    """
-    class Meta:
-        model = Site
-        fields = "__all__"
-
-
 class Content_Serializer(serializers.ModelSerializer):
     """
     Serializador del modelo Content
@@ -240,3 +220,37 @@ class Group_Event_Serializer(serializers.ModelSerializer):
         model = Group_Event
         fields = "__all__"
         
+        
+        
+class Category_Item_Category_Serializer(serializers.Serializer):
+    """
+    
+    """
+    def __init__(self, category_id, *args, **kwargs):
+        self.respective_category_id = category_id
+        super(Category_Item_Category_Serializer, self).__init__(*args, **kwargs)
+    
+    
+    item_category_id = serializers.ReadOnlyField()
+    name = serializers.CharField()
+    active = serializers.BooleanField()
+    category_id = serializers.CharField(required=False)
+
+
+    def create(self, validate_data, **kwargs):
+        instance = Item_Category()
+        instance.name = validate_data.get('name')
+        queryset = Category.objects.get(category_id=self.respective_category_id)
+        instance.category_id = queryset
+        instance.save()
+        return instance
+    
+    def update(self, instance, validate_data):
+        instance = instance
+        instance.name = validate_data.get('name') or instance.name
+        instance.active = validate_data.get('active') or instance.active
+        instance.category_id = validate_data.get('category_id') or instance.category_id
+        instance.save()
+        return instance
+    
+

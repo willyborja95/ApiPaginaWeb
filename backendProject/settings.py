@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login',
+
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
@@ -31,6 +31,9 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'django_filters',
     'corsheaders',
+
+    'login',
+
 ]
 
 SITE_ID = 1
@@ -38,7 +41,7 @@ SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,7 +82,7 @@ WSGI_APPLICATION = 'backendProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'paginaSistemas',
         'USER': 'dbAdmin',
         'PASSWORD': 'password',
@@ -124,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'login.Users'
+AUTH_USER_MODEL = 'login.User'
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'login.serializers.RegistrationSerializer'
