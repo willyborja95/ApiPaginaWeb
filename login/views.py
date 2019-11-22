@@ -17,44 +17,44 @@ from django.http import HttpResponse
 
 
 # Local project
-from login.models import (User, 
-                          Category, 
-                          Content, 
-                          Content_Media, 
-                          Event, 
-                          Group, 
-                          Group_Contact, 
-                          Group_Event, 
-                          Item_Category, 
-                          Menu, 
-                          Person, 
-                          Person_Contact, 
-                          Person_Media, 
-                          Person_Role, 
-                          Person_Section, 
-                          Role, 
-                          Section, 
-                          Subject_Matter, 
+from login.models import (User,
+                          Category,
+                          Content,
+                          Content_Media,
+                          Event,
+                          Group,
+                          Group_Contact,
+                          Group_Event,
+                          Item_Category,
+                          Menu,
+                          Person,
+                          Person_Contact,
+                          Person_Media,
+                          Person_Role,
+                          Person_Section,
+                          Role,
+                          Section,
+                          Subject_Matter,
                           Requirement)
 
-from login.serializers import (Category_Serializer, 
-                               Content_Media_Serializer, 
+from login.serializers import (Category_Serializer,
+                               Content_Media_Serializer,
                                Content_Serializer,
-                               Event_Serializer, 
-                               Group_Contact_Serializer, 
-                               Group_Event_Serializer, 
-                               Group_Serializer, 
-                               Item_Category_Serializer, 
-                               Menu_Serializer, 
-                               Person_Contact_Serializer, 
-                               Person_Media_Serializer, 
-                               Person_Role_Serializer, 
-                               Person_Section_Serializer, 
-                               Person_Serializer, 
-                               RegisterSerializer, 
-                               RegistrationSerializer, 
-                               Requirement_Serializer, 
-                               Role_Serializer, 
+                               Event_Serializer,
+                               Group_Contact_Serializer,
+                               Group_Event_Serializer,
+                               Group_Serializer,
+                               Item_Category_Serializer,
+                               Menu_Serializer,
+                               Person_Contact_Serializer,
+                               Person_Media_Serializer,
+                               Person_Role_Serializer,
+                               Person_Section_Serializer,
+                               Person_Serializer,
+                               RegisterSerializer,
+                               RegistrationSerializer,
+                               Requirement_Serializer,
+                               Role_Serializer,
                                Section_Serializer,
                                Subject_Matter_Serializer,
                                Category_Item_Category_Serializer)
@@ -95,7 +95,7 @@ class Category_Viewset(ModelViewSet):
     """
     queryset           = Category.objects.all()
     serializer_class   = Category_Serializer
-    
+
     # def create():
     #     post_get_put_category(request, *args, **kwargs)
 
@@ -122,8 +122,8 @@ class Section_Viewset(ModelViewSet):
     """
     queryset = Section.objects.all()
     serializer_class = Section_Serializer
-    
-    
+
+
 class Person_Section_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Section
@@ -146,7 +146,7 @@ class Subject_Matter_Viewset(ModelViewSet):
     """
     queryset = Subject_Matter.objects.all()
     serializer_class = Subject_Matter_Serializer
-    
+
 
 class Person_Role_Viewset(ModelViewSet):
     """
@@ -162,8 +162,8 @@ class Person_Media_Viewset(ModelViewSet):
     """
     queryset = Person_Media.objects.all()
     serializer_class = Person_Media_Serializer
-    
-    
+
+
 class Person_Contact_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Contact
@@ -194,47 +194,47 @@ class Content_Media_Viewset(ModelViewSet):
     """
     queryset = Content_Media.objects.all()
     serializer_class = Content_Media_Serializer
-     
-     
+
+
 class Event_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Event
     """
     queryset = Event.objects.all()
     serializer_class = Event_Serializer
-    
-    
+
+
 class Menu_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Menu
     """
     queryset = Menu.objects.all()
     serializer_class = Menu_Serializer
-    
-    
+
+
 class Group_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group
     """
     queryset = Group.objects.all()
     serializer_class = Group_Serializer
-    
-    
+
+
 class Group_Contact_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group_Contact
     """
     queryset = Group_Contact.objects.all()
     serializer_class = Group_Contact_Serializer
-    
-    
+
+
 class Group_Event_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group_Event
     """
     queryset = Group_Event.objects.all()
     serializer_class = Group_Event_Serializer
-    
+
 
 class Content_Viewset(ModelViewSet):
     """
@@ -267,7 +267,7 @@ def usuario(request):
         users = models.Users.objects.all()
         serializer = serializers.RegistrationSerializer(users, many=True)
         return Response(serializer.data)
-    
+
 # Todo: Nuevos servicios especiales
 # Todo: Revisasr requerimientos en
 # Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
@@ -275,7 +275,7 @@ def usuario(request):
 
 
 # * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
-@api_view(["GET","POST"])
+@api_view(["GET","POST", "PUT", "DELETE"])
 def post_get_put_category(request, category):
 
     if request.method == 'GET':
@@ -293,13 +293,13 @@ def post_get_put_category(request, category):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # if request.method == 'DELETE':  # ? ESTE METODO NO DEBERIA ESTAR PERMITIDO NUNCA
-    #     respective_category_id = Category.objects.get(name=category).category_id
-    #     if serializer.is_valid() and respective_category_id==serializer.category_id:
-    #     queryset = Item_Category.objects.get(item_category_id=request.data.category_id)
-    #     queryset.delete()
-    #     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-            
+
+    if request.method == 'DELETE':  # ? Este método borra toda la categoria y lo asociado con ella
+        # respective_category_id = Category.objects.get(name=category).category_id
+        queryset = Category.objects.get(name=category)
+        queryset.delete()
+        return Response({"message": "Deleted. The URL /"+category+"/ Do not exists any more"}, status=status.HTTP_202_ACCEPTED)
+
 
 @api_view(["GET","PUT", "DELETE"])
 def get_put_delete_category_item_category(request, category, item_category):
@@ -310,7 +310,7 @@ def get_put_delete_category_item_category(request, category, item_category):
         serializer = Item_Category_Serializer(queryset)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    
+
     if request.method == 'PUT':
         queryset = Item_Category.objects.get(name=item_category)
         serializer = Item_Category_Serializer(data=request.data)
@@ -320,13 +320,17 @@ def get_put_delete_category_item_category(request, category, item_category):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    if request.method == 'DELETE':
+
+    if request.method == 'DELETE': # ? Este método borra todo lo asociado con el item category
         respective_category_id = Category.objects.get(name=category).category_id
         queryset = Item_Category.objects.get(name=item_category)
-        serializer = Item_Category_Serializer(queryset)
+        # serializer = Item_Category_Serializer(queryset)
+        print(queryset.category_id)
+        print(respective_category_id)
         if queryset.category_id == respective_category_id:
             # Eliminar
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             # No eliminar
             return Response({"message": "Not allowes"}, status=status.HTTP_401_UNAUTHORIZED)
+
