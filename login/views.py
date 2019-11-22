@@ -261,3 +261,9 @@ def usuario(request):
         users = models.Users.objects.all()
         serializer = serializers.RegistrationSerializer(users, many=True)
         return Response(serializer.data)
+    
+# Todo: Nuevos servicios especiales
+# Todo: Revisasr requerimientos en
+# Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
+
+
