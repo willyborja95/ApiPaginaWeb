@@ -1,9 +1,10 @@
 # Rest_framework
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
 
 # Django
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +14,7 @@ from django.contrib.auth.models import User as Users
 from django.http import StreamingHttpResponse
 from django.views.generic.list import ListView
 from django.http import HttpResponse
+
 
 # Local project
 from login.models import (User, 
@@ -54,7 +56,8 @@ from login.serializers import (Category_Serializer,
                                Requirement_Serializer, 
                                Role_Serializer, 
                                Section_Serializer,
-                               Subject_Matter_Serializer)
+                               Subject_Matter_Serializer,
+                               Category_Item_Category_Serializer)
 
 
 # Others
@@ -92,6 +95,9 @@ class Category_Viewset(ModelViewSet):
     """
     queryset           = Category.objects.all()
     serializer_class   = Category_Serializer
+    
+    # def create():
+    #     post_get_put_category(request, *args, **kwargs)
 
 
 class Item_Category_Viewset(ModelViewSet):
@@ -269,50 +275,58 @@ def usuario(request):
 
 
 # * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
-@api_view(["GET","PUT", "DELETE"])
-def get_put_delete_category_item_category(equest, category, item_category):
-    if category == 'university_career':
-
-        if request.method == 'GET':
-            queryset = Item_Category.objects.get(name=item_category)
-            serializer = Item_Category_Serializer(queryset)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-   
-        
-        if request.method == 'PUT':
-            queryset = Item_Category.objects.get(name=item_category)
-            serializer = Item_Category_Serializer(data=request.data)
-            if serializer.is_valid():
-                item_category_instance = serializer.update(instance=queryset, validate_data=serializer.data)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        if request.method == 'DELETE':
-            queryset = Item
-
-
-@api_view(["GET","POST","DELETE"])
-def post_get_put_delete_category(request, category):
+@api_view(["GET","POST"])
+def post_get_put_category(request, category):
 
     if request.method == 'GET':
-        category_id = Category.objects.get(name=category).category_id
-        queryset = Item_Category.objects.filter(category_id=category_id)
+        respective_category_id = Category.objects.get(name=category).category_id
+        queryset = Item_Category.objects.filter(category_id=respective_category_id)
         serializer = Item_Category_Serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     if request.method == 'POST':
-        serializer = Item_University_Career_Serializer(data=request.data)
+        respective_category_id = Category.objects.get(name=category).category_id
+        serializer = Category_Item_Category_Serializer(data=request.data, category_id=respective_category_id)
         if serializer.is_valid():
-            item_category_instance = serializer.save()
+            instance = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    if request.method == 'DELETE':
-        queryset = Item_Category.objects.get(name=request.data.get('name'))
-        serializer = Item_Category_Serializer(queryset)
-        queryset.delete()
-        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    # if request.method == 'DELETE':  # ? ESTE METODO NO DEBERIA ESTAR PERMITIDO NUNCA
+    #     respective_category_id = Category.objects.get(name=category).category_id
+    #     if serializer.is_valid() and respective_category_id==serializer.category_id:
+    #     queryset = Item_Category.objects.get(item_category_id=request.data.category_id)
+    #     queryset.delete()
+    #     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             
+
+@api_view(["GET","PUT", "DELETE"])
+def get_put_delete_category_item_category(request, category, item_category):
+
+
+    if request.method == 'GET':
+        queryset = Item_Category.objects.get(name=item_category)
+        serializer = Item_Category_Serializer(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    
+    if request.method == 'PUT':
+        queryset = Item_Category.objects.get(name=item_category)
+        serializer = Item_Category_Serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.update(instance=queryset, validate_data=serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        respective_category_id = Category.objects.get(name=category).category_id
+        queryset = Item_Category.objects.get(name=item_category)
+        serializer = Item_Category_Serializer(queryset)
+        if queryset.category_id == respective_category_id:
+            # Eliminar
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
+        else:
+            # No eliminar
+            return Response({"message": "Not allowes"}, status=status.HTTP_401_UNAUTHORIZED)

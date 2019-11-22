@@ -222,21 +222,25 @@ class Group_Event_Serializer(serializers.ModelSerializer):
         
         
         
-class Item_University_Career_Serializer(serializers.Serializer):
+class Category_Item_Category_Serializer(serializers.Serializer):
     """
     
     """
+    def __init__(self, category_id, *args, **kwargs):
+        self.respective_category_id = category_id
+        super(Category_Item_Category_Serializer, self).__init__(*args, **kwargs)
+    
+    
     item_category_id = serializers.ReadOnlyField()
     name = serializers.CharField()
     active = serializers.BooleanField()
     category_id = serializers.CharField(required=False)
 
 
-    def create(self, validate_data):
+    def create(self, validate_data, **kwargs):
         instance = Item_Category()
         instance.name = validate_data.get('name')
-        instance.active = True
-        queryset = Category.objects.get(name='university_career')
+        queryset = Category.objects.get(category_id=self.respective_category_id)
         instance.category_id = queryset
         instance.save()
         return instance

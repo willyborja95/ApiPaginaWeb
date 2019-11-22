@@ -18,7 +18,7 @@ urlpatterns = [
     path('<str:name>',views.titulacionView.as_view()),
     
     
-    path('<str:category>/', views.post_get_put_delete_category),
+    path('<str:category>/', views.post_get_put_category),
     path('<str:category>/<str:item_category>/', views.get_put_delete_category_item_category),
     
     
