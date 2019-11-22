@@ -15,7 +15,7 @@ from django.views.generic.list import ListView
 from django.http import HttpResponse
 
 # Local project
-from login.models import (Users, 
+from login.models import (User, 
                           Category, 
                           Content, 
                           Content_Media, 
@@ -23,7 +23,6 @@ from login.models import (Users,
                           Group, 
                           Group_Contact, 
                           Group_Event, 
-                          Info_Site, 
                           Item_Category, 
                           Menu, 
                           Person, 
@@ -33,7 +32,6 @@ from login.models import (Users,
                           Person_Section, 
                           Role, 
                           Section, 
-                          Site, 
                           Subject_Matter, 
                           Requirement)
 
@@ -44,7 +42,6 @@ from login.serializers import (Category_Serializer,
                                Group_Contact_Serializer, 
                                Group_Event_Serializer, 
                                Group_Serializer, 
-                               Info_Site_Serializer, 
                                Item_Category_Serializer, 
                                Menu_Serializer, 
                                Person_Contact_Serializer, 
@@ -57,7 +54,6 @@ from login.serializers import (Category_Serializer,
                                Requirement_Serializer, 
                                Role_Serializer, 
                                Section_Serializer,
-                               Site_Serializer, 
                                Subject_Matter_Serializer)
 
 
@@ -184,30 +180,6 @@ class Requirement_Viewset(ModelViewSet):
     """
     queryset = Requirement.objects.all()
     serializer_class = Requirement_Serializer
-    
-
-class Info_Site_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Info_Site
-    """
-    queryset = Info_Site.objects.all()
-    serializer_class = Info_Site_Serializer
-    
-    
-class Site_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Site
-    """
-    queryset = Site.objects.all()
-    serializer_class = Site_Serializer
-    
-
-class Site_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Site
-    """
-    queryset = Site.objects.all()
-    serializer_class = Site_Serializer
 
 
 class Content_Media_Viewset(ModelViewSet):
