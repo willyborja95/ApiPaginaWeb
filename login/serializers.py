@@ -220,3 +220,33 @@ class Group_Event_Serializer(serializers.ModelSerializer):
         model = Group_Event
         fields = "__all__"
         
+        
+        
+class Item_University_Career_Serializer(serializers.Serializer):
+    """
+    
+    """
+    item_category_id = serializers.ReadOnlyField()
+    name = serializers.CharField()
+    active = serializers.BooleanField()
+    category_id = serializers.CharField(required=False)
+
+
+    def create(self, validate_data):
+        instance = Item_Category()
+        instance.name = validate_data.get('name')
+        instance.active = True
+        queryset = Category.objects.get(name='university_career')
+        instance.category_id = queryset
+        instance.save()
+        return instance
+    
+    def update(self, instance, validate_data):
+        instance = instance
+        instance.name = validate_data.get('name') or instance.name
+        instance.active = validate_data.get('active') or instance.active
+        instance.category_id = validate_data.get('category_id') or instance.category_id
+        instance.save()
+        return instance
+    
+

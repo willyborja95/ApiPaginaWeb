@@ -335,7 +335,7 @@ def get_put_contact_type_item_category(request, category, item_category):
         
         if request.method == 'PUT':
             queryset = Item_Category.objects.get(name=item_category)
-            serializer = Item_University_Career_Serializer(data=request.data)
+            serializer = Item_Category_Serializer(data=request.data)
             if serializer.is_valid():
                 item_category_instance = serializer.update(instance=queryset, validate_data=serializer.data)
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -347,12 +347,12 @@ def get_put_contact_type_item_category(request, category, item_category):
 
 @api_view(["GET","POST","DELETE"])
 def post_item_univerisity_career(request, category):
-    if category == 'university_career':
+    if category == 'contact_type':
 
         if request.method == 'GET':
-            category_id = Category.objects.get(name='university_career').category_id
+            category_id = Category.objects.get(name='contact_type').category_id
             queryset = Item_Category.objects.filter(category_id=category_id)
-            serializer = Item_University_Career_Serializer(queryset, many=True)
+            serializer = Item_Category_Serializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
