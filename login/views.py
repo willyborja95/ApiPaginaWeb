@@ -2,9 +2,10 @@
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 
 # Django
 from django.views.decorators.csrf import csrf_exempt
@@ -93,6 +94,11 @@ class Category_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Category
     """
+
+    authentication_classes = [JWTTokenUserAuthentication]
+    permission_classes = [IsAdminUser]
+
+
     queryset           = Category.objects.all()
     serializer_class   = Category_Serializer
 
