@@ -1,4 +1,9 @@
+# Django importaciones
+
+# Rest_framework importaciones
 from rest_framework import routers
+
+# Local importaciones
 from login.views import (Category_Viewset,
                          Item_Category_Viewset,
                          Person_Viewset,

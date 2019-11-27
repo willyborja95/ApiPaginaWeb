@@ -1,3 +1,4 @@
+# Django importaciones
 from django.apps import AppConfig
 
 
