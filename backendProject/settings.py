@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'django_filters',
     'corsheaders',
+    'rest_framework_simplejwt.token_blacklist',
+    
 
     'login',
 

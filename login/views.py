@@ -96,7 +96,7 @@ class Category_Viewset(ModelViewSet):
     """
 
     authentication_classes = [JWTTokenUserAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
 
 
     queryset           = Category.objects.all()
