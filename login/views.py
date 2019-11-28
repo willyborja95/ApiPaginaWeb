@@ -59,7 +59,7 @@ from login.serializers import (Category_Serializer,
                                Section_Serializer,
                                Subject_Matter_Serializer,
                                Category_Item_Category_Serializer,
-                               MyTokenObtainPairSerializer)
+                               CustomTokenObtainPairSerializer)
 
 
 # Others
@@ -349,5 +349,5 @@ Probando los tokens
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

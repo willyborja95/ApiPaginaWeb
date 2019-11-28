@@ -1,4 +1,13 @@
+# Django importacions
+# ? from django.contrib.auth.models import User # Esta importacion no creo que deberia usarse
+
+
+# Rest framework importacions
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
+
+# Local project importaciones
 from login.models import (User,
                           Category,
                           Content,
@@ -18,10 +27,13 @@ from login.models import (User,
                           Section,
                           Subject_Matter,
                           Requirement)
-from django.contrib.auth.models import User
-from rest_auth.registration.serializers import RegisterSerializer
+
+
+
+# Other importacions
 from allauth.account import app_settings as allauth_settings
 from allauth.account.adapter import get_adapter
+
 
 class RegistrationSerializer (RegisterSerializer):
 
@@ -257,10 +269,9 @@ class Category_Item_Category_Serializer(serializers.Serializer):
 """
 Probando los tokens
 """
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-import jwt
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @classmethod
     def get_token(cls, user):
