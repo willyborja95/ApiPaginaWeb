@@ -58,7 +58,8 @@ from login.serializers import (Category_Serializer,
                                Role_Serializer,
                                Section_Serializer,
                                Subject_Matter_Serializer,
-                               Category_Item_Category_Serializer)
+                               Category_Item_Category_Serializer,
+                               MyTokenObtainPairSerializer)
 
 
 # Others
@@ -340,3 +341,13 @@ def get_put_delete_category_item_category(request, category, item_category):
             # No eliminar
             return Response({"message": "Not allowes"}, status=status.HTTP_401_UNAUTHORIZED)
 
+
+
+"""
+Probando los tokens
+"""
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

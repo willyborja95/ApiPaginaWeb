@@ -254,3 +254,23 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         return instance
     
 
+"""
+Probando los tokens
+"""
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+import jwt
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user):
+        print("\n\n\nHola\n\n\n\n")
+        print(user.__class__)
+        token = super().get_token(user)
+        print(user.person_id.)
+        # Add custom claims
+        token['espacio'] = 'abcdefghijklmn'
+        return token
+    
+    
+def get_

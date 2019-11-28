@@ -17,6 +17,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('<str:name>',views.titulacionView.as_view()),
     
+    path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    
     
     path('<str:category>/', views.post_get_put_category),
     path('<str:category>/<str:item_category>/', views.get_put_delete_category_item_category),
