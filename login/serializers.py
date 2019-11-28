@@ -1,22 +1,22 @@
 from rest_framework import serializers
-from login.models import (User, 
-                          Category, 
-                          Content, 
-                          Content_Media, 
-                          Event, 
-                          Group, 
-                          Group_Contact, 
-                          Group_Event, 
-                          Item_Category, 
-                          Menu, 
-                          Person, 
-                          Person_Contact, 
-                          Person_Media, 
-                          Person_Role, 
-                          Person_Section, 
-                          Role, 
-                          Section, 
-                          Subject_Matter, 
+from login.models import (User,
+                          Category,
+                          Content,
+                          Content_Media,
+                          Event,
+                          Group,
+                          Group_Contact,
+                          Group_Event,
+                          Item_Category,
+                          Menu,
+                          Person,
+                          Person_Contact,
+                          Person_Media,
+                          Person_Role,
+                          Person_Section,
+                          Role,
+                          Section,
+                          Subject_Matter,
                           Requirement)
 from django.contrib.auth.models import User
 from rest_auth.registration.serializers import RegisterSerializer
@@ -137,7 +137,7 @@ class Subject_Matter_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Subject_Matter
         fields = "__all__"
-        
+
 
 class Section_Serializer(serializers.ModelSerializer):
     """
@@ -219,18 +219,18 @@ class Group_Event_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Group_Event
         fields = "__all__"
-        
-        
-        
+
+
+
 class Category_Item_Category_Serializer(serializers.Serializer):
     """
-    
+
     """
     def __init__(self, category_id, *args, **kwargs):
         self.respective_category_id = category_id
         super(Category_Item_Category_Serializer, self).__init__(*args, **kwargs)
-    
-    
+
+
     item_category_id = serializers.ReadOnlyField()
     name = serializers.CharField()
     active = serializers.BooleanField()
@@ -244,7 +244,7 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         instance.category_id = queryset
         instance.save()
         return instance
-    
+
     def update(self, instance, validate_data):
         instance = instance
         instance.name = validate_data.get('name') or instance.name
@@ -252,7 +252,7 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         instance.category_id = validate_data.get('category_id') or instance.category_id
         instance.save()
         return instance
-    
+
 
 """
 Probando los tokens
@@ -264,13 +264,24 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @classmethod
     def get_token(cls, user):
-        print("\n\n\nHola\n\n\n\n")
         print(user.__class__)
         token = super().get_token(user)
-        print(user.person_id.)
-        # Add custom claims
-        token['espacio'] = 'abcdefghijklmn'
+
+        # * Add custom claims
+        # Ejemplo: token['espacio'] = 'abcdefghijklmn'
+        token['role_id'] = get_user_role(user)
+
         return token
-    
-    
-def get_
+
+def get_user_role(user):
+    """
+    Obtenemos el rol del usuario, si no tiene nunguno se devuelve los caracteres 0
+    """
+    person_id = user.person_id.person_id
+    try:
+        person_role = Person_Role.objects.get(person_id=person_id)
+        role_id = person_role.role_id
+        return role_id
+    except:
+        return 0
+
