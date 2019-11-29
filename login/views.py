@@ -275,11 +275,14 @@ def usuario(request):
         serializer = serializers.RegistrationSerializer(users, many=True)
         return Response(serializer.data)
 
+
+
+
+
+
 # Todo: Nuevos servicios especiales
 # Todo: Revisasr requerimientos en
 # Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
-
-
 
 # * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
 @api_view(["GET","POST", "PUT", "DELETE"])

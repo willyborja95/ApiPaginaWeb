@@ -1,3 +1,4 @@
+
 # Django importacions
 # ? from django.contrib.auth.models import User # Esta importacion no creo que deberia usarse
 
@@ -28,9 +29,8 @@ from login.models import (User,
                           Subject_Matter,
                           Requirement)
 
-
-
-# Other importacions
+# Otras importaciones
+from rest_auth.registration.serializers import RegisterSerializer
 from allauth.account import app_settings as allauth_settings
 from allauth.account.adapter import get_adapter
 
@@ -295,4 +295,5 @@ def get_user_role(user):
         return role_id
     except:
         return 0
+
 

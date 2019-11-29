@@ -1,4 +1,8 @@
+
+# Django importaciones
 from django.contrib import admin
+
+# Local importaciones
 from login.models import (User, 
                           Category, 
                           Content, 
