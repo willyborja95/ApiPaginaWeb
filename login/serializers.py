@@ -1,10 +1,14 @@
-# Django importaciones
-from django.contrib.auth.models import User
 
-# Rest_framework importaciones
+# Django importacions
+# ? from django.contrib.auth.models import User # Esta importacion no creo que deberia usarse
+
+
+# Rest framework importacions
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 
-# Local importaciones
+# Local project importaciones
 from login.models import (User,
                           Category,
                           Content,
@@ -260,5 +264,36 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         instance.category_id = validate_data.get('category_id') or instance.category_id
         instance.save()
         return instance
+
+
+"""
+Probando los tokens
+"""
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user):
+        print(user.__class__)
+        token = super().get_token(user)
+
+        # * Add custom claims
+        # Ejemplo: token['espacio'] = 'abcdefghijklmn'
+        token['role_id'] = get_user_role(user)
+
+        return token
+
+def get_user_role(user):
+    """
+    Obtenemos el rol del usuario, si no tiene nunguno se devuelve los caracteres 0
+    """
+    person_id = user.person_id.person_id
+    try:
+        person_role = Person_Role.objects.get(person_id=person_id)
+        role_id = person_role.role_id
+        return role_id
+    except:
+        return 0
 
 
