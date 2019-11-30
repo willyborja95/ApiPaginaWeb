@@ -82,8 +82,8 @@ class Category_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Category
     """
 
-    authentication_classes = [authentication.JWTTokenUserAuthentication]
-    permission_classes = [permissions.IsAdminUser]
+    # authentication_classes = [authentication.JWTAuthentication] Estaba probando la seguridad
+    # permission_classes = [permissions.IsAdminUser]
 
 
     queryset           = Category.objects.all()

@@ -9,7 +9,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),        # El admin no debe ir bajo otra url
-    path('api/', include('login.urls')),    # Inlcuimos las urls de la app login
+    path('api/login/', include('login.urls')),    # Inlcuimos las urls de la app login
     path('api/', include('core.urls')),     # Inlcuimos las urls de la app core (Servicios de superadmin)
 
 ]
