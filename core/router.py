@@ -1,9 +1,9 @@
-# Django importaciones
+# Django imports
 
-# Rest_framework importaciones
+# Rest_framework imports
 from rest_framework import routers
 
-# Local importaciones
+# Local imports
 from login.views import (Category_Viewset,
                          Item_Category_Viewset,
                          Person_Viewset,
@@ -25,8 +25,7 @@ from login.views import (Category_Viewset,
                          )
 
 router = routers.DefaultRouter()
-#router.register('login', login, name="login")
-#router.register('usuario', usuario)
+
 router.register('category', Category_Viewset)
 router.register('item_category', Item_Category_Viewset)
 router.register('person', Person_Viewset)
