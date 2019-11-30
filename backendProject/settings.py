@@ -5,17 +5,23 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 # * Importaciones necesarias
 import os
-from datetime import timedelta
+from datetime import timedelta # For the settings of simple jwt
 
+# Se obtiene la direccion de la carepta raiz del proyecto
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# ! Esta llave esta actualmente expuesta ya que estamos en fase de desarrollo
 SECRET_KEY = '=%!0drg_7h^dlpe1@%es$wwqjzf%bqk=lh0#wn0q2uhornl*qh'
 
+# Permite ver los logs de los errores, se debe poner en False cuando se esta en produccion
 DEBUG = True
 
+# Host permitidos: ["*"] Permite cualquier ip
 ALLOWED_HOSTS = ["*"]
 
+# APlicaciones intaladas
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -24,6 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Aplicaciones propias
+    'login',
+
+    # Aplicaciones de terceros
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
@@ -34,9 +44,6 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
-    
-
-    'login',
 
 ]
 
@@ -84,6 +91,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backendProject.wsgi.application'
 
+# Base de datos
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -137,9 +145,10 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'login.serializers.RegistrationSerializer'
 }
 
+# Configuraciones de rest framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-       'rest_framework_simplejwt.authentication.JWTAuthentication',
+       'rest_framework_simplejwt.authentication.JWTAuthentication',  # Permite la utomatizacion en la verifcacion de tokens
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',

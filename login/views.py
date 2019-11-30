@@ -58,7 +58,8 @@ from login.serializers import (Category_Serializer,
                                Role_Serializer,
                                Section_Serializer,
                                Subject_Matter_Serializer,
-                               Category_Item_Category_Serializer)
+                               Category_Item_Category_Serializer,
+                               CustomTokenObtainPairSerializer)
 
 
 # Others
@@ -274,11 +275,14 @@ def usuario(request):
         serializer = serializers.RegistrationSerializer(users, many=True)
         return Response(serializer.data)
 
+
+
+
+
+
 # Todo: Nuevos servicios especiales
 # Todo: Revisasr requerimientos en
 # Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
-
-
 
 # * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
 @api_view(["GET","POST", "PUT", "DELETE"])
@@ -340,3 +344,13 @@ def get_put_delete_category_item_category(request, category, item_category):
             # No eliminar
             return Response({"message": "Not allowes"}, status=status.HTTP_401_UNAUTHORIZED)
 
+
+
+"""
+Probando los tokens
+"""
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
