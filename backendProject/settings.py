@@ -7,21 +7,21 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from datetime import timedelta # For the settings of simple jwt
 
-# Se obtiene la direccion de la carepta raiz del proyecto
+# * Se obtiene la direccion de la carepta raiz del proyecto
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ! Esta llave esta actualmente expuesta ya que estamos en fase de desarrollo
 SECRET_KEY = '=%!0drg_7h^dlpe1@%es$wwqjzf%bqk=lh0#wn0q2uhornl*qh'
 
-# Permite ver los logs de los errores, se debe poner en False cuando se esta en produccion
+# * Permite ver los logs de los errores, se debe poner en False cuando se esta en produccion
 DEBUG = True
 
-# Host permitidos: ["*"] Permite cualquier ip
+# * Host permitidos: ["*"] Permite cualquier ip
 ALLOWED_HOSTS = ["*"]
 
-# APlicaciones intaladas
+# * APlicaciones intaladas
 INSTALLED_APPS = [
-    # Django apps
+    # Aplicacions de django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -31,10 +31,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Aplicaciones propias
-    'login',
+    'core',   # App que contiene todos los modelos
+    'login',  # App encargada del servicio de login
 
     # Aplicaciones de terceros
-    'rest_framework',
+    'rest_framework',    # App que permite constuir los servicios ded mejor manera
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'django_filters',
     'corsheaders',
-    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_simplejwt.token_blacklist', # App para generar una tabla con una lista negra de los token ya usados
 
 ]
 
@@ -73,6 +74,7 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 
 ROOT_URLCONF = 'backendProject.urls'
 
+# * PLantillas (No las usamos ya que solo es un api rest, es decir no tenemos un sitio web)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -89,9 +91,11 @@ TEMPLATES = [
     },
 ]
 
+# * 
 WSGI_APPLICATION = 'backendProject.wsgi.application'
 
-# Base de datos
+
+# * COnfiguraciones de la base de datos
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -104,7 +108,7 @@ DATABASES = {
 }
 
 
-
+# * Restricciones al momento de escribir passwords
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -133,19 +137,24 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-#ACCOUNT_USERNAME_REQUIRED = False
+
+
+# ACCOUNT_USERNAME_REQUIRED = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-
+# Probablemente subamos los archivos estaticos a un servidor en la nube
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'login.User'
+
+# ! Customización del usuario por defecto de django
+AUTH_USER_MODEL = 'core.User'
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'login.serializers.RegistrationSerializer'
+    'REGISTER_SERIALIZER': 'core.serializers.RegistrationSerializer'
 }
 
-# Configuraciones de rest framework
+
+# * Configuraciones de rest framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Permite la utomatizacion en la verifcacion de tokens
@@ -154,6 +163,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     )
 }
+
 
 
 """

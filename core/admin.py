@@ -1,7 +1,8 @@
+
 # Django imports
 from django.contrib import admin
 
-# Local project imports
+# Local imports
 from core.models import (User,
                           Category,
                           Content,

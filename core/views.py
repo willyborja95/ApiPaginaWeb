@@ -1,24 +1,23 @@
-# Rest_framework
+# Django imports
+from django.views.decorators.csrf import csrf_exempt
+# ? from django.shortcuts import render, get_object_or_404
+# ? from django_filters.rest_framework import DjangoFilterBackend
+# ? from django.contrib.auth.models import User as Users
+# ? from django.http import StreamingHttpResponse
+from django.views.generic.list import ListView
+# ? from django.http import HttpResponse
+
+
+# Rest_framework imports
 from rest_framework.decorators import action, api_view, permission_classes
-from rest_framework.permissions import AllowAny
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
-
-# Django
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
-from django.contrib.auth.models import User as Users
-from django.http import StreamingHttpResponse
-from django.views.generic.list import ListView
-from django.http import HttpResponse
 
 
-# Local project
-from login.models import (User,
+# Local project imports
+from core.models import (User,
                           Category,
                           Content,
                           Content_Media,
@@ -38,7 +37,7 @@ from login.models import (User,
                           Subject_Matter,
                           Requirement)
 
-from login.serializers import (Category_Serializer,
+from core.serializers import (Category_Serializer,
                                Content_Media_Serializer,
                                Content_Serializer,
                                Event_Serializer,
@@ -61,9 +60,9 @@ from login.serializers import (Category_Serializer,
                                Category_Item_Category_Serializer)
 
 
-# Others
-from wsgiref.util import FileWrapper
-import mimetypes
+# Other imports
+# ? from wsgiref.util import FileWrapper
+# ? import mimetypes
 
 #Vistas de servicios
 class titulacionView(generics.ListAPIView):
@@ -77,18 +76,6 @@ class titulacionView(generics.ListAPIView):
         querySet = Item_Category.objects.filter(category_id=tit)
         return querySet
 
-
-class titulacionView(generics.ListAPIView):
-    """
-    Creación de un GET para obtener quienes somos
-    """
-    serializer_class = Item_Category_Serializer
-    def get_queryset(self):
-        category = self.kwargs["name"]
-        tit = Category.objects.get(name=category)
-        querySet = Item_Category.objects.filter(category_id=tit)
-        return querySet
-#vistas de modelos
 
 class Category_Viewset(ModelViewSet):
     """
@@ -274,11 +261,14 @@ def usuario(request):
         serializer = serializers.RegistrationSerializer(users, many=True)
         return Response(serializer.data)
 
+
+
+
+
+# ? Talvez estos nuevos servicios deberían ir en una nueva app
 # Todo: Nuevos servicios especiales
 # Todo: Revisasr requerimientos en
 # Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
-
-
 
 # * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
 @api_view(["GET","POST", "PUT", "DELETE"])

@@ -1,11 +1,10 @@
 # Django imports
 
-
 # Rest framework imports
 from rest_framework import serializers
 
 # Local project imports
-from login.models import (User,
+from core.models import (User,
                           Category,
                           Content,
                           Content_Media,
@@ -24,15 +23,17 @@ from login.models import (User,
                           Section,
                           Subject_Matter,
                           Requirement)
-from django.contrib.auth.models import User
 
-# Other imports
+# Others imports
 from rest_auth.registration.serializers import RegisterSerializer
-from allauth.account import app_settings as allauth_settings
-from allauth.account.adapter import get_adapter
+# ? from allauth.account import app_settings as allauth_settings
+# ? from allauth.account.adapter import get_adapter
 
-class RegistrationSerializer (RegisterSerializer):
 
+class RegistrationSerializer(RegisterSerializer):
+    """
+    Agregar documentacion de para que se usa esta clase
+    """
     person_id = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
 
     def _create_user(self, email, person_id, password, **extra_fields):
@@ -229,10 +230,10 @@ class Group_Event_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
+# ? Talvez debería ir en otra app
 class Category_Item_Category_Serializer(serializers.Serializer):
     """
-
+    Serializador personalizado para los serivicos de tipo {:category_name/:item_category_name}
     """
     def __init__(self, category_id, *args, **kwargs):
         self.respective_category_id = category_id
@@ -260,5 +261,7 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         instance.category_id = validate_data.get('category_id') or instance.category_id
         instance.save()
         return instance
+
+
 
 
