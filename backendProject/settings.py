@@ -160,8 +160,12 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     )
 }
+
 """
-# * Configuraciones de rest framework
+# ! Estas ocnfiguraciones estan en prueba segun la librearia de simple_jwt
+# ! Se puede revisar el README de su github para más información
+# ! https://github.com/davesque/django-rest-framework-simplejwt
+# * Configuraciones de rest framework 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
        'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',  # Permite la automatizacion en la verifcacion de tokens
