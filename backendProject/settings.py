@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'login',  # App encargada del servicio de login
 
     # Aplicaciones de terceros
-    'rest_framework',    # App que permite constuir los servicios ded mejor manera
+    'rest_framework',    # App que permite constuir los servicios de mejor manera
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
@@ -156,14 +156,21 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 # * Configuraciones de rest framework
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
+}
+"""
+# * Configuraciones de rest framework
+REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-       'rest_framework_simplejwt.authentication.JWTAuthentication',  # Permite la utomatizacion en la verifcacion de tokens
+       'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',  # Permite la automatizacion en la verifcacion de tokens
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     )
 }
-
+"""
 
 
 """

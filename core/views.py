@@ -11,10 +11,10 @@ from django.views.generic.list import ListView
 # Rest_framework imports
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-
+from rest_framework import permissions
+from rest_framework_simplejwt import authentication # Para que valide los tokens
 
 # Local project imports
 from core.models import (User,
@@ -82,8 +82,8 @@ class Category_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Category
     """
 
-    authentication_classes = [JWTTokenUserAuthentication]
-    permission_classes = [IsAdminUser]
+    authentication_classes = [authentication.JWTTokenUserAuthentication]
+    permission_classes = [permissions.IsAdminUser]
 
 
     queryset           = Category.objects.all()
@@ -240,7 +240,7 @@ class Content_Viewset(ModelViewSet):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((AllowAny,))
+@permission_classes((permissions.AllowAny,))
 def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
@@ -254,7 +254,7 @@ def login(request):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((AllowAny,))
+@permission_classes((permissions.AllowAny,))
 def usuario(request):
     if request.method == 'GET':
         users = models.Users.objects.all()

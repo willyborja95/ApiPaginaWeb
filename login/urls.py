@@ -23,7 +23,7 @@ from login import views
 # URLs del login
 urlpatterns = [
 
-    path('api/token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/refresh_token/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh_token/', TokenRefreshView.as_view(), name='token_refresh'),
 
 ]

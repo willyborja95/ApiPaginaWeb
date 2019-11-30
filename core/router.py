@@ -4,7 +4,7 @@
 from rest_framework import routers
 
 # Local imports
-from login.views import (Category_Viewset,
+from core.views import (Category_Viewset,
                          Item_Category_Viewset,
                          Person_Viewset,
                          Section_Viewset,
