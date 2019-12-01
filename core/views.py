@@ -12,6 +12,7 @@ from django.views.generic.list import ListView
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework import generics, status
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework_simplejwt import authentication # Para que valide los tokens
@@ -37,7 +38,8 @@ from core.models import (User,
                           Subject_Matter,
                           Requirement)
 
-from core.serializers import (Category_Serializer,
+from core.serializers import (User_Serializer,
+                               Category_Serializer,
                                Content_Media_Serializer,
                                Content_Serializer,
                                Event_Serializer,
@@ -236,6 +238,13 @@ class Content_Viewset(ModelViewSet):
     queryset = Content.objects.all()
     serializer_class = Content_Serializer
 
+
+class User_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+    queryset = User.objects.all()
+    serializer_class = User_Serializer
 
 
 @csrf_exempt
