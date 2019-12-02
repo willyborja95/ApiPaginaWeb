@@ -38,8 +38,7 @@ from core.models import (User,
                           Subject_Matter,
                           Requirement)
 
-from core.serializers import (User_Serializer,
-                               Category_Serializer,
+from core.serializers import (Category_Serializer,
                                Content_Media_Serializer,
                                Content_Serializer,
                                Event_Serializer,
@@ -59,7 +58,9 @@ from core.serializers import (User_Serializer,
                                Role_Serializer,
                                Section_Serializer,
                                Subject_Matter_Serializer,
-                               Category_Item_Category_Serializer)
+                               Category_Item_Category_Serializer,
+                               User_Serializer,
+                               User_Update_Serializer)
 
 
 # Other imports
@@ -245,6 +246,15 @@ class User_Viewset(ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = User_Serializer
+    
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return User_Update_Serializer
+        else:
+            return User_Serializer
+    
+    #@action(detail=True, methods=['PUT']):
+        
 
 
 @csrf_exempt

@@ -258,26 +258,7 @@ class User_Serializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-    
-    def update(self, instance, validated_data):
-        
-        instance.username = validated_data.get('username') or instance.username
-        instance.email = validated_data.get('email') or instance.email
-        instance.is_admin = validated_data.get('is_admin') or instance.is_admin
-        instance.is_superuser = validated_data.get('is_superuser') or instance.is_superuser
-        instance.is_active = validated_data.get('is_active') or instance.is_active
-        instance.is_staff = validated_data.get('is_staff') or instance.is_staff
 
-        # respective_person_id = self.get_person_instance_by_id(validated_data.get('person_id'))
-        instance.person_id = validated_data.get('person_id') or instance.person_id
-
-        try:
-            instance.set_password(validated_data.get('password'))
-        except:
-            pass
-
-        instance.save()
-        
 
     def validate_username(self, data):
         print("Hola, me estan usando")
@@ -301,6 +282,38 @@ class User_Serializer(serializers.ModelSerializer):
         except:
             message = "We could not find a person with that id: "+ str(id)
             raise serializers.ValidationError(message)
+
+
+class User_Update_Serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['username']
+        read_only_fields = ('user_id',)
+
+    def update(self, instance, validated_data):
+
+        instance.username = validated_data.get('username') or instance.username
+        instance.email = validated_data.get('email') or instance.email
+        instance.is_admin = validated_data.get('is_admin') or instance.is_admin
+        instance.is_superuser = validated_data.get('is_superuser') or instance.is_superuser
+        instance.is_active = validated_data.get('is_active') or instance.is_active
+        instance.is_staff = validated_data.get('is_staff') or instance.is_staff
+
+        # respective_person_id = self.get_person_instance_by_id(validated_data.get('person_id'))
+        instance.person_id = validated_data.get('person_id') or instance.person_id
+        
+        instance.save()
+        return instance
+
+        try:
+            instance.set_password(validated_data.get('password'))
+        except:
+            pass
+
+        instance.save()
+
+
 
 
 # ? Talvez debería ir en otra app
