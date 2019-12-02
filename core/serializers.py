@@ -230,6 +230,92 @@ class Group_Event_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+
+class User_Serializer(serializers.ModelSerializer):
+    """
+    Serializador customizado para el modelo 'User'
+    """
+    class Meta:
+        model = User
+        fields = "__all__"
+
+
+    def create(self, validated_data):
+        instance = User()
+
+
+        instance.username = validated_data.get('username')
+        instance.email = validated_data.get('email')
+        instance.is_admin = validated_data.get('is_admin') or False
+        instance.is_superuser = validated_data.get('is_superuser') or False
+        instance.is_active = validated_data.get('is_active') or True
+        instance.is_staff = validated_data.get('is_staff') or False
+
+        # respective_person_id = self.get_person_instance_by_id(validated_data.get('person_id'))
+        instance.person_id = validated_data.get('person_id')
+
+        instance.set_password(validated_data.get('password'))
+
+        instance.save()
+        return instance
+
+
+    def validate_username(self, data):
+        print("Hola, me estan usando")
+        users = User.objects.filter(username = data)
+        if len(users) != 0:
+            message = "This username it is already on use by another user: "+str(data)
+            raise serializers.ValidationError(message)
+        else:
+            return data
+
+    def get_person_instance_by_id(self, id):
+        try:
+            pk = int(id)
+        except:
+            message = "That it is not a valid person_id primary key: "+ str(id)
+            raise serializers.ValidationError(message)
+
+        try:
+            person = Person.objecst.get(persosn_id=id)
+            return person
+        except:
+            message = "We could not find a person with that id: "+ str(id)
+            raise serializers.ValidationError(message)
+
+
+class User_Update_Serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['username']
+        read_only_fields = ('user_id',)
+
+    def update(self, instance, validated_data):
+
+        instance.username = validated_data.get('username') or instance.username
+        instance.email = validated_data.get('email') or instance.email
+        instance.is_admin = validated_data.get('is_admin') or instance.is_admin
+        instance.is_superuser = validated_data.get('is_superuser') or instance.is_superuser
+        instance.is_active = validated_data.get('is_active') or instance.is_active
+        instance.is_staff = validated_data.get('is_staff') or instance.is_staff
+
+        # respective_person_id = self.get_person_instance_by_id(validated_data.get('person_id'))
+        instance.person_id = validated_data.get('person_id') or instance.person_id
+        
+        instance.save()
+        return instance
+
+        try:
+            instance.set_password(validated_data.get('password'))
+        except:
+            pass
+
+        instance.save()
+
+
+
+
 # ? Talvez debería ir en otra app
 class Category_Item_Category_Serializer(serializers.Serializer):
     """
