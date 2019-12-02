@@ -21,7 +21,8 @@ from core.views import (Category_Viewset,
                          Menu_Viewset,
                          Group_Viewset,
                          Group_Contact_Viewset,
-                         Group_Event_Viewset
+                         Group_Event_Viewset,
+                         User_Viewset
                          )
 
 router = routers.DefaultRouter()
@@ -44,3 +45,4 @@ router.register('menu', Menu_Viewset)
 router.register('group', Group_Viewset)
 router.register('group_contact', Group_Contact_Viewset)
 router.register('group_event', Group_Event_Viewset)
+router.register('user', User_Viewset)
