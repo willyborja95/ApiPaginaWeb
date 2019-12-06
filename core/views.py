@@ -61,7 +61,7 @@ from core.serializers import (Category_Serializer,
                                Category_Item_Category_Serializer,
                                User_Serializer,
                                User_Update_Serializer)
-from login.authentication import CustomerAccessPermission
+from login.permissions import IsSuperadmin
 
 
 # Other imports
@@ -87,7 +87,7 @@ class Category_Viewset(ModelViewSet):
     """
 
     authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [CustomerAccessPermission]
+    permission_classes = [IsSuperadmin]
 
 
     queryset           = Category.objects.all()
@@ -101,6 +101,10 @@ class Item_Category_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Item_Category
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Item_Category.objects.all()
     serializer_class = Item_Category_Serializer
 
@@ -109,6 +113,10 @@ class Person_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Person.objects.all()
     serializer_class = Person_Serializer
 
@@ -117,6 +125,10 @@ class Section_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Section
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Section.objects.all()
     serializer_class = Section_Serializer
 
@@ -125,6 +137,10 @@ class Person_Section_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Section
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Person_Section.objects.all()
     serializer_class = Person_Section_Serializer
 
@@ -133,6 +149,10 @@ class Role_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Role
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Role.objects.all()
     serializer_class = Role_Serializer
 
@@ -141,6 +161,10 @@ class Subject_Matter_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo de Subject_Matter
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Subject_Matter.objects.all()
     serializer_class = Subject_Matter_Serializer
 
@@ -149,6 +173,10 @@ class Person_Role_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Role
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Person_Role.objects.all()
     serializer_class = Person_Role_Serializer
 
@@ -157,6 +185,10 @@ class Person_Media_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Media
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Person_Media.objects.all()
     serializer_class = Person_Media_Serializer
 
@@ -165,6 +197,10 @@ class Person_Contact_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Contact
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Person_Contact.objects.all()
     serializer_class = Person_Contact_Serializer
 
@@ -173,6 +209,10 @@ class Person_Contact_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Person_Contact
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Person_Contact.objects.all()
     serializer_class = Person_Contact_Serializer
 
@@ -181,6 +221,10 @@ class Requirement_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Requirement
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Requirement.objects.all()
     serializer_class = Requirement_Serializer
 
@@ -189,6 +233,10 @@ class Content_Media_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Content_Media
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Content_Media.objects.all()
     serializer_class = Content_Media_Serializer
 
@@ -197,6 +245,10 @@ class Event_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Event
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Event.objects.all()
     serializer_class = Event_Serializer
 
@@ -205,6 +257,10 @@ class Menu_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Menu
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Menu.objects.all()
     serializer_class = Menu_Serializer
 
@@ -213,6 +269,10 @@ class Group_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Group.objects.all()
     serializer_class = Group_Serializer
 
@@ -221,6 +281,10 @@ class Group_Contact_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group_Contact
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Group_Contact.objects.all()
     serializer_class = Group_Contact_Serializer
 
@@ -229,6 +293,10 @@ class Group_Event_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group_Event
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Group_Event.objects.all()
     serializer_class = Group_Event_Serializer
 
@@ -237,6 +305,10 @@ class Content_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group_Event
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = Content.objects.all()
     serializer_class = Content_Serializer
 
@@ -245,6 +317,10 @@ class User_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group_Event
     """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsSuperadmin]
+    
     queryset = User.objects.all()
     serializer_class = User_Serializer
     
