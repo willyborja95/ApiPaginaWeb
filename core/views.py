@@ -61,6 +61,7 @@ from core.serializers import (Category_Serializer,
                                Category_Item_Category_Serializer,
                                User_Serializer,
                                User_Update_Serializer)
+from login.authentication import CustomerAccessPermission
 
 
 # Other imports
@@ -85,8 +86,8 @@ class Category_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Category
     """
 
-    # authentication_classes = [authentication.JWTAuthentication] Estaba probando la seguridad
-    # permission_classes = [permissions.IsAdminUser]
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [CustomerAccessPermission]
 
 
     queryset           = Category.objects.all()
