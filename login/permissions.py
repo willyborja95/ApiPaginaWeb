@@ -22,6 +22,12 @@ class IsSuperadmin(permissions.BasePermission):
         Sobreescribimos este método para que verifique si el usuario que trata de acceder es superadmin o no
         Devuelve 'True' si es que si lo es y 'False', si no lo es
         """
+
+        # ? Dando permisos a los GET
+        if(request.method in permissions.SAFE_METHODS):
+            return True
+        
+        
         superadmin_id = self.get_superadmin_id()                    # Obtnemos el id del superadmin
 
         try:
