@@ -5,7 +5,7 @@ from django.urls import path, include
 # ...
 
 # Local project imports
-from coordinator_app import views
+from career import views
 
 
 # Other impoprts
