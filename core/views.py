@@ -205,16 +205,6 @@ class Person_Contact_Viewset(ModelViewSet):
     serializer_class = Person_Contact_Serializer
 
 
-class Person_Contact_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Person_Contact
-    """
-
-    authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [IsSuperadmin]
-
-    queryset = Person_Contact.objects.all()
-    serializer_class = Person_Contact_Serializer
 
 
 class Requirement_Viewset(ModelViewSet):
@@ -358,71 +348,4 @@ def usuario(request):
         return Response(serializer.data)
 
 
-
-
-
-# ? Talvez estos nuevos servicios deberían ir en una nueva app
-# Todo: Nuevos servicios especiales
-# Todo: Revisasr requerimientos en
-# Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
-
-# * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
-@api_view(["GET","POST", "PUT", "DELETE"])
-def post_get_put_category(request, category):
-
-    if request.method == 'GET':
-        respective_category_id = Category.objects.get(name=category).category_id
-        queryset = Item_Category.objects.filter(category_id=respective_category_id)
-        serializer = Item_Category_Serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    if request.method == 'POST':
-        respective_category_id = Category.objects.get(name=category).category_id
-        serializer = Category_Item_Category_Serializer(data=request.data, category_id=respective_category_id)
-        if serializer.is_valid():
-            instance = serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-    if request.method == 'DELETE':  # ? Este método borra toda la categoria y lo asociado con ella
-        # respective_category_id = Category.objects.get(name=category).category_id
-        queryset = Category.objects.get(name=category)
-        queryset.delete()
-        return Response({"message": "Deleted. The URL /"+category+"/ Do not exists any more"}, status=status.HTTP_202_ACCEPTED)
-
-
-@api_view(["GET","PUT", "DELETE"])
-def get_put_delete_category_item_category(request, category, item_category):
-
-
-    if request.method == 'GET':
-        queryset = Item_Category.objects.get(name=item_category)
-        serializer = Item_Category_Serializer(queryset)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-    if request.method == 'PUT':
-        queryset = Item_Category.objects.get(name=item_category)
-        serializer = Item_Category_Serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.update(instance=queryset, validate_data=serializer.data)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-    if request.method == 'DELETE': # ? Este método borra todo lo asociado con el item category
-        respective_category_id = Category.objects.get(name=category).category_id
-        queryset = Item_Category.objects.get(name=item_category)
-        # serializer = Item_Category_Serializer(queryset)
-        print(queryset.category_id)
-        print(respective_category_id)
-        if queryset.category_id == respective_category_id:
-            # Eliminar
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-        else:
-            # No eliminar
-            return Response({"message": "Not allowes"}, status=status.HTTP_401_UNAUTHORIZED)
 
