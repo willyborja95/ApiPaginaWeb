@@ -4,7 +4,7 @@
 from rest_framework import routers
 
 # Local imports
-from core.views import (Section_Viewset)
+from career.views import (Section_Viewset)
 
 router = routers.DefaultRouter()
 
