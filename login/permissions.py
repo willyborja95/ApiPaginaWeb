@@ -26,8 +26,8 @@ class IsSuperadmin(permissions.BasePermission):
         # ? Dando permisos a los GET
         if(request.method in permissions.SAFE_METHODS):
             return True
-        
-        
+
+
         superadmin_id = self.get_superadmin_id()                    # Obtnemos el id del superadmin
 
         try:
@@ -66,3 +66,56 @@ class IsSuperadmin(permissions.BasePermission):
             print(message)
             return None
 
+
+
+class IsCoordinator(permissions.BasePermission):
+    """
+    Clase que sirve para dar permiso a vistas, cuando el token pertenezca a un usuario
+    con el rol asociado 'coordidnador'
+    """
+
+
+    def has_permission(self, request, view):
+        """
+        Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
+        Devuelve 'True' si es que si lo es y 'False', si no lo es
+        """
+        coordinator_role_id = self.get_coordinator_role_id()                    # Obtnemos el id del coordinator rol
+
+        try:
+            user_person_id = request.user.person_id.person_id           # Obtenemos el id de la persona asociada a la usuario
+            respective_person_role = self.get_person_role_by_id(person_id=user_person_id, role_id=coordinator_role_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
+        except:
+            return False
+
+
+        if(respective_person_role != None):
+            if (respective_person_role.role_id.role_id == coordinator_role_id):
+                # Si es coordinadoor devolvemos True
+                return True
+            else:
+                # Si no lo es devolvemos False
+                return False
+        else:
+            return False
+
+
+    def get_coordinator_role_id(self):
+        """
+        Función para obtener el id del rol coordinador
+        """
+        queryset = Role.objects.get(name='coordinador')
+        return queryset.role_id
+    
+    
+    
+    def get_person_role_by_id(self, person_id, role_id):
+        """
+        Función para buscar si la persona está asociada con un rol
+        """
+        try:
+            queryset = Person_Role.objects.get(role_id=role_id, person_id=person_id)
+            return queryset
+        except:
+            message = "The user has not a role asociate"
+            return None
