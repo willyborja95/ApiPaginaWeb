@@ -9,7 +9,7 @@ from core.models import (Role,
                          User,
                          Person,
                          Person_Role)
-
+from core import utils # Trae algunas funcionalidaddes utiles
 
 class IsSuperadmin(permissions.BasePermission):
     """
@@ -28,11 +28,11 @@ class IsSuperadmin(permissions.BasePermission):
             return True
 
 
-        superadmin_id = self.get_superadmin_id()                    # Obtnemos el id del superadmin
+        superadmin_id = utils.get_role_id_by_name('superadmin')                 # Obtnemos el id del superadmin
 
         try:
             user_person_id = request.user.person_id.person_id           # Obtenemos el id de la persona asociada a la usuario
-            respective_person_role = self.get_person_role_by_id(person_id=user_person_id, role_id=superadmin_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
+            respective_person_role = utils.get_person_role_by_id(person_id=user_person_id, role_id=superadmin_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
         except:
             return False
 
@@ -47,25 +47,7 @@ class IsSuperadmin(permissions.BasePermission):
         else:
             return False
 
-    def get_superadmin_id(self):
-        """
-        Función para obtener el id del rol superadmin
-        """
-        queryset = Role.objects.get(name='superadmin')
-        return queryset.role_id
-
-    def get_person_role_by_id(self, person_id, role_id):
-        """
-        Función para buscar si la persona está asociada con un rol
-        """
-        try:
-            queryset = Person_Role.objects.get(role_id=role_id, person_id=person_id)
-            return queryset
-        except:
-            message = "The user has not a role asociate"
-            print(message)
-            return None
-
+   
 
 
 class IsCoordinator(permissions.BasePermission):
@@ -80,11 +62,11 @@ class IsCoordinator(permissions.BasePermission):
         Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
         Devuelve 'True' si es que si lo es y 'False', si no lo es
         """
-        coordinator_role_id = self.get_coordinator_role_id()                    # Obtnemos el id del coordinator rol
+        coordinator_role_id = utils.get_role_id_by_name('coordinator')                 # Obtnemos el id del coordinator rol
 
         try:
             user_person_id = request.user.person_id.person_id           # Obtenemos el id de la persona asociada a la usuario
-            respective_person_role = self.get_person_role_by_id(person_id=user_person_id, role_id=coordinator_role_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
+            respective_person_role = utils.get_person_role_by_id(person_id=user_person_id, role_id=coordinator_role_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
         except:
             return False
 
@@ -99,23 +81,3 @@ class IsCoordinator(permissions.BasePermission):
         else:
             return False
 
-
-    def get_coordinator_role_id(self):
-        """
-        Función para obtener el id del rol coordinador
-        """
-        queryset = Role.objects.get(name='coordinador')
-        return queryset.role_id
-    
-    
-    
-    def get_person_role_by_id(self, person_id, role_id):
-        """
-        Función para buscar si la persona está asociada con un rol
-        """
-        try:
-            queryset = Person_Role.objects.get(role_id=role_id, person_id=person_id)
-            return queryset
-        except:
-            message = "The user has not a role asociate"
-            return None
