@@ -22,7 +22,7 @@ class IsSuperadmin(permissions.BasePermission):
         Sobreescribimos este método para que verifique si el usuario que trata de acceder es superadmin o no
         Devuelve 'True' si es que si lo es y 'False', si no lo es
         """
-
+        print(request.user)
         # ? Dando permisos a los GET
         if(request.method in permissions.SAFE_METHODS):
             return True
@@ -56,16 +56,10 @@ class IsCoordinator(permissions.BasePermission):
     con el rol asociado 'coordidnador'
     """
 
-
-    def has_permission(self, request, view):
-        """
-        Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
-        Devuelve 'True' si es que si lo es y 'False', si no lo es
-        """
+    def isCoordinator(self, user_person_id):
         coordinator_role_id = utils.get_role_id_by_name('coordinator')                 # Obtnemos el id del coordinator rol
 
         try:
-            user_person_id = request.user.person_id.person_id           # Obtenemos el id de la persona asociada a la usuario
             respective_person_role = utils.get_person_role_by_id(person_id=user_person_id, role_id=coordinator_role_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
         except:
             return False
@@ -81,3 +75,39 @@ class IsCoordinator(permissions.BasePermission):
         else:
             return False
 
+
+    def has_permission(self, request, view):
+        """
+        Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
+        Devuelve 'True' si es que si lo es y 'False', si no lo es
+        """
+        try:
+            return self.isCoordinator(user_person_id=request.user.person_id.person_id)
+        except:
+            False
+
+
+
+
+
+class IsRespectiveCoordinator(IsCoordinator):
+    """
+    Clase que sirve para dar permiso a vistas cuando el usuario sea cordinador y quiera accedere a contenido de una carrera específica
+    con el rol asociado 'coordidnador'
+    """
+
+
+    def has_permission(self, request, view):
+        """
+        Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
+        Devuelve 'True' si es que si lo es y 'False', si no lo es
+        """
+        try:
+            isCoordinator = self.isCoordinator(user_person_id=request.user.person_id) # Verificamos que seae coordinador
+            
+            
+        except:
+            return False
+        
+        
+        
