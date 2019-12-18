@@ -59,10 +59,11 @@ from core.serializers import (Category_Serializer,
 
 
 # Todo: Nuevos servicios especiales
-# Todo: Revisasr requerimientos en
-# Todo: https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
+# * Revisar requerimientos en
+# * https://docs.google.com/document/d/1IiG_CNBphDfpb6rUOB2aWbkNQ8svdVebe-cin1Mvs_4/edit
 
 # * Servicio de Servicio de universityCareer (CRUD) en general (Category - ItemCategory)   # CRUD = POST GET PUT DELETE
+# Url de ejemplo http://iphost/api/career/1/
 @api_view(["GET","POST", "PUT", "DELETE"])
 def post_get_put_category(request, category):
 
@@ -89,6 +90,7 @@ def post_get_put_category(request, category):
         return Response({"message": "Deleted. The URL /"+category+"/ Do not exists any more"}, status=status.HTTP_202_ACCEPTED)
 
 
+# Url de ejemplo http://iphost/api/career/1/
 @api_view(["GET","PUT", "DELETE"])
 def get_put_delete_category_item_category(request, category, item_category):
 
