@@ -130,11 +130,11 @@ class Section_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Section
     """
-    
+
     def get_queryset(self):
 
         try:
-            return Section.objects.filter(university_career_id=self.request.data.get('career_id'))
+            return Section.objects.filter(university_career_id=self.request.data.get('university_career_id'))
         except:
             return None
 
@@ -144,4 +144,166 @@ class Section_Viewset(ModelViewSet):
 
     serializer_class = Section_Serializer
 
+
+class Person_Section_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person
+    """
+
+    def get_queryset(self):
+        try:
+            setions_queryset = Section.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            final_queryset =  Person_Section.objects.filter(section_id__in=setions_queryset)
+            return final_queryset
+        except:
+            return None
+
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    serializer_class = Person_Section_Serializer
+
+
+class Person_Role_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Role
+    """
+
+    def get_queryset(self):
+        try:
+            final_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            return final_queryset
+        except:
+            return None
+
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    serializer_class = Person_Role_Serializer
+
+
+class Person_Media_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Media
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Person_Media.objects.all()
+    serializer_class = Person_Media_Serializer
+
+
+class Person_Contact_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Contact
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Person_Contact.objects.all()
+    serializer_class = Person_Contact_Serializer
+
+
+class Subject_Matter_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo de Subject_Matter
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Subject_Matter.objects.all()
+    serializer_class = Subject_Matter_Serializer
+
+
+
+
+class Requirement_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Requirement
+    """
+    
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Requirement.objects.all()
+    serializer_class = Requirement_Serializer
+
+
+
+class Group_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Group.objects.all()
+    serializer_class = Group_Serializer
+
+
+class Group_Contact_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Contact
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Group_Contact.objects.all()
+    serializer_class = Group_Contact_Serializer
+
+
+class Event_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Event
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Event.objects.all()
+    serializer_class = Event_Serializer
+
+
+
+class Group_Event_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Group_Event.objects.all()
+    serializer_class = Group_Event_Serializer
+
+
+class Content_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Content.objects.all()
+    serializer_class = Content_Serializer
+
+
+class Content_Media_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Content_Media
+    """
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Content_Media.objects.all()
+    serializer_class = Content_Media_Serializer
 

@@ -205,16 +205,6 @@ class Person_Contact_Viewset(ModelViewSet):
     serializer_class = Person_Contact_Serializer
 
 
-class Person_Contact_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Person_Contact
-    """
-
-    authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [IsSuperadmin]
-
-    queryset = Person_Contact.objects.all()
-    serializer_class = Person_Contact_Serializer
 
 
 class Requirement_Viewset(ModelViewSet):
