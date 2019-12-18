@@ -6,6 +6,7 @@ from django.urls import path, include
 
 # Local project imports
 from career import views
+from career.router import router
 
 
 # Other impoprts
@@ -14,6 +15,8 @@ from career import views
 
 urlpatterns = [
 
+
+    path('', include(router.urls)),
 
     # Rutas de los servicios especializados para coordinador
     path('<str:category>/', views.post_get_put_category),
