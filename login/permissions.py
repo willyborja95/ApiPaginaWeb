@@ -55,32 +55,28 @@ class IsCoordinator(permissions.BasePermission):
     con el rol asociado 'coordidnador'
     """
     message = 'This user it is not a coordinator'
-    def isCoordinator(self, user_person_id):
+    def is_coordinator(self, user_person_id):
 
 
-        coordinator_role_id = utils.get_role_id_by_name('coordinador')                 # Obtnemos el id del coordinator rol
+        coordinator_role_id = Role.objects.get(name='coordidnador').role_id                # Obtnemos el id del coordinator rol
 
-
-        respective_person_role_id = utils.get_person_role_by_id(person_id=user_person_id, role_id=coordinator_role_id)    # Obtenemos el person_role (Tabla de muchos a muchos)
-
-
-        if(respective_person_role_id != None):
-            if (respective_person_role_id.role_id.role_id == coordinator_role_id):
-                # Si es coordinadoor devolvemos True
-                return True
-            else:
-                # Si no lo es devolvemos False
-                return False
-        else:
+        try:
+            respective_person_role = Person_Role.objects.get(role_id__role_id=coordinator_role_id, person_id__person_id=user_person_id)
+            return True
+        except:
             return False
-
 
     def has_permission(self, request, view):
         """
         Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
         Devuelve 'True' si es que si lo es y 'False', si no lo es
         """
-        return self.isCoordinator(user_person_id=request.user.person_id.person_id)
+        try:
+            result = self.is_coordinator(user_person_id=request.user.person_id.person_id)
+            return result
+        except:
+            return False
+
 
 
 
@@ -95,6 +91,38 @@ class IsRespectiveCoordinator(IsCoordinator):
     message = 'This user it is not a coordinator or it is not the coordinator of this career'
 
 
+    def is_valid_request(self, request):
+        try:
+            target_career_id = request.data['university_career_id']
+            
+        except:
+            # 'Param "university_career_idt" is required'
+            return False
+
+        try:
+            user = request.user.person_id
+            
+        except:
+            # Anonymus user has no role assignation
+            return False
+
+        return True
+
+    def is_career_coordinator(self, user_person_id, career_id):
+
+        coordinator_role = Role.objects.get(name='coordinador')                # Obtenemos el id del coordinator rol
+
+        try:
+
+            respective_person_role = Person_Role.objects.get(role_id__role_id=coordinator_role.role_id,
+                                                             person_id__person_id=user_person_id,
+                                                             university_career_id__item_category_id=career_id)
+            return True
+        except:
+            return False
+
+
+
     def has_permission(self, request, view):
         """
         Sobreescribimos este método para que verifique si el usuario que trata de acceder es coordinador o no
@@ -103,31 +131,14 @@ class IsRespectiveCoordinator(IsCoordinator):
 
 
 
-        target_career_id = request.data.get('university_career_id')
-
-        coordinator_role_id = utils.get_role_id_by_name('coordinador')
-
-        respective_person_role_id = utils.get_person_role_by_id(person_id=request.user.person_id.person_id, role_id=coordinator_role_id)
-        print(respective_person_role_id)
-        if(respective_person_role_id != None):
-
-            if (respective_person_role_id.role_id.role_id == coordinator_role_id):
-
-                # Si es coordinadoor, verificamos que sea el mismo de la carrera
-                career_id = int(respective_person_role_id.university_career_id.item_category_id)
-                target_career_id = int(target_career_id)
-                if(respective_person_role_id.university_career_id.item_category_id == target_career_id):
-
-                    return True
-
-            else:
-                # Si no lo es devolvemos False
-
-                return False
-        else:
-
+        if(self.is_valid_request(request) == False):
             return False
 
-        return False
+
+        try:
+            result = self.is_career_coordinator(user_person_id=request.user.person_id.person_id, career_id=request.data['university_career_id'])
+            return result
+        except:
+            return False
 
 
