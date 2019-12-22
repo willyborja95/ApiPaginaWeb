@@ -4,7 +4,7 @@
 from rest_framework import routers
 
 # Local imports
-from core.views import (
+from career.views import (
                          Person_Viewset, #s
                          Section_Viewset, # 
                          Person_Section_Viewset, #
