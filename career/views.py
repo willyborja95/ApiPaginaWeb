@@ -152,7 +152,7 @@ class Person_Section_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            setions_queryset = Section.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            sections_queryset = Section.objects.filter(university_career_id=self.request.data.get('university_career_id'))
             final_queryset =  Person_Section.objects.filter(section_id__in=setions_queryset)
             return final_queryset
         except:
@@ -189,6 +189,18 @@ class Person_Media_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Person_Media
     """
 
+    def get_queryset(self):
+        try:
+            persons_role_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id')).select_related('person_id')
+            persons = []
+            for person_role in persons_role_queryset:
+                persons.append(person_role.person_id)
+
+            final_queryset = Person_Media.objects.filter(person_id__in=persons)
+            return final_queryset
+        except:
+            return None
+
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
@@ -196,22 +208,17 @@ class Person_Media_Viewset(ModelViewSet):
     serializer_class = Person_Media_Serializer
 
 
-class Person_Contact_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Person_Contact
-    """
-
-    authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [IsRespectiveCoordinator]
-
-    queryset = Person_Contact.objects.all()
-    serializer_class = Person_Contact_Serializer
-
-
 class Subject_Matter_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo de Subject_Matter
     """
+
+    def get_queryset(self):
+        try:
+            final_queryset = Subject_Matter.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            return final_queryset
+        except:
+            return None
 
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
@@ -220,13 +227,20 @@ class Subject_Matter_Viewset(ModelViewSet):
     serializer_class = Subject_Matter_Serializer
 
 
-
-
 class Requirement_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Requirement
     """
-    
+
+    def get_queryset(self):
+        try:
+            subject_matters_queryset = Subject_Matter.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            final_queryset = Requirement.objects.filter(subject_matter_id__in=subject_matters_queryset)
+            return final_queryset
+        except:
+            return None
+
+
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
@@ -234,11 +248,17 @@ class Requirement_Viewset(ModelViewSet):
     serializer_class = Requirement_Serializer
 
 
-
 class Group_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Group
     """
+
+    def get_queryset(self):
+        try:
+            final_queryset = Group.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            return final_queryset
+        except:
+            return None
 
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
@@ -252,6 +272,14 @@ class Group_Contact_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Group_Contact
     """
 
+    def get_queryset(self):
+        try:
+            groups_queryset = Group.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            final_queryset = Group_Contact.objects.filter(group_id__in=groups_queryset)
+            return final_queryset
+        except:
+            return None
+
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
@@ -259,10 +287,37 @@ class Group_Contact_Viewset(ModelViewSet):
     serializer_class = Group_Contact_Serializer
 
 
+class Content_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+
+    def get_queryset(self):
+        try:
+            final_queryset = Content.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            return final_queryset
+        except:
+            return None
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Content.objects.all()
+    serializer_class = Content_Serializer
+
+
 class Event_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Event
     """
+
+    def get_queryset(self):
+        try:
+            contents_queryset = Content.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            final_queryset = Event.objects.filter(content_id__in=contents_queryset)
+            return final_queryset
+        except:
+            return None
 
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
@@ -277,6 +332,14 @@ class Group_Event_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Group_Event
     """
 
+    def get_queryset(self):
+        try:
+            groups_queryset = Group.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            final_queryset = Event.objects.filter(group_id__in=groups_queryset)
+            return final_queryset
+        except:
+            return None
+
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
@@ -284,26 +347,70 @@ class Group_Event_Viewset(ModelViewSet):
     serializer_class = Group_Event_Serializer
 
 
-class Content_Viewset(ModelViewSet):
-    """
-    Proporciona un CRUD completo del modelo Group_Event
-    """
-
-    authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [IsRespectiveCoordinator]
-
-    queryset = Content.objects.all()
-    serializer_class = Content_Serializer
-
-
 class Content_Media_Viewset(ModelViewSet):
     """
     Proporciona un CRUD completo del modelo Content_Media
     """
+
+    def get_queryset(self):
+        try:
+            contents_queryset = Content.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            final_queryset = Content_Media.objects.filter(content_id__in=contents_queryset)
+            return final_queryset
+        except:
+            return None
 
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
     queryset = Content_Media.objects.all()
     serializer_class = Content_Media_Serializer
+
+
+class Person_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Contact
+    """
+
+    def get_queryset(self):
+        try:
+            persons_role_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id')).select_related('person_id')
+            persons = []
+            for person_role in persons_role_queryset:
+                persons.append(person_role.person_id)
+
+            final_queryset = Person.objects.filter(person_id__in=persons)
+            return final_queryset
+        except:
+            return None
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Person.objects.all()
+    serializer_class = Person_Contact_Serializer
+
+
+class Person_Contact_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Person_Contact
+    """
+
+    def get_queryset(self):
+        try:
+            persons_role_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id')).select_related('person_id')
+            persons = []
+            for person_role in persons_role_queryset:
+                persons.append(person_role.person_id)
+
+            final_queryset = Person_Contact.objects.filter(person_id__in=persons)
+            return final_queryset
+        except:
+            return None
+
+    authentication_classes = [authentication.JWTAuthentication]
+    permission_classes = [IsRespectiveCoordinator]
+
+    queryset = Person_Contact.objects.all()
+    serializer_class = Person_Contact_Serializer
 
