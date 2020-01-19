@@ -369,9 +369,19 @@ class Category_Item_Category_Serializer(serializers.Serializer):
     def update(self, instance, validate_data):
         print("This serializer must be deprecated for future versions")
         instance = instance
-        instance.name = validate_data.get('name') or instance.name
-        instance.active = validate_data.get('active') or instance.active
-        instance.category_id = validate_data.get('category_id') or instance.category_id
+
+        if(validate_data.get('name')):
+            instance.name = validate_data.get('name') or instance.name
+
+
+        if(validate_data.get('active')):
+            instance.active = validate_data.get('active') or instance.active
+
+
+        if(validate_data.get('category_id')):
+            instance.category_id = validate_data.get('category_id') or instance.category_id
+
+
         instance.save()
         return instance
 
