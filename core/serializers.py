@@ -243,15 +243,29 @@ class User_Serializer(serializers.ModelSerializer):
     def create(self, validated_data):
         instance = User()
 
-
         instance.username = validated_data.get('username')
         instance.email = validated_data.get('email')
-        instance.is_admin = validated_data.get('is_admin') or False
-        instance.is_superuser = validated_data.get('is_superuser') or False
-        instance.is_active = validated_data.get('is_active') or True
-        instance.is_staff = validated_data.get('is_staff') or False
+        if(validated_data.get('is_admin')):
+            instance.is_admin = validated_data.get('is_admin')
+        else:
+            instance.is_admin = False
 
-        # respective_person_id = self.get_person_instance_by_id(validated_data.get('person_id'))
+        if(validated_data.get('is_superuser')):
+            instance.is_superuser = validated_data.get('is_superuser')
+        else:
+            instance.is_superuser = False
+
+        if(validated_data.get('is_active')):
+            instance.is_active = validated_data.get('is_active')
+        else:
+            instance.is_active = True
+
+        if(validated_data.get('is_staff')):
+            instance.is_staff = validated_data.get('is_staff')
+        else:
+            instance.is_staff = False
+
+
         instance.person_id = validated_data.get('person_id')
 
         instance.set_password(validated_data.get('password'))
@@ -261,7 +275,6 @@ class User_Serializer(serializers.ModelSerializer):
 
 
     def validate_username(self, data):
-        print("Hola, me estan usando")
         users = User.objects.filter(username = data)
         if len(users) != 0:
             message = "This username it is already on use by another user: "+str(data)
@@ -288,23 +301,34 @@ class User_Update_Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username']
-        read_only_fields = ('user_id',)
+        fields = '__all__'
+        read_only_fields = ('user_id', 'person_id')
 
     def update(self, instance, validated_data):
 
-        instance.username = validated_data.get('username') or instance.username
-        instance.email = validated_data.get('email') or instance.email
-        instance.is_admin = validated_data.get('is_admin') or instance.is_admin
-        instance.is_superuser = validated_data.get('is_superuser') or instance.is_superuser
-        instance.is_active = validated_data.get('is_active') or instance.is_active
-        instance.is_staff = validated_data.get('is_staff') or instance.is_staff
+        if(validated_data.get('username')):
+            instance.username = validated_data.get('username')
 
-        # respective_person_id = self.get_person_instance_by_id(validated_data.get('person_id'))
-        instance.person_id = validated_data.get('person_id') or instance.person_id
-        
+        if(validated_data.get('email')):
+            instance.email = validated_data.get('email')
+
+        if(validated_data.get('is_admin')):
+            instance.is_admin = validated_data.get('is_admin')
+
+        if(validated_data.get('is_superuser')):
+            instance.is_superuser = validated_data.get('is_superuser')
+
+        if(validated_data.get('is_active')):
+            instance.is_active = validated_data.get('is_active') or instance.is_active
+
+        if(validated_data.get('is_staff')):
+            instance.is_staff = validated_data.get('is_staff') or instance.is_staff
+
+        if(validated_data.get('person_id')):
+            instance.person_id = validated_data.get('person_id') or instance.person_id
+
         instance.save()
-        return instance
+
 
         try:
             instance.set_password(validated_data.get('password'))
@@ -313,7 +337,7 @@ class User_Update_Serializer(serializers.ModelSerializer):
 
         instance.save()
 
-
+        return instance
 
 
 # ? Talvez debería ir en otra app
@@ -321,6 +345,7 @@ class Category_Item_Category_Serializer(serializers.Serializer):
     """
     Serializador personalizado para los serivicos de tipo {:category_name/:item_category_name}
     """
+
     def __init__(self, category_id, *args, **kwargs):
         self.respective_category_id = category_id
         super(Category_Item_Category_Serializer, self).__init__(*args, **kwargs)
@@ -333,6 +358,7 @@ class Category_Item_Category_Serializer(serializers.Serializer):
 
 
     def create(self, validate_data, **kwargs):
+        print("This serializer must be deprecated for future versions")
         instance = Item_Category()
         instance.name = validate_data.get('name')
         queryset = Category.objects.get(category_id=self.respective_category_id)
@@ -341,10 +367,21 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         return instance
 
     def update(self, instance, validate_data):
+        print("This serializer must be deprecated for future versions")
         instance = instance
-        instance.name = validate_data.get('name') or instance.name
-        instance.active = validate_data.get('active') or instance.active
-        instance.category_id = validate_data.get('category_id') or instance.category_id
+
+        if(validate_data.get('name')):
+            instance.name = validate_data.get('name') or instance.name
+
+
+        if(validate_data.get('active')):
+            instance.active = validate_data.get('active') or instance.active
+
+
+        if(validate_data.get('category_id')):
+            instance.category_id = validate_data.get('category_id') or instance.category_id
+
+
         instance.save()
         return instance
 
