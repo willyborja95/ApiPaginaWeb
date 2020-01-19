@@ -319,13 +319,13 @@ class User_Update_Serializer(serializers.ModelSerializer):
             instance.is_superuser = validated_data.get('is_superuser')
 
         if(validated_data.get('is_active')):
-            instance.is_active = validated_data.get('is_active') or instance.is_active
+            instance.is_active = validated_data.get('is_active')
 
         if(validated_data.get('is_staff')):
-            instance.is_staff = validated_data.get('is_staff') or instance.is_staff
+            instance.is_staff = validated_data.get('is_staff')
 
         if(validated_data.get('person_id')):
-            instance.person_id = validated_data.get('person_id') or instance.person_id
+            instance.person_id = validated_data.get('person_id')
 
         instance.save()
 
@@ -371,15 +371,15 @@ class Category_Item_Category_Serializer(serializers.Serializer):
         instance = instance
 
         if(validate_data.get('name')):
-            instance.name = validate_data.get('name') or instance.name
+            instance.name = validate_data.get('name')
 
 
         if(validate_data.get('active')):
-            instance.active = validate_data.get('active') or instance.active
+            instance.active = validate_data.get('active')
 
 
         if(validate_data.get('category_id')):
-            instance.category_id = validate_data.get('category_id') or instance.category_id
+            instance.category_id = validate_data.get('category_id')
 
 
         instance.save()
