@@ -14,7 +14,12 @@ from core.models import (Category,
                         Item_Category)
 
 # Serializadores
-from utils.serializers import (University_Career_Serializer)
+from utils.serializers import (University_Career_Serializer, 
+                            Contact_Type_Serializer,
+                            Menu_Serializer,
+                            Type_Content_Serializer,
+                            Academic_Period_Serializer,
+                            Media_Type_Serializer   )
 
 from login.permissions import IsSuperadmin, IsCoordinator, IsRespectiveCoordinator
 
@@ -29,7 +34,7 @@ class University_Career_Viewset(ModelViewSet):
     def get_queryset(self):
         category_name = 'Titulación'
         try:
-            category_id = Category.objects.get(name='Titulación').category_id
+            category_id = Category.objects.get(name=category_name).category_id
             final_queryset =  Item_Category.objects.filter(category_id=category_id)
             return final_queryset
         except:
@@ -62,7 +67,7 @@ class Contact_Type_Viewset(ModelViewSet):
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
 
-    serializer_class = University_Career_Serializer
+    serializer_class = Contact_Type_Serializer
 
 
 class Menu_Viewset(ModelViewSet):
@@ -86,7 +91,7 @@ class Menu_Viewset(ModelViewSet):
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
 
-    serializer_class = University_Career_Serializer
+    serializer_class = Menu_Serializer
 
 
 class Type_Content_Viewset(ModelViewSet):
@@ -108,7 +113,7 @@ class Type_Content_Viewset(ModelViewSet):
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
 
-    serializer_class = University_Career_Serializer
+    serializer_class = Type_Content_Serializer
 
 
 class Academic_Period_Viewset(ModelViewSet):
@@ -130,7 +135,7 @@ class Academic_Period_Viewset(ModelViewSet):
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
 
-    serializer_class = University_Career_Serializer
+    serializer_class = Academic_Period_Serializer
 
 
 class Media_Type_Viewset(ModelViewSet):
@@ -152,7 +157,7 @@ class Media_Type_Viewset(ModelViewSet):
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
 
-    serializer_class = University_Career_Serializer
+    serializer_class = Media_Type_Serializer
 
 
 
