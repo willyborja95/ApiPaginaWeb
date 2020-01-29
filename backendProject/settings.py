@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'core',   # App que contiene todos los modelos
     'login',  # App encargada del servicio de login
     'career', # App que contendrá los serevicios especificos para el coordinador de una carrera
+    'utils',  # App para los nueveos servicios especiales GNEW
 
     # Aplicaciones de terceros
     'rest_framework',    # App que permite constuir los servicios de mejor manera
