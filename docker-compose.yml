@@ -8,16 +8,18 @@ services:
       - "./mysql:/var/lib/mysql"
     ports:
       - '3306:3306'
+    restart: always
     environment:
        MYSQL_DATABASE: 'paginaSistemas'
        MYSQL_USER: 'dbAdmin'
        MYSQL_PASSWORD: 'password'
        MYSQL_ROOT_PASSWORD: 'password'
   web:
+    restart: always
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/my_app_dir
+      - .:/code
     ports:
       - "8000:8000"
     depends_on:
