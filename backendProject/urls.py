@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),        # El admin no debe ir bajo otra url
     path('api/login/', include('login.urls')),    # Inlcuimos las urls de la app login
     path('api/career/', include('career.urls')),  # Incluimos las urls de la app career
+    path('api/utils/', include('utils.urls')),    # Incluimos las urls ded la app utils (Servicios especiales)
     path('api/', include('core.urls')),     # Inlcuimos las urls de la app core (Servicios de superadmin)
     
 
