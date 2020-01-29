@@ -1,3 +1,12 @@
-from django.shortcuts import render
+# Django imports
+# ...
 
-# Create your views here.
+# Rest framework imports
+
+
+
+# Local project imports
+
+
+# Other imports
+# ...
