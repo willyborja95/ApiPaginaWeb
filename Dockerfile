@@ -1,14 +1,15 @@
-# Python support can be specified down to the minor or micro version
-# (e.g. 3.6 or 3.6.3).
-# OS Support also exists for jessie & stretch (slim and full).
-# See https://hub.docker.com/r/library/python/ for all supported Python
-# tags from Docker Hub.
-FROM python:3.6.8
-
-
+FROM python:3.6
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
 RUN mkdir /code
 WORKDIR /code
-COPY . /code/
+#Upgrade pip
+RUN pip install pip -U
+ADD requirements.txt /code/
+#Install dependencies
 RUN pip install -r requirements.txt
-
+ADD . /code/
+RUN apt-get update
+RUN apt-get install python3-dev default-libmysqlclient-dev  -y
