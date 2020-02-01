@@ -54,7 +54,7 @@ class Contact_Type_Viewset(ModelViewSet):
     """
 
     def get_queryset(self):
-        category_name = 'Contact_type'
+        category_name = 'Tipo de contacto'
         try:
             category_id = Category.objects.get(name=category_name).category_id
             final_queryset =  Item_Category.objects.filter(category_id=category_id)
@@ -100,7 +100,7 @@ class Type_Content_Viewset(ModelViewSet):
     """
 
     def get_queryset(self):
-        category_name = 'Type_Content'
+        category_name = 'Tipo de contenido'
         try:
             category_id = Category.objects.get(name=category_name).category_id
             final_queryset =  Item_Category.objects.filter(category_id=category_id)
@@ -122,7 +122,7 @@ class Academic_Period_Viewset(ModelViewSet):
     """
 
     def get_queryset(self):
-        category_name = 'Academic_Period'
+        category_name = 'Periodo Académico'
         try:
             category_id = Category.objects.get(name=category_name).category_id
             final_queryset =  Item_Category.objects.filter(category_id=category_id)
@@ -144,7 +144,7 @@ class Media_Type_Viewset(ModelViewSet):
     """
 
     def get_queryset(self):
-        category_name = 'Media_Type'
+        category_name = 'Tipo de contenido media'
         try:
             category_id = Category.objects.get(name=category_name).category_id
             final_queryset =  Item_Category.objects.filter(category_id=category_id)
