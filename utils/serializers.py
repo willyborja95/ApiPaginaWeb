@@ -30,6 +30,7 @@ class BaseItemFromKnewCategorySerializer(serializers.ModelSerializer):
 
 
     def create(self, validate_data):
+        print(self.Meta.category_name)
         respective_category_id = Category.objects.get(name=self.Meta.category_name).category_id
         instance = Item_Category()
         instance.name = validate_data.get('name')
@@ -54,7 +55,7 @@ class University_Career_Serializer(BaseItemFromKnewCategorySerializer):
 
 
 
-class Contact_Type_Serializer(serializers.ModelSerializer):
+class Contact_Type_Serializer(BaseItemFromKnewCategorySerializer):
     """
     Serializador del modelo Item_Category pertenecientes a la categoria Contact_Type
     """
@@ -66,7 +67,7 @@ class Contact_Type_Serializer(serializers.ModelSerializer):
             'active')
         category_name = 'Tipo de contacto'
 
-class Menu_Serializer(serializers.ModelSerializer):
+class Menu_Serializer(BaseItemFromKnewCategorySerializer):
     """
     Serializador del modelo Item_Category pertenecientes a la categoria Menu
     """
@@ -76,10 +77,10 @@ class Menu_Serializer(serializers.ModelSerializer):
             'item_category_id',
             'name',
             'active')
-        category_name = 'UKNOWN_CATEGORY'
+        category_name = 'Menu'
 
 
-class Type_Content_Serializer(serializers.ModelSerializer):
+class Type_Content_Serializer(BaseItemFromKnewCategorySerializer):
     """
     Serializador del modelo Item_Category pertenecientes a la categoria Type_Content
     """
@@ -92,7 +93,7 @@ class Type_Content_Serializer(serializers.ModelSerializer):
         category_name = 'Tipo de contenido'
 
 
-class Academic_Period_Serializer(serializers.ModelSerializer):
+class Academic_Period_Serializer(BaseItemFromKnewCategorySerializer):
     """
     Serializador del modelo Item_Category pertenecientes a la categoria Academic_Period
     """
@@ -105,7 +106,7 @@ class Academic_Period_Serializer(serializers.ModelSerializer):
         category_name = 'Periodo Académico'
 
 
-class Media_Type_Serializer(serializers.ModelSerializer):
+class Media_Type_Serializer(BaseItemFromKnewCategorySerializer):
     """
     Serializador del modelo Item_Category pertenecientes a la categoria Media_Type
     """
