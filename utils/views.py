@@ -28,7 +28,7 @@ from utils.serializers import (University_Career_Serializer,
                             Academic_Period_Serializer,
                             Media_Type_Serializer,
                             Detailed_Person_Serializer)
-
+from core.serializers import (Item_Category_Serializer)
 
 
 from login.permissions import IsSuperadmin, IsCoordinator, IsRespectiveCoordinator
@@ -217,5 +217,32 @@ def request_university_career_authorities(request, university_career_id):
 
 
 
+@api_view(['GET'])
+def find_item_category(request):
+    if request.method == 'GET':
+        if(request.GET.__contains__('name')):
+            key = request.GET.get('name')
+            try:
+                queryset = Item_Category.objects.get(name__icontains=key)
+            except:
+                message = "To many coincidences"
+                return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+        elif(request.GET.__contains__('item_category_id')):
+            key = request.GET.get('item_category_id')
+            try:
+                queryset = Item_Category.objects.get(item_category_id=key)
+            except:
+                message = "To many coincidences"
+                return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            message = "One of this param is required: 'name', 'item_category_id'"
+            return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
 
 
+        if(queryset):
+            serializer = Item_Category_Serializer(queryset)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            message = "Item category not found"
+            return Response({'Error': message}, status=status.HTTP_404_NOT_FOUND)
