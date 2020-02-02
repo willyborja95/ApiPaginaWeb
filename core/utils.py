@@ -29,4 +29,15 @@ def get_person_role_by_id(person_id, role_id):
         return None
     
 
+def get_all_roles_from_a_person(person_id):
+    """
+    Funcion que devuelve todo los roles ded una persona
+    """
+    roles = []
+    person_roles_queryset = Person_Role.objects.filter(person_id=person_id).select_related('role_id')
+    for result in person_roles_queryset:
+        roles.append(result.role_id)
+
+    return roles
+
 

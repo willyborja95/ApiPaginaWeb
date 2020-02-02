@@ -178,24 +178,42 @@ def request_university_career_authorities(request, university_career_id):
     '''
 
     if request.method == 'GET':
+        target_persons = [] # Lista de personas de las cuales vamos a devolver informacion
+
         # Obtenemos todas las secciones que tiene la carrera
         sections_queryset = Section.objects.filter(university_career_id=university_career_id)
 
         # Obtnemos las relaciones de la tabla muchos a muchos 'Person_Section'
         persons_section_queryset = Person_Section.objects.filter(section_id__in=sections_queryset).values('person_id')
+        
+        # Obtenemos tambiens las personass que no pertenezcan a ninguna seccion pero que tambien esten involucradas con la carrera
+        involved_persons_queryset = Person_Role.objects.filter(university_career_id=university_career_id).values('person_id') 
+        
+        for result in persons_section_queryset:
+            print(result)
+            target_persons.append(result['person_id'])
+        
+        for result in involved_persons_queryset:
+            print(result)
+            target_persons.append(result['person_id'])
+
+        # Eliminamos las id repetidas
+        target_persons = set(target_persons)
 
         
+        
+        
         # Ahora buscamos todas las personas con sus id
-        data = {"authorities":[]}
-        for result in persons_section_queryset:
-            person_instance = Person.objects.get(person_id=result['person_id'])
+        data = {"persons":[]}
+        for id in target_persons:
+            person_instance = Person.objects.get(person_id=id)
             print(person_instance)
             person_serializer = Detailed_Person_Serializer(person_instance)
-            #data['authorities'].append()
+            data['persons'].append(person_serializer.data)
 
 
 
-        return Response("ok", status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
 
 
 
