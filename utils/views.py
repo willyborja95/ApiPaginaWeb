@@ -230,6 +230,11 @@ def find_item_category(request):
         elif(request.GET.__contains__('item_category_id')):
             key = request.GET.get('item_category_id')
             try:
+                key = int(key)
+            except:
+                message = "The id must be an integer"
+                return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+            try:
                 queryset = Item_Category.objects.get(item_category_id=key)
             except:
                 message = "To many coincidences"
