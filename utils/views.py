@@ -11,7 +11,14 @@ from rest_framework_simplejwt import authentication # Para que valide los tokens
 
 # Local project imports
 from core.models import (Category,
-                        Item_Category)
+                        Item_Category,
+                        Section,
+                        Person_Section,
+                        Person,
+                        Person_Contact,
+                        Person_Media,
+                        Person_Role,
+                        Role)
 
 # Serializadores
 from utils.serializers import (University_Career_Serializer, 
@@ -160,12 +167,23 @@ class Media_Type_Viewset(ModelViewSet):
     serializer_class = Media_Type_Serializer
 
 
+# * Vista que devuelve las autoridades de una carrera
+@api_view(['GET'])
+def request_university_career_authorities(request, university_career_id):
+    '''
+    Vista que devuelve las autoridades de una carrera
+    '''
 
-
-
-
-
-
+    if request.method == 'GET':
+        # Obtenemos todas las secciones que tiene la carrera
+        sections_queryset = Section.objects.filter(university_career_id=university_career_id)
+        print(sections_queryset)
+        # Obtnemos las relaciones de la tabla muchos a muchos 'Person_Section'
+        persons_section_queryset = Person_Section.objects.filter(section_id__in=sections_queryset).values('person_id')
+        print(persons_section_queryset)
+        # Ahora buscamos todas las personas con sus id
+        # persons_queryset = Person.objects.filter(person_id)
+        return Response("ok", status=status.HTTP_200_OK)
 
 
 
