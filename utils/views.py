@@ -26,7 +26,10 @@ from utils.serializers import (University_Career_Serializer,
                             Menu_Serializer,
                             Type_Content_Serializer,
                             Academic_Period_Serializer,
-                            Media_Type_Serializer   )
+                            Media_Type_Serializer,
+                            Detailed_Person_Serializer)
+
+
 
 from login.permissions import IsSuperadmin, IsCoordinator, IsRespectiveCoordinator
 
@@ -177,12 +180,21 @@ def request_university_career_authorities(request, university_career_id):
     if request.method == 'GET':
         # Obtenemos todas las secciones que tiene la carrera
         sections_queryset = Section.objects.filter(university_career_id=university_career_id)
-        print(sections_queryset)
+
         # Obtnemos las relaciones de la tabla muchos a muchos 'Person_Section'
         persons_section_queryset = Person_Section.objects.filter(section_id__in=sections_queryset).values('person_id')
-        print(persons_section_queryset)
+
+        
         # Ahora buscamos todas las personas con sus id
-        # persons_queryset = Person.objects.filter(person_id)
+        data = {"authorities":[]}
+        for result in persons_section_queryset:
+            person_instance = Person.objects.get(person_id=result['person_id'])
+            print(person_instance)
+            person_serializer = Detailed_Person_Serializer(person_instance)
+            #data['authorities'].append()
+
+
+
         return Response("ok", status=status.HTTP_200_OK)
 
 

@@ -5,7 +5,12 @@ from rest_framework import serializers
 
 # Local project imports
 from core.models import (Category,
-                        Item_Category)
+                        Item_Category,
+                        User)
+from core.serializers import (Person_Serializer,
+                            Person_Media_Serializer,
+                            Person_Contact_Serializer,
+                            Role_Serializer)
 
 """
 universityCareer
@@ -118,3 +123,50 @@ class Media_Type_Serializer(BaseItemFromKnewCategorySerializer):
             'active')
         category_name = 'Tipo de contenido media'
 
+
+# * Serializador de un persona con todos los detallees y relaciones
+class Detailed_Person_Serializer(serializers.BaseSerializer):
+    """
+    Serializador de un persona con todos los detallees y relaciones
+    Ejemplo:
+    {
+
+        "person_id": 1,
+        "first_name": "Medardo",
+        "second_name": "Angel",
+        "first_lasst_name": "Silva",
+        "second_last_name": "Rodas",
+        "username": "angel27",
+        "email": "angel27@gmail.com",
+        "roles": [
+            {
+                "role_id": 4
+                "name": "Estudiante"
+            }
+        ],
+        "person_media":{
+            "person_media_id": 54,
+            "path": "google.gfots/j394r79q9b3"
+        }
+        "person_contact":{
+            "person_contact_id": 68,
+            "contact": "contacto",
+        }
+    }
+    """
+
+
+    def to_representation(self, instance):
+        data = {}
+        personal_info = Person_Serializer(instance)
+        data['personal_info'] = personal_info.data
+        return data
+        
+
+
+# * Serializador de un usuario, devuelve solo informacion no sensible
+class Insensitive_User_Serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')
