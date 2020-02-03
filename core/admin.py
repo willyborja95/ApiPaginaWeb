@@ -22,7 +22,7 @@ from core.models import (User,
                           Section,
                           Subject_Matter,
                           Requirement)
-
+from core.filters import (Item_Category_Admin)
 
 admin.site.register(User)
 admin.site.register(Category)
@@ -32,7 +32,7 @@ admin.site.register(Event)
 admin.site.register(Group)
 admin.site.register(Group_Contact)
 admin.site.register(Group_Event)
-admin.site.register(Item_Category)
+admin.site.register(Item_Category, Item_Category_Admin)
 admin.site.register(Menu)
 admin.site.register(Person)
 admin.site.register(Person_Contact)
@@ -43,3 +43,5 @@ admin.site.register(Role)
 admin.site.register(Section)
 admin.site.register(Subject_Matter)
 admin.site.register(Requirement)
+
+

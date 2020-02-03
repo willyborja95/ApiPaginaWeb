@@ -25,6 +25,12 @@ class Category(models.Model):
                             unique=True)
     active = models.BooleanField(default=True)
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Categories"
+
+
+    # Método para representar el objeto
     def __str__(self):
         return self.name
 
@@ -52,6 +58,12 @@ class Item_Category(models.Model):
                                     db_column='category_id',
                                     on_delete = models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Item Category"
+        verbose_name_plural = "Items Category"
+
+    # Método para representar el objeto
     def __str__(self):
         return self.name
 
@@ -74,12 +86,21 @@ class Person(models.Model):
     first_name = models.CharField(max_length=255,
                                   blank=False,
                                   null=False)
-    second_name = models.CharField(max_length=255)
+    second_name = models.CharField(max_length=255,
+                                    blank=True,
+                                    null=True)
     first_last_name = models.CharField(max_length=255,
                                        blank=False,
                                        null=False)
-    second_last_name = models.CharField(max_length=255)
+    second_last_name = models.CharField(max_length=255,
+                                        blank=True,
+                                        null=True)
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Persons"
+
+    # Método para representar el objeto
     def __str__(self):
         return self.first_name +" "+ self.first_last_name
 
@@ -106,7 +127,15 @@ class Section(models.Model):
     university_career_id = models.ForeignKey(to=Item_Category,
                                           db_column='university_career_id',
                                           on_delete=models.PROTECT)
+ 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Sections"
 
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Section's name: %s, University Career: %s" %(self.name, self.university_career_id))
+        return string
 
 class Person_Section(models.Model):
     """
@@ -129,7 +158,11 @@ class Person_Section(models.Model):
     section_id = models.ForeignKey(to=Section,
                                    db_column='section_id',
                                    on_delete=models.PROTECT)
-
+   
+    # Metadatos
+    class Meta:
+        verbose_name = "Relationship Person Section"
+        verbose_name_plural = "Relationships Person Section"
 
 class Role(models.Model):
     """
@@ -146,6 +179,14 @@ class Role(models.Model):
     name = models.CharField(max_length=45,
                             unique=True)
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Roles"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Role's name: %s" %(self.name))
+        return string
 
 class Person_Role(models.Model):
     """
@@ -163,7 +204,9 @@ class Person_Role(models.Model):
     # * Atributos relacionales
     university_career_id = models.ForeignKey(to=Item_Category,
                                              db_column='university_career_id',
-                                             on_delete = models.PROTECT)
+                                             on_delete = models.PROTECT,
+                                             blank=True,
+                                             null=True)
     role_id = models.ForeignKey(to=Role,
                                 db_column='role_id',
                                 on_delete=models.PROTECT)
@@ -171,6 +214,10 @@ class Person_Role(models.Model):
                                   db_column='person_id',
                                 on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Relationship Person Role"
+        verbose_name_plural = "Relationships Person Role"
 
 class Person_Media(models.Model):
     """
@@ -196,6 +243,16 @@ class Person_Media(models.Model):
                                   db_column='person_id',
                                   on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Person Media"
+        verbose_name_plural = "Person Medias"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Path: %s" %(self.path))
+        return string
+    
 
 class Person_Contact(models.Model):
     """
@@ -222,6 +279,16 @@ class Person_Contact(models.Model):
                                   db_column='person_id',
                                   on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Person Contact"
+        verbose_name_plural = "Person Contacts"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Contact: %s" %(self.contact))
+        return string
+    
 
 class Subject_Matter(models.Model):
     """
@@ -245,8 +312,15 @@ class Subject_Matter(models.Model):
                                              db_column='university_career_id',
                                              on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Subject Matter"
+        verbose_name_plural = "Subject Matters"
+    
+    # Método para representar el objeto
     def __str__(self):
-        return self.name
+        string = self.name
+        return string
 
 class Requirement(models.Model):
     """
@@ -270,6 +344,15 @@ class Requirement(models.Model):
                                                       on_delete=models.PROTECT,
                                                       related_name='subject_matter_requeriment_id_related_name')
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Requirements"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("'%s' as requirement of '%s'" %(self.subject_matter_requeriment_id, self.subject_matter_id))
+        return string
+    
 
 class Content(models.Model):
     """
@@ -314,6 +397,11 @@ class Content(models.Model):
                                              on_delete=models.PROTECT,
                                              related_name='university_career_id_related_name')
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Contents"
+
+    # Método para representar el modelo
     def __str__(self):
         return self.title
 
@@ -342,6 +430,17 @@ class Content_Media(models.Model):
                                    db_column='content_id',
                                    on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Content Media"
+        verbose_name_plural = "Contents Media"
+    
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("%s" %(self.path))
+        return string
+    
+
 
 class Event(models.Model):
     """
@@ -369,6 +468,15 @@ class Event(models.Model):
                                    db_column='content_id',
                                    on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Events"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Evevent with id: %s" %(self.event_id))
+        return string
+    
 
 class Menu(models.Model):
     """
@@ -394,6 +502,15 @@ class Menu(models.Model):
                                          db_column='item_category_id',
                                          on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Menus"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Menu's name: %s" %(self.name))
+        return string
+    
 
 class Group(models.Model):
     """
@@ -416,6 +533,15 @@ class Group(models.Model):
                                              db_column='university_career_id',
                                              on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Groups"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("%s" %(self.name))
+        return string
+    
 
 class Group_Contact(models.Model):
     """
@@ -441,6 +567,17 @@ class Group_Contact(models.Model):
                                  db_column='group_id',
                                  on_delete=models.PROTECT)
 
+    # Metadatos
+    class Meta:
+        verbose_name = "Group Contact"
+        verbose_name_plural = "Group Contacts"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("Contact: " %(self.contact))
+        return string
+    
+
 
 class Group_Event(models.Model):
     """
@@ -461,6 +598,12 @@ class Group_Event(models.Model):
     group_id = models.ForeignKey(to=Group,
                                  db_column='group_id',
                                  on_delete=models.PROTECT)
+
+    # Metadatos
+    class Meta:
+        verbose_name = "Relationship Group Event"
+        verbose_name_plural = "Relationships Group Event"
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
