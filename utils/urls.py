@@ -13,27 +13,14 @@ from utils.router import router as utils_router
 
 
 urlpatterns = [
+
+    path('university_career_authorities/<int:university_career_id>/', utils_views.request_university_career_authorities),
+    path('find_item_category/', utils_views.find_item_category),
+
     path('', include(utils_router.urls)),
+
+
+   
 ]
 
 
-"""
-Servicio de universityCareer (CRUD) en general (Category - ItemCategory)
-universityCarrer = { Sistemas, Arquitectura}
-Servicio de contactType (CRUD) en general (Category - ItemCategory)
-contactType = { Email }
-Servicio de menu (CRUD) en general
-Servicio de typeContent (CRUD) en general (Category - ItemCategory)
-typeContent = { Anuncio, Evento }
-Servicio de academicPeriod (CRUD) en general (Category - ItemCategory)
-Servicio de media_type (CRUD) en general (Category - ItemCategory)
-media_type = { FotoPerfil, ImagenAnuncio, ImagenEvento }
-"""
-"""
-universityCareer
-contactType
-menu
-typeContent
-academicPeriod
-media_type
-"""
