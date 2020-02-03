@@ -22,7 +22,7 @@ from core.models import (User,
                           Section,
                           Subject_Matter,
                           Requirement)
-from core.filters import (Item_Category_Admin)
+from core.custom_admin import (Item_Category_Admin)
 
 admin.site.register(User)
 admin.site.register(Category)
