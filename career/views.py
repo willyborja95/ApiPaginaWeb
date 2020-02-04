@@ -204,7 +204,7 @@ class Person_Media_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Person_Media.objects.all()
+
     serializer_class = Person_Media_Serializer
 
 
@@ -223,7 +223,7 @@ class Subject_Matter_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Subject_Matter.objects.all()
+
     serializer_class = Subject_Matter_Serializer
 
 
@@ -244,7 +244,7 @@ class Requirement_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Requirement.objects.all()
+
     serializer_class = Requirement_Serializer
 
 
@@ -263,7 +263,7 @@ class Group_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Group.objects.all()
+
     serializer_class = Group_Serializer
 
 
@@ -283,7 +283,7 @@ class Group_Contact_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Group_Contact.objects.all()
+
     serializer_class = Group_Contact_Serializer
 
 
@@ -302,7 +302,7 @@ class Content_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Content.objects.all()
+
     serializer_class = Content_Serializer
 
 
@@ -322,7 +322,7 @@ class Event_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Event.objects.all()
+
     serializer_class = Event_Serializer
 
 
@@ -343,7 +343,7 @@ class Group_Event_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Group_Event.objects.all()
+
     serializer_class = Group_Event_Serializer
 
 
@@ -363,7 +363,7 @@ class Content_Media_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Content_Media.objects.all()
+
     serializer_class = Content_Media_Serializer
 
 
@@ -387,7 +387,7 @@ class Person_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Person.objects.all()
+
     serializer_class = Person_Contact_Serializer
 
 
@@ -411,6 +411,6 @@ class Person_Contact_Viewset(ModelViewSet):
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsRespectiveCoordinator]
 
-    queryset = Person_Contact.objects.all()
+
     serializer_class = Person_Contact_Serializer
 
