@@ -134,9 +134,11 @@ class Section_Viewset(ModelViewSet):
     def get_queryset(self):
 
         try:
-            return Section.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            return Section.objects.filter(university_career_id=key)
         except:
             return None
+
 
 
     authentication_classes = [authentication.JWTAuthentication]
@@ -152,7 +154,8 @@ class Person_Section_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            sections_queryset = Section.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            sections_queryset = Section.objects.filter(university_career_id=key)
             final_queryset =  Person_Section.objects.filter(section_id__in=setions_queryset)
             return final_queryset
         except:
@@ -172,7 +175,8 @@ class Person_Role_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            final_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            final_queryset =  Person_Role.objects.filter(university_career_id=key)
             return final_queryset
         except:
             return None
@@ -191,7 +195,8 @@ class Person_Media_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            persons_role_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id')).select_related('person_id')
+            key = self.request.GET.get('university_career_id')
+            persons_role_queryset =  Person_Role.objects.filter(university_career_id=key).select_related('person_id')
             persons = []
             for person_role in persons_role_queryset:
                 persons.append(person_role.person_id)
@@ -215,7 +220,8 @@ class Subject_Matter_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            final_queryset = Subject_Matter.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            final_queryset = Subject_Matter.objects.filter(university_career_id=key)
             return final_queryset
         except:
             return None
@@ -234,7 +240,8 @@ class Requirement_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            subject_matters_queryset = Subject_Matter.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            subject_matters_queryset = Subject_Matter.objects.filter(university_career_id=key)
             final_queryset = Requirement.objects.filter(subject_matter_id__in=subject_matters_queryset)
             return final_queryset
         except:
@@ -255,7 +262,8 @@ class Group_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            final_queryset = Group.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            final_queryset = Group.objects.filter(university_career_id=key)
             return final_queryset
         except:
             return None
@@ -274,7 +282,8 @@ class Group_Contact_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            groups_queryset = Group.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            groups_queryset = Group.objects.filter(university_career_id=key)
             final_queryset = Group_Contact.objects.filter(group_id__in=groups_queryset)
             return final_queryset
         except:
@@ -294,7 +303,8 @@ class Content_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            final_queryset = Content.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            final_queryset = Content.objects.filter(university_career_id=key)
             return final_queryset
         except:
             return None
@@ -313,7 +323,8 @@ class Event_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            contents_queryset = Content.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            contents_queryset = Content.objects.filter(university_career_id=key)
             final_queryset = Event.objects.filter(content_id__in=contents_queryset)
             return final_queryset
         except:
@@ -334,7 +345,8 @@ class Group_Event_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            groups_queryset = Group.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            groups_queryset = Group.objects.filter(university_career_id=key)
             final_queryset = Event.objects.filter(group_id__in=groups_queryset)
             return final_queryset
         except:
@@ -354,7 +366,8 @@ class Content_Media_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            contents_queryset = Content.objects.filter(university_career_id=self.request.data.get('university_career_id'))
+            key = self.request.GET.get('university_career_id')
+            contents_queryset = Content.objects.filter(university_career_id=key)
             final_queryset = Content_Media.objects.filter(content_id__in=contents_queryset)
             return final_queryset
         except:
@@ -374,7 +387,8 @@ class Person_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            persons_role_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id')).select_related('person_id')
+            key = self.request.GET.get('university_career_id')
+            persons_role_queryset =  Person_Role.objects.filter(university_career_id=key).select_related('person_id')
             persons = []
             for person_role in persons_role_queryset:
                 persons.append(person_role.person_id)
@@ -398,7 +412,8 @@ class Person_Contact_Viewset(ModelViewSet):
 
     def get_queryset(self):
         try:
-            persons_role_queryset =  Person_Role.objects.filter(university_career_id=self.request.data.get('university_career_id')).select_related('person_id')
+            key = self.request.GET.get('university_career_id')
+            persons_role_queryset =  Person_Role.objects.filter(university_career_id=key).select_related('person_id')
             persons = []
             for person_role in persons_role_queryset:
                 persons.append(person_role.person_id)
