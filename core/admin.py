@@ -22,7 +22,8 @@ from core.models import (User,
                           Section,
                           Subject_Matter,
                           Requirement)
-from core.custom_admin import (Item_Category_Admin)
+from core.custom_admin import (Item_Category_Admin,
+                            Section_Admin)
 
 admin.site.register(User)
 admin.site.register(Category)
@@ -40,7 +41,7 @@ admin.site.register(Person_Media)
 admin.site.register(Person_Role)
 admin.site.register(Person_Section)
 admin.site.register(Role)
-admin.site.register(Section)
+admin.site.register(Section, Section_Admin)
 admin.site.register(Subject_Matter)
 admin.site.register(Requirement)
 
