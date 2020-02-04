@@ -30,7 +30,8 @@ from utils.serializers import (University_Career_Serializer,
                             Media_Type_Serializer,
                             Detailed_Person_Serializer)
 from core.serializers import (Item_Category_Serializer,
-                            Content_Serializer)
+                            Content_Serializer,
+                            Section_Serializer)
 
 
 from login.permissions import IsSuperadmin, IsCoordinator, IsRespectiveCoordinator
@@ -288,5 +289,32 @@ def welcome_message(request):
             return Response({'Error': message}, status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['GET'])
+def university_career_sections(request):
+    if request.method == 'GET':
+        if(request.GET.__contains__('university_career_id')):
+            key = request.GET.get('university_career_id')
+            try:
+                key = int(key)
+            except:
+                message = "The id must be an integer"
+                return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+            #try:
 
-# Todo path('university_career_sections/', utils_views.university_career_sections),
+            # Hacemos la consulta
+            queryset = Section.objects.filter(university_career_id=key)
+            #except:
+            #    message = "Not found"
+            #    return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            message = "One of this param is required: 'name', 'item_category_id'"
+            return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        if(queryset):
+            serializer = Section_Serializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            message = "Item category not found"
+            return Response({'Error': message}, status=status.HTTP_404_NOT_FOUND)
