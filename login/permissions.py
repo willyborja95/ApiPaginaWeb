@@ -93,10 +93,10 @@ class IsRespectiveCoordinator(IsCoordinator):
 
     def is_valid_request(self, request):
         try:
-            target_career_id = request.data['university_career_id']
+            target_career_id = request.GET.__contains__('university_career_id')
             
         except:
-            # 'Param "university_career_idt" is required'
+            # 'Param "university_career_id" is required'
             return False
 
         try:
@@ -129,14 +129,14 @@ class IsRespectiveCoordinator(IsCoordinator):
         Devuelve 'True' si es que si lo es y 'False', si no lo es
         """
 
-
+        print(request.GET.get('university_career_id'))
 
         if(self.is_valid_request(request) == False):
             return False
 
 
         try:
-            result = self.is_career_coordinator(user_person_id=request.user.person_id.person_id, career_id=request.data['university_career_id'])
+            result = self.is_career_coordinator(user_person_id=request.user.person_id.person_id, career_id=request.GET.get('university_career_id'))
             return result
         except:
             return False
