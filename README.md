@@ -33,3 +33,12 @@ Ahora si debes ejecutar el siguiente comando para restaurar la copia de segurida
 
 # Correr el servidor
 `docker-compose up`
+
+
+# Hacer copias ded seguridad
+## Hacer una copia
+docker-compose exec -T db mysqldump -udbAdmin -p{password} paginaSistemas > db_backups/backup_2020-02-05_14:51.sql
+
+
+## Restaurar una copia
+docker-compose exec -T db mysql -u dbAdmin -p password paginaSistemas < db_backups/backup_2019-12-30_13:30.sql
