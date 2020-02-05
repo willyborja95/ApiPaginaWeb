@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework_simplejwt import authentication # Para que valide los tokens
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 
 # Local project imports
 from core.models import (User,
@@ -249,7 +250,7 @@ class Menu_Viewset(ModelViewSet):
     """
     # ? Desportoeger
     authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [IsSuperadmin]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     queryset = Menu.objects.all()
     serializer_class = Menu_Serializer
