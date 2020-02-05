@@ -183,22 +183,22 @@ def request_university_career_authorities(request):
     if request.method == 'GET':
 
 
-        if (request.GET.__contains__('univeresisty_career_id')):
-
+        if (request.GET.__contains__('university_career_id')):
+            university_career_id = request.GET.get('university_career_id')
             target_persons = [] # Lista de personas de las cuales vamos a devolver informacion
 
-            # Obtenemos todas las secciones que tiene la carrera
-            sections_queryset = Section.objects.filter(university_career_id=university_career_id)
+            # ? Obtenemos todas las secciones que tiene la carrera
+            # ? sections_queryset = Section.objects.filter(university_career_id=university_career_id)
 
-            # Obtnemos las relaciones de la tabla muchos a muchos 'Person_Section'
-            persons_section_queryset = Person_Section.objects.filter(section_id__in=sections_queryset).values('person_id')
+            # ? Obtnemos las relaciones de la tabla muchos a muchos 'Person_Section'
+            # ? persons_section_queryset = Person_Section.objects.filter(section_id__in=sections_queryset).values('person_id')
             
             # Obtenemos tambiens las personass que no pertenezcan a ninguna seccion pero que tambien esten involucradas con la carrera
             involved_persons_queryset = Person_Role.objects.filter(university_career_id=university_career_id).values('person_id') 
             
-            for result in persons_section_queryset:
-                print(result)
-                target_persons.append(result['person_id'])
+            # ?for result in persons_section_queryset:
+            # ?    print(result)
+            # ?    target_persons.append(result['person_id'])
             
             for result in involved_persons_queryset:
                 print(result)
@@ -208,13 +208,10 @@ def request_university_career_authorities(request):
             target_persons = set(target_persons)
 
             
-            
-            
             # Ahora buscamos todas las personas con sus id
             data = {"persons":[]}
             for id in target_persons:
                 person_instance = Person.objects.get(person_id=id)
-                print(person_instance)
                 person_serializer = Detailed_Person_Serializer(person_instance)
                 data['persons'].append(person_serializer.data)
 
