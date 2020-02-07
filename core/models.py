@@ -374,7 +374,7 @@ class Content(models.Model):
     # * Atributos propios
     title = models.CharField(max_length=255,
                              null=False)
-    description = models.CharField(max_length=500,
+    description = models.CharField(max_length=1020,
                                    null=False)
     update_time = models.DateTimeField(default=timezone.now,
                                        null=False,
