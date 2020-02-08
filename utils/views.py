@@ -321,3 +321,40 @@ def university_career_sections(request):
         else:
             message = "Item category not found"
             return Response({'Error': message}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def detailed_subject_matters(request):
+    """
+    Devuelve una lista de todas las materias de su respectiva carrera, incluidos los requirimientos de cada carrera
+    """
+    def validate_request(request):
+        if request.method == 'GET':
+            if(request.GET.__contains__('university_career_id')):
+                key = request.GET.get('university_career_id')
+                try:
+                    key = int(key)
+                except:
+                    message = "The id must be an integer"
+                    return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                message = "One of this param is required: 'university_career_id'"
+                return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)                
+
+        else:
+            message = "Only allow GET method"
+            return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+
+    validate_request(request)
+    return Response('ok', status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+
+
+

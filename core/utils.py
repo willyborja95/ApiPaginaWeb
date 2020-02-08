@@ -41,3 +41,58 @@ def get_all_roles_from_a_person(person_id):
     return roles
 
 
+
+
+# ! En proceso, aun no terminada 
+# def validate_GET_params(function, *args, **kwargs):
+#     """
+#     Funcion decorador que se encarga de validar los parametros de un request con metodo GET
+#     """
+#     def wrapper():
+#         # Validadmos que la petición tenga los parámetros solicitados
+
+#         params = kwargs.get('params')
+#         for param in params:
+#             params_not_found = ' '
+#             try:
+#                 param_exists = request.GET.get(param) 
+#             except:
+#                 params_not_found += param + '| '
+        
+        
+#         body_params = kwargs.get('body_params')
+#         for param in params:
+#                 body_params_not_found = ' '
+#             try:
+#                 param_exists = request.data.get(param)
+#             except:
+#                 body_params_not_found += param + '| '
+
+        
+
+
+
+
+#         if request.method == 'GET':
+#             if(request.GET.__contains__('university_career_id')):
+#                 key = request.GET.get('university_career_id')
+#                 try:
+#                     key = int(key)
+#                 except:
+#                     message = "The id must be an integer"
+#                     return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+#             else:
+#                 message = "One of this param is required: 'university_career_id'"
+#                 return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)                
+
+#         else:
+#             message = "Only allow GET method"
+#             return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+#         # code before
+#         result = function(**args)
+#         # code after
+#         return result
+#     return wrapper
