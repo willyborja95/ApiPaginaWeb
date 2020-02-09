@@ -19,7 +19,8 @@ from core.models import (Category,
                         Person_Media,
                         Person_Role,
                         Role,
-                        Content)
+                        Content,
+                        Subject_Matter)
 
 # Serializadores
 from utils.serializers import (University_Career_Serializer, 
@@ -28,7 +29,9 @@ from utils.serializers import (University_Career_Serializer,
                             Type_Content_Serializer,
                             Academic_Period_Serializer,
                             Media_Type_Serializer,
-                            Detailed_Person_Serializer)
+                            Detailed_Person_Serializer,
+                            Detailed_Subject_Matter_Serializer)
+
 from core.serializers import (Item_Category_Serializer,
                             Content_Serializer,
                             Section_Serializer)
@@ -317,7 +320,60 @@ def university_career_sections(request):
         if(queryset):
             serializer = Section_Serializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            message = "No content found"
+            return Response({'Message': message}, status=status.HTTP_204_NO_CONTENT)             
+
+
+
+@api_view(['GET'])
+def detailed_subject_matters(request):
+    """
+    Devuelve una lista de todas las materias de su respectiva carrera, incluidos los requirimientos de cada carrera
+    """
+
+    if request.method == 'GET':
+        if(request.GET.__contains__('university_career_id')):
+            key = request.GET.get('university_career_id')
+            try:
+                key = int(key)
+            except:
+                message = "The id must be an integer"
+                return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+
+            # * Aqui hacemos la consulta
+            # Todas las matereias pertenecientes a la carrera
+            queryset = Subject_Matter.objects.filter(university_career_id=key) 
+
+            # * Serializamos los datos
+            if(queryset):
+                serializer = Detailed_Subject_Matter_Serializer(queryset, many=True)
+
+                # * Retornamos la respuesta
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                message = "No content found"
+                return Response({'Message': message}, status=status.HTTP_204_NO_CONTENT)  
+           
 
         else:
-            message = "Item category not found"
-            return Response({'Error': message}, status=status.HTTP_404_NOT_FOUND)
+            message = "One of this param is required: 'university_career_id'"
+            return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)                
+
+    else:
+        message = "Only allow GET method"
+        return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
