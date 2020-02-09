@@ -17,7 +17,8 @@ from core.models import (Category,
 from core.serializers import (Person_Serializer,
                             Person_Media_Serializer,
                             Person_Contact_Serializer,
-                            Role_Serializer)
+                            Role_Serializer,
+                            Subject_Matter_Serializer)
 from core import utils as usefull_queries
 
 """
@@ -209,3 +210,43 @@ class Insensitive_User_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email')
+
+
+
+# * Serializador detallado de subject_matter
+class Detailed_Subject_Matter_Serializer(serializers.BaseSerializer):
+    """
+    Serializador de un subject_matter con todos los detalles y relaciones
+    Ejemplo:
+    {
+
+        "subject_matter_id": 1,
+        "name": "Desarrollo Epiritual 3",
+        "semester": 3,
+        "university_career_id": 1,
+        "requirements": [
+            {
+                "subject_matter_id": 4
+                "name": "Desarrollo Epiritual 2",
+                "semester": 2,
+                "university_career_id": 1,
+            }
+        ]
+    }
+    """
+
+
+    def to_representation(self, instance):
+        data = {}
+
+        subject_matter_info = Subject_Matter_Serializer(instance)
+        data['subject_matter_data'] = subject_matter_info.data
+        
+        target_requirements = usefull_queries.get_all_requirements_from_a_subject(instance)
+        requirements_info = Subject_Matter_Serializer(target_requirements, many=True)
+
+        data['requirements'] = requirements_info.data
+        
+
+        return data
+        

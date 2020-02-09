@@ -20,6 +20,7 @@ urlpatterns = [
     path('welcome_message/', utils_views.welcome_message),
     path('university_career_sections/', utils_views.university_career_sections),
 
+    path('detailed_subject_matters/', utils_views.detailed_subject_matters),
 
     path('', include(utils_router.urls)),
 
