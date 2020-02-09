@@ -327,8 +327,8 @@ class Requirement(models.Model):
     Modelo de Requirement
     Atributos:
         requirement_id INT
-        subject_matter INT FK
-        subject_matter_requirement INT FK
+        subject_matter_id INT FK
+        subject_matter_requirement_id INT FK
     """
 
     # * Llave primaria
