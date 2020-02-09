@@ -1,8 +1,15 @@
+# Django import
+from django.db.models.query import EmptyQuerySet
+
 # Local imports
 from core.models import (Role,
                          User,
                          Person,
-                         Person_Role)
+                         Person_Role,
+                         Subject_Matter,
+                         Requirement)
+
+
 
 
 """
@@ -41,6 +48,20 @@ def get_all_roles_from_a_person(person_id):
     return roles
 
 
+
+def get_all_requirements_from_a_subject(target_subject):
+    """
+    Funcion que devuelve todos los requerimeintos de una carrera
+    La lista contendrá instancias de la clase Subject_Matter
+    """
+    requirements = []
+           
+    subject_matter_queryset = Requirement.objects.filter(subject_matter_id=target_subject).select_related('subject_matter_requeriment_id')
+    if(subject_matter_queryset):     
+        for result in subject_matter_queryset:
+            requirements.append(result.subject_matter_requirement_id)
+
+    return requirements
 
 
 # ! En proceso, aun no terminada 
