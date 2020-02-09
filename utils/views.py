@@ -320,10 +320,10 @@ def university_career_sections(request):
         if(queryset):
             serializer = Section_Serializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
-
         else:
-            message = "Item category not found"
-            return Response({'Error': message}, status=status.HTTP_404_NOT_FOUND)
+            message = "No content found"
+            return Response({'Message': message}, status=status.HTTP_204_NO_CONTENT)             
+
 
 
 @api_view(['GET'])
@@ -348,10 +348,13 @@ def detailed_subject_matters(request):
             # * Serializamos los datos
             if(queryset):
                 serializer = Detailed_Subject_Matter_Serializer(queryset, many=True)
+
+                # * Retornamos la respuesta
                 return Response(serializer.data, status=status.HTTP_200_OK)
-
-            # * Retornamos la respuesta
-
+            else:
+                message = "No content found"
+                return Response({'Message': message}, status=status.HTTP_204_NO_CONTENT)  
+           
 
         else:
             message = "One of this param is required: 'university_career_id'"
@@ -362,7 +365,7 @@ def detailed_subject_matters(request):
         return Response({'Error': message}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    return Response('ok', status=status.HTTP_200_OK)
+
 
 
 

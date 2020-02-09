@@ -243,7 +243,7 @@ class Detailed_Subject_Matter_Serializer(serializers.BaseSerializer):
         data['subject_matter_data'] = subject_matter_info.data
         
         target_requirements = usefull_queries.get_all_requirements_from_a_subject(instance)
-        requirements_info = Role_Serializer(target_requirements, many=True)
+        requirements_info = Subject_Matter_Serializer(target_requirements, many=True)
 
         data['requirements'] = requirements_info.data
         
