@@ -59,7 +59,7 @@ def get_all_requirements_from_a_subject(target_subject):
     subject_matter_queryset = Requirement.objects.filter(subject_matter_id=target_subject).select_related('subject_matter_requeriment_id')
     if(subject_matter_queryset):     
         for result in subject_matter_queryset:
-            requirements.append(result.subject_matter_requirement_id)
+            requirements.append(result.subject_matter_requeriment_id)
 
     return requirements
 

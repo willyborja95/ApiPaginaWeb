@@ -339,7 +339,7 @@ class Requirement(models.Model):
                                           db_column='subject_matter_id',
                                           on_delete=models.PROTECT,
                                           related_name='subject_matter_id_related_name')
-    subject_matter_requeriment_id = models.ForeignKey(to='Subject_Matter',
+    subject_matter_requirement_id = models.ForeignKey(to='Subject_Matter',
                                                       db_column='subject_matter_requirement_id',
                                                       on_delete=models.PROTECT,
                                                       related_name='subject_matter_requeriment_id_related_name')
