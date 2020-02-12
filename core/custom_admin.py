@@ -14,6 +14,7 @@ class Item_Category_Admin(admin.ModelAdmin):
 #  Para poder filtar por categorias las secciones
 class Section_Admin(admin.ModelAdmin):
     list_display = ('section_id',
+        'description',
         'name',
         'university_career_id')
     list_filter = ('university_career_id',)
