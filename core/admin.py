@@ -12,7 +12,7 @@ from core.models import (User,
                           Group_Contact,
                           Group_Event,
                           Item_Category,
-                          Menu,
+                          Menu_Item,
                           Person,
                           Person_Contact,
                           Person_Media,
@@ -35,7 +35,7 @@ admin.site.register(Group)
 admin.site.register(Group_Contact)
 admin.site.register(Group_Event)
 admin.site.register(Item_Category, Item_Category_Admin)
-admin.site.register(Menu)
+admin.site.register(Menu_Item)
 admin.site.register(Person)
 admin.site.register(Person_Contact)
 admin.site.register(Person_Media)
