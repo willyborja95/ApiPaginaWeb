@@ -111,6 +111,7 @@ class Section(models.Model):
     Atributos:
         section_id INT PK
         name VARHCAR(255) UNIQUE
+        description VARCHAR(1020)   # issue 103
         university_career_id INT FK
     """
 
@@ -122,6 +123,9 @@ class Section(models.Model):
                             unique=True,
                             blank=False,
                             null=False)
+    description = models.CharField(max_length=1020,
+                                    blank=True,
+                                    null=True)
 
     # * Atributos relacionales
     university_career_id = models.ForeignKey(to=Item_Category,
@@ -366,6 +370,7 @@ class Content(models.Model):
         content_typ_id INT FK
         academic_period_id INT FK
         university_career_id INT FK
+        person_id INT FK                # issue 103
     """
 
     # * Llave primaria
@@ -391,11 +396,21 @@ class Content(models.Model):
     academic_period_id = models.ForeignKey(to='Item_Category',
                                            db_column='academic_period_id',
                                            on_delete=models.PROTECT,
-                                           related_name='academic_period_id_related_name')
+                                           related_name='academic_period_id_related_name',
+                                           blank=True,
+                                           null=True)
     university_career_id = models.ForeignKey(to='Item_Category',
                                              db_column='university_career_id',
                                              on_delete=models.PROTECT,
-                                             related_name='university_career_id_related_name')
+                                             related_name='university_career_id_related_name',
+                                             blank=True,
+                                             null=True)
+    person_id = models.ForeignKey(to="Person",
+                                db_column='person_id',
+                                help_text="The author of the content",
+                                on_delete=models.PROTECT,
+                                blank=True,
+                                null=True)
 
     # Metadatos
     class Meta:
@@ -670,3 +685,47 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+# Nuevo modelo según Correciones issue 103
+# https://github.com/willyborja95/ApiPaginaWeb/issues/103
+
+
+class Menu_Item(models.Model):
+    """
+    Modelo de Menu_Item   (Es remplazo del modelo Menu_Item)
+    Atributos:
+        menu_item_id INT PK
+        url VARCHAR(510)
+        name VARCHAR(510) UNIQUE
+        order INT
+        item_category_id INT FK
+    """
+
+    # * Llave primaria
+    menu_item_id = models.AutoField(primary_key=True)
+
+    # * Atributos propios
+    url = models.URLField(max_length=1020,
+                            blank=True,
+                            null=True)
+    name = models.CharField(max_length=255,
+                            unique=True,
+                            null=False)
+    order = models.IntegerField(blank=True,
+                                null=True)
+
+    # * Atributos relacionales
+    item_category_id = models.ForeignKey(to=Item_Category,
+                                         db_column='item_category_id',
+                                         on_delete=models.PROTECT)
+
+    # Metadatos
+    class Meta:
+        verbose_name_plural = "Menu Items"
+
+    # Método para representar el objeto
+    def __str__(self):
+        string = ("%s" %(self.name))
+        return string
+    
