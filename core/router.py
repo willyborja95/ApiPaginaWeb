@@ -18,7 +18,7 @@ from core.views import (Category_Viewset,
                          Content_Viewset,
                          Content_Media_Viewset,
                          Event_Viewset,
-                         Menu_Viewset,
+                         Menu_Item_Viewset,
                          Group_Viewset,
                          Group_Contact_Viewset,
                          Group_Event_Viewset,
@@ -41,7 +41,7 @@ router.register('requirement', Requirement_Viewset)
 router.register('content', Content_Viewset)
 router.register('content_media', Content_Media_Viewset)
 router.register('event', Event_Viewset)
-router.register('menu', Menu_Viewset)
+router.register('menu_item', Menu_Item_Viewset)
 router.register('group', Group_Viewset)
 router.register('group_contact', Group_Contact_Viewset)
 router.register('group_event', Group_Event_Viewset)
