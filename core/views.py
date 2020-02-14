@@ -28,7 +28,7 @@ from core.models import (User,
                           Group_Contact,
                           Group_Event,
                           Item_Category,
-                          Menu,
+                          Menu_Item,
                           Person,
                           Person_Contact,
                           Person_Media,
@@ -47,7 +47,7 @@ from core.serializers import (Category_Serializer,
                                Group_Event_Serializer,
                                Group_Serializer,
                                Item_Category_Serializer,
-                               Menu_Serializer,
+                               Menu_Item_Serializer,
                                Person_Contact_Serializer,
                                Person_Media_Serializer,
                                Person_Role_Serializer,
@@ -244,16 +244,16 @@ class Event_Viewset(ModelViewSet):
     serializer_class = Event_Serializer
 
 
-class Menu_Viewset(ModelViewSet):
+class Menu_Item_Viewset(ModelViewSet):
     """
-    Proporciona un CRUD completo del modelo Menu
+    Proporciona un CRUD completo del modelo Menu_Item
     """
     # ? Desportoeger
     authentication_classes = [authentication.JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    queryset = Menu.objects.all()
-    serializer_class = Menu_Serializer
+    queryset = Menu_Item.objects.all()
+    serializer_class = Menu_Item_Serializer
 
 
 class Group_Viewset(ModelViewSet):
