@@ -13,7 +13,7 @@ from core.models import (User,
                           Group_Contact,
                           Group_Event,
                           Item_Category,
-                          Menu,
+                          Menu_Item,
                           Person,
                           Person_Contact,
                           Person_Media,
@@ -194,12 +194,12 @@ class Event_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class Menu_Serializer(serializers.ModelSerializer):
+class Menu_Item_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Menu
+    Serializador del modelo Menu_Item
     """
     class Meta:
-        model = Menu
+        model = Menu_Item
         fields = "__all__"
 
 

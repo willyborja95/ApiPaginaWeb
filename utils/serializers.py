@@ -13,7 +13,8 @@ from core.models import (Category,
                         Person,
                         Person_Media,
                         Person_Role,
-                        Role)
+                        Role,
+                        Menu_Item)
 from core.serializers import (Person_Serializer,
                             Person_Media_Serializer,
                             Person_Contact_Serializer,
@@ -24,7 +25,7 @@ from core import utils as usefull_queries
 """
 universityCareer
 contactType
-menu
+Menu_Item
 typeContent
 academicPeriod
 media_type
@@ -81,17 +82,14 @@ class Contact_Type_Serializer(BaseItemFromKnewCategorySerializer):
             'active')
         category_name = 'Tipo de contacto'
 
-class Menu_Serializer(BaseItemFromKnewCategorySerializer):
+class Menu_Item_Serializer(serializers.ModelSerializer):
     """
-    Serializador del modelo Item_Category pertenecientes a la categoria Menu
+    Serializador del modelo Item_Category pertenecientes a la categoria Menu_Item
     """
     class Meta:
-        model = Item_Category
-        fields = (
-            'item_category_id',
-            'name',
-            'active')
-        category_name = 'Menu'
+        model = Menu_Item
+        fields = '__all__'
+
 
 
 class Type_Content_Serializer(BaseItemFromKnewCategorySerializer):

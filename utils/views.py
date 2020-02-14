@@ -20,12 +20,13 @@ from core.models import (Category,
                         Person_Role,
                         Role,
                         Content,
-                        Subject_Matter)
+                        Subject_Matter,
+                        Menu_Item)
 
 # Serializadores
 from utils.serializers import (University_Career_Serializer, 
                             Contact_Type_Serializer,
-                            Menu_Serializer,
+                            Menu_Item_Serializer,
                             Type_Content_Serializer,
                             Academic_Period_Serializer,
                             Media_Type_Serializer,
@@ -86,28 +87,17 @@ class Contact_Type_Viewset(ModelViewSet):
     serializer_class = Contact_Type_Serializer
 
 
-class Menu_Viewset(ModelViewSet):
+class Menu_Item_Viewset(ModelViewSet):
     """
-    Proporciona un CRUD completo del modelo Item_Category, siempre y cuando estos spertenezcan a la categoria de menu
+    Proporciona un CRUD completo del modelo Item_Category, siempre y cuando estos spertenezcan a la categoria de Menu_Item
     """
 
-    def get_queryset(self):
-        category_name = 'Menu'
-        try:
-            category_id = Category.objects.get(name=category_name).category_id
-            final_queryset =  Item_Category.objects.filter(category_id=category_id)
-            return final_queryset
-        except:
-            error_message = ('Category with name %s not found' %(category_name))
-            print(error_message)
-            return None
-
-
+    queryset = Menu_Item.objects.all()
 
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
 
-    serializer_class = Menu_Serializer
+    serializer_class = Menu_Item_Serializer
 
 
 class Type_Content_Viewset(ModelViewSet):
