@@ -367,9 +367,69 @@ def detailed_subject_matters(request):
 
 
 
+class Testimonials_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
+
+    def get_queryset(self):
+        try:
+            if(self.request.GET.__contains__('university_career_id')):
+                key = self.request.GET.get('university_career_id')
+            else:
+                message = "One of this param is required: 'university_career_id'"
+                return None
+            try:
+                key = int(key)
+            except:
+                message = "The id must be an integer"
+                return None
+
+            content_type = Category.objects.get(name='Tipo de contenido')
+
+            item_category = Item_Category.objects.get(name__icontains='testimoni', category_id=content_type)
+
+            final_queryset = Content.objects.filter(university_career_id=key, content_type_id=item_category)
+
+            return final_queryset
+        except:
+            print('Exception')
+            return None
+
+    serializer_class = Content_Serializer
 
 
+class News_Viewset(ModelViewSet):
+    """
+    Proporciona un CRUD completo del modelo Group_Event
+    """
 
+    def get_queryset(self):
+        # try:
+        if(self.request.GET.__contains__('university_career_id')):
+            key = self.request.GET.get('university_career_id')
+        else:
+            message = "One of this param is required: 'university_career_id'"
+            return None
+        try:
+            key = int(key)
+        except:
+            message = "The id must be an integer"
+            return None
+
+
+        content_type = Category.objects.get(name='Tipo de contenido')
+
+        item_category = Item_Category.objects.get(name__icontains='noticia', category_id=content_type)
+        print(item_category)
+        final_queryset = Content.objects.filter(university_career_id=key, content_type_id=item_category)
+        print(final_queryset)
+        return final_queryset
+        # except:
+        #     return None
+
+
+    serializer_class = Content_Serializer
 
 
 

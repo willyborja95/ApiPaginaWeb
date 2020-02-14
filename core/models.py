@@ -346,7 +346,7 @@ class Requirement(models.Model):
     subject_matter_requirement_id = models.ForeignKey(to='Subject_Matter',
                                                       db_column='subject_matter_requirement_id',
                                                       on_delete=models.PROTECT,
-                                                      related_name='subject_matter_requeriment_id_related_name')
+                                                      related_name='subject_matter_requirement_id_related_name')
 
     # Metadatos
     class Meta:
@@ -354,7 +354,7 @@ class Requirement(models.Model):
 
     # Método para representar el objeto
     def __str__(self):
-        string = ("'%s' as requirement of '%s'" %(self.subject_matter_requeriment_id, self.subject_matter_id))
+        string = ("'%s' as requirement of '%s'" %(self.subject_matter_requirement_id, self.subject_matter_id))
         return string
     
 

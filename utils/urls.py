@@ -22,6 +22,8 @@ urlpatterns = [
 
     path('detailed_subject_matters/', utils_views.detailed_subject_matters),
 
+
+
     path('', include(utils_router.urls)),
 
 
