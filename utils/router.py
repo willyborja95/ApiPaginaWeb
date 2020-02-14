@@ -9,7 +9,9 @@ from utils.views import (University_Career_Viewset,
                         Menu_Viewset,
                         Type_Content_Viewset,
                         Academic_Period_Viewset,
-                        Media_Type_Viewset)
+                        Media_Type_Viewset,
+                        Testimonials_Viewset,
+                        News_Viewset)
 
 
 
@@ -22,6 +24,9 @@ router.register('menu', Menu_Viewset, basename='menu')
 router.register('type_content', Type_Content_Viewset, basename='type_content')
 router.register('academic_period', Academic_Period_Viewset, basename='academic_period')
 router.register('media_type', Media_Type_Viewset, basename='media_type')
+
+router.register('testimonials', Testimonials_Viewset, basename='testimonials')
+router.register('news', News_Viewset, basename='news')
 
 
 
