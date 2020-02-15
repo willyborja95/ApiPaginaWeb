@@ -387,7 +387,7 @@ class Testimonials_Viewset(ModelViewSet):
             print('Exception')
             return None
 
-    serializer_class = Content_Serializer
+    serializer_class = Detailed_Content_Serializer
 
 
 class News_Viewset(ModelViewSet):

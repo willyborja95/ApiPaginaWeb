@@ -14,7 +14,9 @@ from core.models import (Category,
                         Person_Media,
                         Person_Role,
                         Role,
-                        Menu_Item)
+                        Menu_Item,
+                        Content,
+                        Content_Media)
 from core.serializers import (Person_Serializer,
                             Person_Media_Serializer,
                             Person_Contact_Serializer,
@@ -289,30 +291,19 @@ class Detailed_Content_Serializer(serializers.BaseSerializer):
         try:
             person_instance = Person.objects.get(person_id=instance.person_id.person_id)
             person_info = Person_Serializer(person_instance)
-            data['user_info'] = user_info.data
+            data['person_info'] = person_info.data
         except:
-            data['user_info'] = "null"
+            data['person_info'] = "null"
 
         try:
-            person_contact_instance = Person_Contact.objects.get(person_id=instance.person_id)
-            person_contact_info = Person_Contact_Serializer(person_contact_instance)
-            data['person_contact_info'] = person_contact_info.data
+            content_media_instance = Content_Media.objects.get(content_id=instance.content_id)
+            content_media = Content_Media_Serializer(content_media_instance, many=True)
+            data['content_media_info'] = content_media_info.data
         except:
-            data['person_contact_info'] = "null"
+            data['content_media_info'] = "null"
 
 
-        try:
-            person_media_instance = Person_Media.objects.get(person_id=instance.person_id)
-            person_media_info = Person_Media_Serializer(person_media_instance)
-            data['person_media_info'] = person_media_info.data
-        except:
-            data['person_media_info'] = "null"
 
-
-        roles_queryset = usefull_queries.get_all_roles_from_a_person(instance.person_id)
-        roles_info = Role_Serializer(roles_queryset, many=True)
-        data['roles_info'] = roles_info.data
-        # data['roles_info'] = "null"
         
         
 
