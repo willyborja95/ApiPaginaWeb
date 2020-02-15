@@ -296,8 +296,8 @@ class Detailed_Content_Serializer(serializers.BaseSerializer):
             data['person_info'] = "null"
 
         try:
-            content_media_instance = Content_Media.objects.get(content_id=instance.content_id)
-            content_media = Content_Media_Serializer(content_media_instance, many=True)
+            content_media_instance = Content_Media.objects.filter(content_id=instance.content_id)
+            content_media_info = Content_Media_Serializer(content_media_instance, many=True)
             data['content_media_info'] = content_media_info.data
         except:
             data['content_media_info'] = "null"
