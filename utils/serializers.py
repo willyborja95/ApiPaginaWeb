@@ -14,12 +14,16 @@ from core.models import (Category,
                         Person_Media,
                         Person_Role,
                         Role,
-                        Menu_Item)
+                        Menu_Item,
+                        Content,
+                        Content_Media)
 from core.serializers import (Person_Serializer,
                             Person_Media_Serializer,
                             Person_Contact_Serializer,
                             Role_Serializer,
-                            Subject_Matter_Serializer)
+                            Subject_Matter_Serializer,
+                            Content_Serializer,
+                            Content_Media_Serializer)
 from core import utils as usefull_queries
 
 """
@@ -248,3 +252,59 @@ class Detailed_Subject_Matter_Serializer(serializers.BaseSerializer):
 
         return data
         
+
+# * Serializador detallado de content
+class Detailed_Content_Serializer(serializers.BaseSerializer):
+    """
+    Serializador de un subject_matter con todos los detalles y relaciones
+    Ejemplo:
+    {
+        "content_id": 6,
+        "title": "Testimonio de una persona",
+        "description": "Una día entré a la U y luego nunca pudo salir",
+        "update_time": "2020-02-14T14:00:34Z",
+        "create_time": "2020-02-14T14:00:34Z",
+        "content_type_id": 31,
+        "academic_period_id": null,
+        "university_career_id": 1,
+        "person_id": {
+            (Datos de la persona)
+        },
+        "content_media": [
+            {
+                (Datos del contenido media)
+            },
+            {
+                
+            }
+        ]
+    }
+    """
+
+
+    def to_representation(self, instance):
+        data = {}
+
+        content_info = Content_Serializer(instance)
+        data['content_info'] = content_info.data
+        
+        try:
+            person_instance = Person.objects.get(person_id=instance.person_id.person_id)
+            person_info = Person_Serializer(person_instance)
+            data['person_info'] = person_info.data
+        except:
+            data['person_info'] = "null"
+
+        try:
+            content_media_instance = Content_Media.objects.get(content_id=instance.content_id)
+            content_media = Content_Media_Serializer(content_media_instance, many=True)
+            data['content_media_info'] = content_media_info.data
+        except:
+            data['content_media_info'] = "null"
+
+
+
+        
+        
+
+        return data
