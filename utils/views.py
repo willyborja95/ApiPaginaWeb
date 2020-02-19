@@ -93,7 +93,7 @@ class Menu_Item_Viewset(ModelViewSet):
     Proporciona un CRUD completo del modelo Item_Category, siempre y cuando estos spertenezcan a la categoria de Menu_Item
     """
 
-    queryset = Menu_Item.objects.all()
+    queryset = Menu_Item.objects.all().order_by('order')
 
     #authentication_classes = [authentication.JWTAuthentication]
     #permission_classes = [IsRespectiveCoordinator]
